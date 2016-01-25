@@ -126,6 +126,37 @@
     return [df stringFromDate:date];
 }
 
-
++ (NSString *)getPointRegInformation:(POINT_REG)point_reg
+{
+    switch (point_reg) {
+        case POINT_REG_TASK:
+            return @"工作任务";
+            break;
+        case POINT_REG_TIME:
+            return @"发生日期";
+            break;
+        case POINT_REG_WORKING_HOURS:
+            return @"核定工时";
+            break;
+        case POINT_REG_TYPE:
+            return @"分摊类型";
+            break;
+        case POINT_REG_DIFF_DEGREE:
+            return @"难度系数";
+            break;
+        case POINT_REG_TIME_DEGREE:
+            return @"时间系数";
+            break;
+        case POINT_REG_JOB_ROLES:
+            return @"工作角色";
+            break;
+        case POINT_REG_JOB_COUNT:
+            return @"工作次数";
+            break;
+        default:
+            return @"工作任务";
+            break;
+    }
+}
 
 @end

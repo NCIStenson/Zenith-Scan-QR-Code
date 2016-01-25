@@ -6,25 +6,43 @@
 //  Copyright © 2016年 Stenson. All rights reserved.
 //
 
-#define kWeatherInfo Zenith_Server
+#define kLoginType @"tologin"
+
+#define kTaskType @"getRation"
 
 #import "ZEUserServer.h"
 
 @implementation ZEUserServer
 
-+ (void)getWeatherInfoWithCity:(NSString *)str
-                       success:(ServerResponseSuccessBlock)successBlock
-                          fail:(ServerResponseFailBlock)failBlock
-                         error:(ServerErrorRecordBlock)errorBlock
-{
-    [[ZEServerEngine sharedInstance]requestWithParams:nil
-                                                 path:kWeatherInfo
-                                           httpMethod:@"GET"
-                                              success:^(NSString *successMsg, id data) {
-                                                  successBlock(@"请求成功",data);
-                                              } fail:^(NSError * error) {
-                                                  failBlock(error);
-     }];
++ (void)getLoginDataWithUsername:(NSString *)usernameStr
+                    withPassword:(NSString *)passwordStr
+                         success:(ServerResponseSuccessBlock)successBlock
+                            fail:(ServerResponseFailBlock)failBlock
+{ 
+    [[ZEServerEngine sharedInstance]requestWithParams:@{@"type":kLoginType,
+                                                        @"data":[NSString stringWithFormat:@"%@#%@",usernameStr,passwordStr]}
+                                                        httpMethod:HTTPMETHOD_POST
+                                                        success:^(id data) {
+                                                            successBlock(data);
+    }
+                                                        fail:^(NSError *errorCode) {
+                                                            failBlock(errorCode);
+                                                        }];
 }
+
++ (void)getTaskDataSuccess:(ServerResponseSuccessBlock)successBlock
+                      fail:(ServerResponseFailBlock)failBlock
+{
+    [[ZEServerEngine sharedInstance]requestWithParams:@{@"type":kTaskType,
+                                                        @"data":[NSString stringWithFormat:@"%@#%@",[ZESetLocalData getOrgcode],[ZESetLocalData getUnitcode]]}
+                                           httpMethod:HTTPMETHOD_POST
+                                              success:^(id data) {
+                                                  successBlock(data);
+                                              }
+                                                 fail:^(NSError *errorCode) {
+                                                     failBlock(errorCode);
+                                                 }];
+}
+
 
 @end

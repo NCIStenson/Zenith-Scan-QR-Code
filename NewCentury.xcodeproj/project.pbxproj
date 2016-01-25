@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		9821C7701C4E10FF00FE9080 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9821C76F1C4E10FF00FE9080 /* Images.xcassets */; };
 		982F0C6A1C4E2D4600593946 /* ZEServerEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F0C691C4E2D4600593946 /* ZEServerEngine.m */; };
+		987B34A01C50CE540035FB6B /* ZEPointRegCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 987B349F1C50CE540035FB6B /* ZEPointRegCache.m */; };
+		987B34A31C50D54B0035FB6B /* ZEPointRegChooseDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 987B34A21C50D54B0035FB6B /* ZEPointRegChooseDateView.m */; };
+		987B34AA1C51C6080035FB6B /* ZELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 987B34A91C51C6080035FB6B /* ZELoginViewController.m */; };
+		987B34AD1C51C61A0035FB6B /* ZELoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 987B34AC1C51C61A0035FB6B /* ZELoginView.m */; };
+		987B34B01C5203450035FB6B /* ZESetLocalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 987B34AF1C5203450035FB6B /* ZESetLocalData.m */; };
+		987B34B31C5214970035FB6B /* ZEPointRegModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 987B34B21C5214970035FB6B /* ZEPointRegModel.m */; };
 		989B2C481C4DE7AA00F14EFA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 989B2C471C4DE7AA00F14EFA /* main.m */; };
 		989B2C4B1C4DE7AA00F14EFA /* ZEAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 989B2C4A1C4DE7AA00F14EFA /* ZEAppDelegate.m */; };
 		989B2C531C4DE7AA00F14EFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 989B2C521C4DE7AA00F14EFA /* Assets.xcassets */; };
@@ -16,9 +22,29 @@
 		989B2C6C1C4DE7AA00F14EFA /* NewCenturyUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 989B2C6B1C4DE7AA00F14EFA /* NewCenturyUITests.m */; };
 		98DB7C501C4F4FA70046D405 /* ZEUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DB7C4F1C4F4FA70046D405 /* ZEUtil.m */; };
 		98DB7C531C4F52050046D405 /* UIImage+ZEImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DB7C521C4F52050046D405 /* UIImage+ZEImage.m */; };
-		98DB7C561C4F53EA0046D405 /* ZEMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DB7C551C4F53EA0046D405 /* ZEMainViewController.m */; };
 		98DB7C591C4F554E0046D405 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98DB7C571C4F554E0046D405 /* Main.storyboard */; };
 		98DB7C621C4F56470046D405 /* ZEUserServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DB7C611C4F56470046D405 /* ZEUserServer.m */; };
+		98DB7C6E1C4F7D650046D405 /* ZEPointRegistrationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DB7C6D1C4F7D650046D405 /* ZEPointRegistrationVC.m */; };
+		98DB7C711C4F7D790046D405 /* ZEHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DB7C701C4F7D790046D405 /* ZEHistoryViewController.m */; };
+		98DB7C741C4F7D8E0046D405 /* ZEScanQRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DB7C731C4F7D8E0046D405 /* ZEScanQRViewController.m */; };
+		98DB7C841C4F816C0046D405 /* icon_home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DB7C821C4F816C0046D405 /* icon_home@2x.png */; };
+		98DB7C851C4F816C0046D405 /* icon_home@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DB7C831C4F816C0046D405 /* icon_home@3x.png */; };
+		98DB7C881C4F81B40046D405 /* icon_history@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DB7C861C4F81B40046D405 /* icon_history@2x.png */; };
+		98DB7C891C4F81B40046D405 /* icon_history@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DB7C871C4F81B40046D405 /* icon_history@3x.png */; };
+		98DB7C8C1C4F827A0046D405 /* icon_share_all@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DB7C8A1C4F827A0046D405 /* icon_share_all@2x.png */; };
+		98DB7C8D1C4F827A0046D405 /* icon_share_all@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DB7C8B1C4F827A0046D405 /* icon_share_all@3x.png */; };
+		98DB7CA31C5077420046D405 /* zbar-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DB7C9C1C5077420046D405 /* zbar-back.png */; };
+		98DB7CA41C5077420046D405 /* zbar-help.html in Resources */ = {isa = PBXBuildFile; fileRef = 98DB7C9D1C5077420046D405 /* zbar-help.html */; };
+		98DB7CA51C5077420046D405 /* zbar-helpicons.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DB7C9E1C5077420046D405 /* zbar-helpicons.png */; };
+		98DB7CA61C5077420046D405 /* zbar-line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DB7C9F1C5077420046D405 /* zbar-line@2x.png */; };
+		98DB7CA71C5077420046D405 /* zbar-samples.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DB7CA01C5077420046D405 /* zbar-samples.png */; };
+		98DB7CA81C5077420046D405 /* ZbarOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DB7CA21C5077420046D405 /* ZbarOverlayView.m */; };
+		98DB7CAB1C507E6A0046D405 /* ZEPointRegistrationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DB7CAA1C507E6A0046D405 /* ZEPointRegistrationView.m */; };
+		98DB7CAE1C5085850046D405 /* icon_tick@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DB7CAC1C5085850046D405 /* icon_tick@2x.png */; };
+		98DB7CAF1C5085850046D405 /* icon_tick@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DB7CAD1C5085850046D405 /* icon_tick@3x.png */; };
+		98DB7CB41C50ACCD0046D405 /* JCAlertView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 98DB7CB11C50ACCD0046D405 /* JCAlertView.bundle */; };
+		98DB7CB51C50ACCD0046D405 /* JCAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DB7CB31C50ACCD0046D405 /* JCAlertView.m */; };
+		98DB7CB81C50ADF70046D405 /* ZEPointRegOptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DB7CB71C50ADF70046D405 /* ZEPointRegOptionView.m */; };
 		A828955B7420714F2D89D798 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E105A2397763081EFD8784C9 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +71,18 @@
 		9821C76F1C4E10FF00FE9080 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		982F0C681C4E2D4600593946 /* ZEServerEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEServerEngine.h; path = Service/ZEServerEngine.h; sourceTree = "<group>"; };
 		982F0C691C4E2D4600593946 /* ZEServerEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEServerEngine.m; path = Service/ZEServerEngine.m; sourceTree = "<group>"; };
+		987B349E1C50CE540035FB6B /* ZEPointRegCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPointRegCache.h; path = PointRegistration/ZEPointRegCache.h; sourceTree = "<group>"; };
+		987B349F1C50CE540035FB6B /* ZEPointRegCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEPointRegCache.m; path = PointRegistration/ZEPointRegCache.m; sourceTree = "<group>"; };
+		987B34A11C50D54B0035FB6B /* ZEPointRegChooseDateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPointRegChooseDateView.h; path = PointRegistration/ZEPointRegChooseDateView.h; sourceTree = "<group>"; };
+		987B34A21C50D54B0035FB6B /* ZEPointRegChooseDateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEPointRegChooseDateView.m; path = PointRegistration/ZEPointRegChooseDateView.m; sourceTree = "<group>"; };
+		987B34A81C51C6080035FB6B /* ZELoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZELoginViewController.h; path = Login/ZELoginViewController.h; sourceTree = "<group>"; };
+		987B34A91C51C6080035FB6B /* ZELoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZELoginViewController.m; path = Login/ZELoginViewController.m; sourceTree = "<group>"; };
+		987B34AB1C51C61A0035FB6B /* ZELoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZELoginView.h; path = Login/ZELoginView.h; sourceTree = "<group>"; };
+		987B34AC1C51C61A0035FB6B /* ZELoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZELoginView.m; path = Login/ZELoginView.m; sourceTree = "<group>"; };
+		987B34AE1C5203450035FB6B /* ZESetLocalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZESetLocalData.h; path = CommonUtil/ZESetLocalData.h; sourceTree = "<group>"; };
+		987B34AF1C5203450035FB6B /* ZESetLocalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZESetLocalData.m; path = CommonUtil/ZESetLocalData.m; sourceTree = "<group>"; };
+		987B34B11C5214970035FB6B /* ZEPointRegModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPointRegModel.h; path = PointRegistration/Model/ZEPointRegModel.h; sourceTree = "<group>"; };
+		987B34B21C5214970035FB6B /* ZEPointRegModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEPointRegModel.m; path = PointRegistration/Model/ZEPointRegModel.m; sourceTree = "<group>"; };
 		989B2C431C4DE7AA00F14EFA /* NewCentury.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewCentury.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		989B2C471C4DE7AA00F14EFA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		989B2C491C4DE7AA00F14EFA /* ZEAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZEAppDelegate.h; sourceTree = "<group>"; };
@@ -65,11 +103,37 @@
 		98DB7C4F1C4F4FA70046D405 /* ZEUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEUtil.m; path = CommonUtil/ZEUtil.m; sourceTree = "<group>"; };
 		98DB7C511C4F52050046D405 /* UIImage+ZEImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ZEImage.h"; path = "CommonUtil/UIImage+ZEImage.h"; sourceTree = "<group>"; };
 		98DB7C521C4F52050046D405 /* UIImage+ZEImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ZEImage.m"; path = "CommonUtil/UIImage+ZEImage.m"; sourceTree = "<group>"; };
-		98DB7C541C4F53EA0046D405 /* ZEMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZEMainViewController.h; sourceTree = "<group>"; };
-		98DB7C551C4F53EA0046D405 /* ZEMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZEMainViewController.m; sourceTree = "<group>"; };
 		98DB7C581C4F554E0046D405 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		98DB7C601C4F56470046D405 /* ZEUserServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEUserServer.h; path = Service/ZEUserServer.h; sourceTree = "<group>"; };
 		98DB7C611C4F56470046D405 /* ZEUserServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEUserServer.m; path = Service/ZEUserServer.m; sourceTree = "<group>"; };
+		98DB7C6C1C4F7D650046D405 /* ZEPointRegistrationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPointRegistrationVC.h; path = PointRegistration/ZEPointRegistrationVC.h; sourceTree = "<group>"; };
+		98DB7C6D1C4F7D650046D405 /* ZEPointRegistrationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEPointRegistrationVC.m; path = PointRegistration/ZEPointRegistrationVC.m; sourceTree = "<group>"; };
+		98DB7C6F1C4F7D790046D405 /* ZEHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEHistoryViewController.h; path = History/ZEHistoryViewController.h; sourceTree = "<group>"; };
+		98DB7C701C4F7D790046D405 /* ZEHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEHistoryViewController.m; path = History/ZEHistoryViewController.m; sourceTree = "<group>"; };
+		98DB7C721C4F7D8E0046D405 /* ZEScanQRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEScanQRViewController.h; path = ScanQR/ZEScanQRViewController.h; sourceTree = "<group>"; };
+		98DB7C731C4F7D8E0046D405 /* ZEScanQRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEScanQRViewController.m; path = ScanQR/ZEScanQRViewController.m; sourceTree = "<group>"; };
+		98DB7C821C4F816C0046D405 /* icon_home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_home@2x.png"; path = "SourceImage/icon_home@2x.png"; sourceTree = "<group>"; };
+		98DB7C831C4F816C0046D405 /* icon_home@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_home@3x.png"; path = "SourceImage/icon_home@3x.png"; sourceTree = "<group>"; };
+		98DB7C861C4F81B40046D405 /* icon_history@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_history@2x.png"; path = "SourceImage/icon_history@2x.png"; sourceTree = "<group>"; };
+		98DB7C871C4F81B40046D405 /* icon_history@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_history@3x.png"; path = "SourceImage/icon_history@3x.png"; sourceTree = "<group>"; };
+		98DB7C8A1C4F827A0046D405 /* icon_share_all@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_share_all@2x.png"; path = "SourceImage/icon_share_all@2x.png"; sourceTree = "<group>"; };
+		98DB7C8B1C4F827A0046D405 /* icon_share_all@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_share_all@3x.png"; path = "SourceImage/icon_share_all@3x.png"; sourceTree = "<group>"; };
+		98DB7C9C1C5077420046D405 /* zbar-back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zbar-back.png"; sourceTree = "<group>"; };
+		98DB7C9D1C5077420046D405 /* zbar-help.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "zbar-help.html"; sourceTree = "<group>"; };
+		98DB7C9E1C5077420046D405 /* zbar-helpicons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zbar-helpicons.png"; sourceTree = "<group>"; };
+		98DB7C9F1C5077420046D405 /* zbar-line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zbar-line@2x.png"; sourceTree = "<group>"; };
+		98DB7CA01C5077420046D405 /* zbar-samples.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zbar-samples.png"; sourceTree = "<group>"; };
+		98DB7CA11C5077420046D405 /* ZbarOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZbarOverlayView.h; sourceTree = "<group>"; };
+		98DB7CA21C5077420046D405 /* ZbarOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZbarOverlayView.m; sourceTree = "<group>"; };
+		98DB7CA91C507E6A0046D405 /* ZEPointRegistrationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPointRegistrationView.h; path = PointRegistration/ZEPointRegistrationView.h; sourceTree = "<group>"; };
+		98DB7CAA1C507E6A0046D405 /* ZEPointRegistrationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEPointRegistrationView.m; path = PointRegistration/ZEPointRegistrationView.m; sourceTree = "<group>"; };
+		98DB7CAC1C5085850046D405 /* icon_tick@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_tick@2x.png"; path = "SourceImage/icon_tick@2x.png"; sourceTree = "<group>"; };
+		98DB7CAD1C5085850046D405 /* icon_tick@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_tick@3x.png"; path = "SourceImage/icon_tick@3x.png"; sourceTree = "<group>"; };
+		98DB7CB11C50ACCD0046D405 /* JCAlertView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JCAlertView.bundle; sourceTree = "<group>"; };
+		98DB7CB21C50ACCD0046D405 /* JCAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCAlertView.h; sourceTree = "<group>"; };
+		98DB7CB31C50ACCD0046D405 /* JCAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCAlertView.m; sourceTree = "<group>"; };
+		98DB7CB61C50ADF70046D405 /* ZEPointRegOptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPointRegOptionView.h; path = PointRegistration/ZEPointRegOptionView.h; sourceTree = "<group>"; };
+		98DB7CB71C50ADF70046D405 /* ZEPointRegOptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEPointRegOptionView.m; path = PointRegistration/ZEPointRegOptionView.m; sourceTree = "<group>"; };
 		E105A2397763081EFD8784C9 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -118,6 +182,17 @@
 			name = Service;
 			sourceTree = "<group>";
 		};
+		987B34A71C51C5FE0035FB6B /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				987B34A81C51C6080035FB6B /* ZELoginViewController.h */,
+				987B34A91C51C6080035FB6B /* ZELoginViewController.m */,
+				987B34AB1C51C61A0035FB6B /* ZELoginView.h */,
+				987B34AC1C51C61A0035FB6B /* ZELoginView.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
 		989B2C3A1C4DE7A900F14EFA = {
 			isa = PBXGroup;
 			children = (
@@ -145,11 +220,14 @@
 			children = (
 				989B2C491C4DE7AA00F14EFA /* ZEAppDelegate.h */,
 				989B2C4A1C4DE7AA00F14EFA /* ZEAppDelegate.m */,
-				98DB7C541C4F53EA0046D405 /* ZEMainViewController.h */,
-				98DB7C551C4F53EA0046D405 /* ZEMainViewController.m */,
+				987B34A71C51C5FE0035FB6B /* Login */,
+				98DB7C651C4F7C7D0046D405 /* ScanQR */,
+				98DB7C631C4F7C630046D405 /* PointRegistration */,
+				98DB7C641C4F7C6C0046D405 /* History */,
 				98DB7C4A1C4F4F360046D405 /* CommonUtil */,
 				98DB7C3D1C4F2F490046D405 /* Constant */,
 				982F0C671C4E2C5F00593946 /* Service */,
+				98DB7C751C4F80BE0046D405 /* SourceImage */,
 				989B2C521C4DE7AA00F14EFA /* Assets.xcassets */,
 				989B2C571C4DE7AA00F14EFA /* Info.plist */,
 				9821C76F1C4E10FF00FE9080 /* Images.xcassets */,
@@ -199,12 +277,94 @@
 		98DB7C4A1C4F4F360046D405 /* CommonUtil */ = {
 			isa = PBXGroup;
 			children = (
+				98DB7CB01C50ACCD0046D405 /* JCAlertView */,
 				98DB7C4E1C4F4FA70046D405 /* ZEUtil.h */,
 				98DB7C4F1C4F4FA70046D405 /* ZEUtil.m */,
+				987B34AE1C5203450035FB6B /* ZESetLocalData.h */,
+				987B34AF1C5203450035FB6B /* ZESetLocalData.m */,
 				98DB7C511C4F52050046D405 /* UIImage+ZEImage.h */,
 				98DB7C521C4F52050046D405 /* UIImage+ZEImage.m */,
 			);
 			name = CommonUtil;
+			sourceTree = "<group>";
+		};
+		98DB7C631C4F7C630046D405 /* PointRegistration */ = {
+			isa = PBXGroup;
+			children = (
+				98DB7C6C1C4F7D650046D405 /* ZEPointRegistrationVC.h */,
+				98DB7C6D1C4F7D650046D405 /* ZEPointRegistrationVC.m */,
+				98DB7CA91C507E6A0046D405 /* ZEPointRegistrationView.h */,
+				98DB7CAA1C507E6A0046D405 /* ZEPointRegistrationView.m */,
+				98DB7CB61C50ADF70046D405 /* ZEPointRegOptionView.h */,
+				98DB7CB71C50ADF70046D405 /* ZEPointRegOptionView.m */,
+				987B34A11C50D54B0035FB6B /* ZEPointRegChooseDateView.h */,
+				987B34A21C50D54B0035FB6B /* ZEPointRegChooseDateView.m */,
+				987B349E1C50CE540035FB6B /* ZEPointRegCache.h */,
+				987B349F1C50CE540035FB6B /* ZEPointRegCache.m */,
+				987B34B11C5214970035FB6B /* ZEPointRegModel.h */,
+				987B34B21C5214970035FB6B /* ZEPointRegModel.m */,
+			);
+			name = PointRegistration;
+			sourceTree = "<group>";
+		};
+		98DB7C641C4F7C6C0046D405 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				98DB7C6F1C4F7D790046D405 /* ZEHistoryViewController.h */,
+				98DB7C701C4F7D790046D405 /* ZEHistoryViewController.m */,
+			);
+			name = History;
+			sourceTree = "<group>";
+		};
+		98DB7C651C4F7C7D0046D405 /* ScanQR */ = {
+			isa = PBXGroup;
+			children = (
+				98DB7C721C4F7D8E0046D405 /* ZEScanQRViewController.h */,
+				98DB7C731C4F7D8E0046D405 /* ZEScanQRViewController.m */,
+				98DB7C9B1C5077420046D405 /* Resources */,
+			);
+			name = ScanQR;
+			sourceTree = "<group>";
+		};
+		98DB7C751C4F80BE0046D405 /* SourceImage */ = {
+			isa = PBXGroup;
+			children = (
+				98DB7C821C4F816C0046D405 /* icon_home@2x.png */,
+				98DB7C831C4F816C0046D405 /* icon_home@3x.png */,
+				98DB7C861C4F81B40046D405 /* icon_history@2x.png */,
+				98DB7C871C4F81B40046D405 /* icon_history@3x.png */,
+				98DB7C8A1C4F827A0046D405 /* icon_share_all@2x.png */,
+				98DB7C8B1C4F827A0046D405 /* icon_share_all@3x.png */,
+				98DB7CAC1C5085850046D405 /* icon_tick@2x.png */,
+				98DB7CAD1C5085850046D405 /* icon_tick@3x.png */,
+			);
+			name = SourceImage;
+			sourceTree = "<group>";
+		};
+		98DB7C9B1C5077420046D405 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				98DB7C9C1C5077420046D405 /* zbar-back.png */,
+				98DB7C9D1C5077420046D405 /* zbar-help.html */,
+				98DB7C9E1C5077420046D405 /* zbar-helpicons.png */,
+				98DB7C9F1C5077420046D405 /* zbar-line@2x.png */,
+				98DB7CA01C5077420046D405 /* zbar-samples.png */,
+				98DB7CA11C5077420046D405 /* ZbarOverlayView.h */,
+				98DB7CA21C5077420046D405 /* ZbarOverlayView.m */,
+			);
+			name = Resources;
+			path = ScanQR/Resources;
+			sourceTree = "<group>";
+		};
+		98DB7CB01C50ACCD0046D405 /* JCAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				98DB7CB11C50ACCD0046D405 /* JCAlertView.bundle */,
+				98DB7CB21C50ACCD0046D405 /* JCAlertView.h */,
+				98DB7CB31C50ACCD0046D405 /* JCAlertView.m */,
+			);
+			name = JCAlertView;
+			path = CommonUtil/JCAlertView;
 			sourceTree = "<group>";
 		};
 		D0FADC476AB78279A909DD65 /* Pods */ = {
@@ -282,7 +442,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0720;
-				ORGANIZATIONNAME = Stenson;
+				ORGANIZATIONNAME = "Zenith Electronic";
 				TargetAttributes = {
 					989B2C421C4DE7AA00F14EFA = {
 						CreatedOnToolsVersion = 7.2;
@@ -322,9 +482,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98DB7C841C4F816C0046D405 /* icon_home@2x.png in Resources */,
+				98DB7CAF1C5085850046D405 /* icon_tick@3x.png in Resources */,
+				98DB7C881C4F81B40046D405 /* icon_history@2x.png in Resources */,
+				98DB7CAE1C5085850046D405 /* icon_tick@2x.png in Resources */,
+				98DB7CA71C5077420046D405 /* zbar-samples.png in Resources */,
+				98DB7CA51C5077420046D405 /* zbar-helpicons.png in Resources */,
+				98DB7C891C4F81B40046D405 /* icon_history@3x.png in Resources */,
 				98DB7C591C4F554E0046D405 /* Main.storyboard in Resources */,
 				9821C7701C4E10FF00FE9080 /* Images.xcassets in Resources */,
+				98DB7C8D1C4F827A0046D405 /* icon_share_all@3x.png in Resources */,
+				98DB7CB41C50ACCD0046D405 /* JCAlertView.bundle in Resources */,
 				989B2C531C4DE7AA00F14EFA /* Assets.xcassets in Resources */,
+				98DB7CA41C5077420046D405 /* zbar-help.html in Resources */,
+				98DB7CA61C5077420046D405 /* zbar-line@2x.png in Resources */,
+				98DB7C8C1C4F827A0046D405 /* icon_share_all@2x.png in Resources */,
+				98DB7C851C4F816C0046D405 /* icon_home@3x.png in Resources */,
+				98DB7CA31C5077420046D405 /* zbar-back.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,13 +571,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98DB7CA81C5077420046D405 /* ZbarOverlayView.m in Sources */,
 				98DB7C501C4F4FA70046D405 /* ZEUtil.m in Sources */,
+				98DB7C741C4F7D8E0046D405 /* ZEScanQRViewController.m in Sources */,
+				987B34A01C50CE540035FB6B /* ZEPointRegCache.m in Sources */,
 				989B2C4B1C4DE7AA00F14EFA /* ZEAppDelegate.m in Sources */,
+				98DB7CB81C50ADF70046D405 /* ZEPointRegOptionView.m in Sources */,
+				98DB7CB51C50ACCD0046D405 /* JCAlertView.m in Sources */,
 				989B2C481C4DE7AA00F14EFA /* main.m in Sources */,
+				98DB7C711C4F7D790046D405 /* ZEHistoryViewController.m in Sources */,
+				987B34AA1C51C6080035FB6B /* ZELoginViewController.m in Sources */,
+				987B34B31C5214970035FB6B /* ZEPointRegModel.m in Sources */,
 				982F0C6A1C4E2D4600593946 /* ZEServerEngine.m in Sources */,
-				98DB7C561C4F53EA0046D405 /* ZEMainViewController.m in Sources */,
 				98DB7C621C4F56470046D405 /* ZEUserServer.m in Sources */,
 				98DB7C531C4F52050046D405 /* UIImage+ZEImage.m in Sources */,
+				98DB7C6E1C4F7D650046D405 /* ZEPointRegistrationVC.m in Sources */,
+				987B34AD1C51C61A0035FB6B /* ZELoginView.m in Sources */,
+				987B34B01C5203450035FB6B /* ZESetLocalData.m in Sources */,
+				98DB7CAB1C507E6A0046D405 /* ZEPointRegistrationView.m in Sources */,
+				987B34A31C50D54B0035FB6B /* ZEPointRegChooseDateView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -548,8 +734,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SHARED_PRECOMPS_DIR = "";
 				WARNING_CFLAGS = "";
-				ZENITH_BUNDLEID = com.zenith.app_Debug;
-				ZENITH_SERVER = "http://www.weather.com.cn/data/sk/101010100.html";
+				ZENITH_BUNDLEID = "com.zenith.app-Debug";
+				ZENITH_SERVER = "http://192.168.9.153:8080/scanlogin/GetdataServlet";
 			};
 			name = Debug;
 		};
@@ -569,7 +755,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SHARED_PRECOMPS_DIR = "";
 				WARNING_CFLAGS = "";
-				ZENITH_BUNDLEID = com.zenith.app_Release;
+				ZENITH_BUNDLEID = "com.zenith.app-Release";
 				ZENITH_SERVER = "http://www.weather.com.cn/data/cityinfo/101010100.html\n";
 			};
 			name = Release;

@@ -10,9 +10,18 @@
 #import "ZEServerEngine.h"
 
 @interface ZEUserServer : NSObject
+/**
+ *  登录接口
+ */
++ (void)getLoginDataWithUsername:(NSString *)usernameStr
+                    withPassword:(NSString *)passwordStr
+                         success:(ServerResponseSuccessBlock)successBlock
+                            fail:(ServerResponseFailBlock)failBlock;
 
-+ (void)getWeatherInfoWithCity:(NSString *)str
-                       success:(ServerResponseSuccessBlock)successBlock
-                          fail:(ServerResponseFailBlock)failBlock
-                         error:(ServerErrorRecordBlock)errorBlock;
+/**
+ *   获取登记页面工作任务列表
+ */
+
++ (void)getTaskDataSuccess:(ServerResponseSuccessBlock)successBlock
+                      fail:(ServerResponseFailBlock)failBlock;
 @end

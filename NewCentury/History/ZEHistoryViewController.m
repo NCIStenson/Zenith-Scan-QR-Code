@@ -1,34 +1,23 @@
 //
-//  ZEMainViewController.m
+//  ZEHistoryViewController.m
 //  NewCentury
 //
 //  Created by Stenson on 16/1/20.
 //  Copyright © 2016年 Stenson. All rights reserved.
 //
 
-#import "ZEMainViewController.h"
+#import "ZEHistoryViewController.h"
 
-#import "ZEUserServer.h"
-
-@interface ZEMainViewController ()
+@interface ZEHistoryViewController ()
 
 @end
 
-@implementation ZEMainViewController
+@implementation ZEHistoryViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor cyanColor];
-    
-    [ZEUserServer getWeatherInfoWithCity:@"12" success:^(NSString *successMsg, id data) {
-        NSLog(@"%@",data);
-    } fail:^(NSError *errorCode) {
-        
-    } error:^{
-        
-    }];
-
+    self.view.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)didReceiveMemoryWarning {

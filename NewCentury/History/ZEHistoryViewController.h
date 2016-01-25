@@ -1,5 +1,5 @@
 //
-//  ZEMainViewController.h
+//  ZEHistoryViewController.h
 //  NewCentury
 //
 //  Created by Stenson on 16/1/20.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZEMainViewController : UIViewController
+@interface ZEHistoryViewController : UIViewController
 
 @end

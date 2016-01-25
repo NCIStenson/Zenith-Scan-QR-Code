@@ -10,16 +10,14 @@
 #import "AFNetworking.h"
 
 typedef void (^ServerResponseBlock) (NSDictionary *result);
-typedef void (^ServerResponseSuccessBlock) (NSString *successMsg, id data);
+typedef void (^ServerResponseSuccessBlock) (id data);
 typedef void (^ServerResponseFailBlock) (NSError *errorCode);
-typedef void (^ServerErrorRecordBlock) (void);  // 记录服务器错误block
 
 @interface ZEServerEngine : NSObject
 
 + (ZEServerEngine *)sharedInstance;
 
--(void)requestWithParams:(NSMutableDictionary *)params
-                    path:(NSString * )path
+-(void)requestWithParams:(NSDictionary *)params
               httpMethod:(NSString *)httpMethod
                  success:(ServerResponseSuccessBlock)successBlock
                     fail:(ServerResponseFailBlock)failBlock;

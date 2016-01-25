@@ -25,4 +25,9 @@
 //  时间格式化
 + (NSString *)formatDate:(NSDate *)date;
 
+//  获取登记页面登记信息
+
++ (NSString *)getPointRegInformation:(POINT_REG)point_reg;
+
+
 @end

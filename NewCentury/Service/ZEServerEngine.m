@@ -35,13 +35,12 @@ static ZEServerEngine *serverEngine = nil;
     return self;
 }
 
--(void)requestWithParams:(NSMutableDictionary *)params
-                    path:(NSString * )path
+-(void)requestWithParams:(NSDictionary *)params
               httpMethod:(NSString *)httpMethod
                  success:(ServerResponseSuccessBlock)successBlock
                     fail:(ServerResponseFailBlock)failBlock
 {
-    NSString * serverAdress = nil;
+    NSString * serverAdress = Zenith_Server;
     
     AFHTTPSessionManager *sessionManager = [AFHTTPSessionManager manager];
     sessionManager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
@@ -49,14 +48,14 @@ static ZEServerEngine *serverEngine = nil;
     sessionManager.responseSerializer = [AFHTTPResponseSerializer serializer];
     
     if ([httpMethod isEqualToString:HTTPMETHOD_GET]) {
-        [sessionManager GET:path parameters:nil
+        [sessionManager GET:serverAdress
+                 parameters:nil
                    progress:nil
                     success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                         NSDictionary * responseDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
                         if ([responseDic isKindOfClass:[NSDictionary class]] && [ZEUtil isNotNull:responseDic]) {
-                            NSString * successMsg = nil;
                             if (successBlock != nil) {
-                                successBlock(successMsg, responseDic);
+                                successBlock (responseDic);
                             }
                         }
         }
@@ -64,17 +63,47 @@ static ZEServerEngine *serverEngine = nil;
                         if (error != nil) {
                             failBlock(error);
                         }}];
-    }else if ([httpMethod isEqualToString:HTTPMETHOD_POST]){
+    }else if ([httpMethod isEqualToString:HTTPMETHOD_POST])
+    {
         [sessionManager POST:serverAdress
-                  parameters:params progress:nil
+                  parameters:params
+                    progress:nil
                      success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                         
+                         if ([ZEUtil isNotNull:responseObject]) {
+                             [self showNetErrorAlertView];
+                         }
+                         NSDictionary * responseDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
+                         if ([responseDic isKindOfClass:[NSDictionary class]] && [ZEUtil isNotNull:responseDic]) {
+                             if (successBlock != nil) {
+                                 successBlock(responseDic);
+                             }
+                         }
                      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                          
                      }];
     }
     
     
+}
+
+-(void)showNetErrorAlertView
+{
+    if (IS_IOS8) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"网络连接异常，请重试"
+                                                                                 message:nil
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+//        [self presentViewController:alertController animated:YES completion:nil];
+        
+    }else{
+        UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"网络连接异常，请重试"
+                                                            message:nil
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"好的"
+                                                  otherButtonTitles:nil, nil];
+        [alertView show];
+    }
 }
 
 
