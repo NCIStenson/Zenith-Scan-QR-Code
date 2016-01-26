@@ -327,7 +327,7 @@
         }
     }else{
         if(_currentSelectRow == 3){
-            [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_TYPE]:[NSString stringWithFormat:@"%ld",(long)row]}];
+            [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_TYPE]:[NSString stringWithFormat:@"%ld",(long)row + 1]}];
             NSDictionary * dic = [[ZEPointRegCache instance] getUserChoosedOptionDic];
             cell.detailTextLabel.text = [ZEUtil getPointRegShareType:[[dic objectForKey:[ZEUtil getPointRegField:POINT_REG_TYPE]] integerValue]];
         }else {

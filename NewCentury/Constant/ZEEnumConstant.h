@@ -23,7 +23,7 @@ typedef NS_ENUM (NSInteger,POINT_REG){
 
 /*  分摊类型 */
 typedef NS_ENUM (NSInteger,POINT_REG_SHARE_TYPE){
-    POINT_REG_SHARE_TYPE_COE,//按系数分配
+    POINT_REG_SHARE_TYPE_COE = 1,//按系数分配
     POINT_REG_SHARE_TYPE_PEO,//按人分配
     POINT_REG_SHARE_TYPE_COUNT,//按次数分配
     POINT_REG_SHARE_TYPE_WP,//按 工分 * 系数 分配（workPoints）
