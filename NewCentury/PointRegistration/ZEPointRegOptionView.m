@@ -22,13 +22,14 @@
     
     NSArray * _optionsArray;
     TASK_LIST_LEVEL _listLevel;
+    POINT_REG _pointReg;
 }
 
 @end
 
 @implementation ZEPointRegOptionView
 
--(id)initWithOptionArr:(NSArray *)options showButtons:(BOOL)showBut withLevel:(TASK_LIST_LEVEL)level
+-(id)initWithOptionArr:(NSArray *)options showButtons:(BOOL)showBut withLevel:(TASK_LIST_LEVEL)level withPointReg:(POINT_REG)pointReg
 {
     int viewHeight = 0;
     
@@ -41,6 +42,7 @@
     if (self) {
         _optionsArray = options;
         _listLevel = level;
+        _pointReg = pointReg;
         _viewFrame = CGRectMake(0, 0, SCREEN_WIDTH - 40, viewHeight);
         self.backgroundColor = [UIColor whiteColor];
         self.clipsToBounds = YES;
@@ -59,7 +61,6 @@
     titleLab.textAlignment = NSTextAlignmentCenter;
     [self addSubview:titleLab];
     
-    
     UITableView * optionTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
     optionTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     optionTableView.delegate = self;
@@ -76,9 +77,6 @@
             make.size.mas_equalTo(CGSizeMake(kOptionViewWidth, _optionsArray.count * 44.0f));
         }
     }];
-    
-    
-    
 }
 
 #pragma mark - UITableViewDataSource
@@ -96,8 +94,19 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (_listLevel == TASK_LIST_LEVEL_JSON) {
-        ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:_optionsArray[indexPath.row]];
-        cell.textLabel.text = model.TR_NAME;
+        if (_pointReg == POINT_REG_TASK) {
+            ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:_optionsArray[indexPath.row]];
+            cell.textLabel.text = model.TR_NAME;
+        }else if (_pointReg == POINT_REG_DIFF_DEGREE){
+            ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:_optionsArray[indexPath.row]];
+            cell.textLabel.text = model.NDXS_LEVEL;
+        }else if (_pointReg == POINT_REG_TIME_DEGREE){
+            ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:_optionsArray[indexPath.row]];
+            cell.textLabel.text = model.NDXS_LEVEL;
+        }else if (_pointReg == POINT_REG_JOB_ROLES){
+            ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:_optionsArray[indexPath.row]];
+            cell.textLabel.text = model.TWR_NAME;
+        }
     }else{
         cell.textLabel.text = _optionsArray[indexPath.row];
     }
@@ -114,22 +123,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([self.delegate respondsToSelector:@selector(didSelectOption:)]){
-        [self.delegate didSelectOption:_optionsArray[indexPath.row]];
+    if([self.delegate respondsToSelector:@selector(didSelectOption:withRow:)]){
+        [self.delegate didSelectOption:_optionsArray[indexPath.row] withRow:indexPath.row];
     }
 }
-
-
-
-
-
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

@@ -159,4 +159,58 @@
     }
 }
 
++ (NSString *)getPointRegField:(POINT_REG)point_reg
+{
+    switch (point_reg) {
+        case POINT_REG_TASK:
+            return @"task";
+            break;
+        case POINT_REG_TIME:
+            return @"date";
+            break;
+        case POINT_REG_WORKING_HOURS:
+            return @"核定工时";
+            break;
+        case POINT_REG_TYPE:
+            return @"shareType";
+            break;
+        case POINT_REG_DIFF_DEGREE:
+            return @"difficultyCoefficient";
+            break;
+        case POINT_REG_TIME_DEGREE:
+            return @"timeCoefficient";
+            break;
+        case POINT_REG_JOB_ROLES:
+            return @"workrole";
+            break;
+        case POINT_REG_JOB_COUNT:
+            return @"times";
+            break;
+        default:
+            return @"task";
+            break;
+    }
+}
+//  获取分配类型中文
++ (NSString *)getPointRegShareType:(POINT_REG_SHARE_TYPE)point_reg_type
+{
+    switch (point_reg_type) {
+        case POINT_REG_SHARE_TYPE_COE:
+            return @"按系数分配";
+            break;
+        case POINT_REG_SHARE_TYPE_PEO:
+            return @"按人头均摊";
+            break;
+        case POINT_REG_SHARE_TYPE_COUNT:
+            return @"按次分配";
+            break;
+        case POINT_REG_SHARE_TYPE_WP:
+            return @"按工分*系数分配";
+        default:
+            return @"按系数分配";
+            break;
+    }
+}
+
+
 @end

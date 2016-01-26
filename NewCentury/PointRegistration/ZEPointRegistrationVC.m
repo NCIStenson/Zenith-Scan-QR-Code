@@ -24,6 +24,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBarHidden = YES;
     
+    NSLog(@">>  %@",[ZESetLocalData getUserData]);
+    
     ZEPointRegistrationView * pointView = [[ZEPointRegistrationView alloc]initWithFrame:self.view.frame];
     pointView.delegate = self;
     [self.view addSubview:pointView];
@@ -31,7 +33,76 @@
 
 #pragma mark - ZEPointRegistrationViewDelegate
 
--(void)view:(ZEPointRegistrationView *)pointRegView didSelectRowAtIndexpath:(NSIndexPath *)indexpath
+-(void)goSubmit:(ZEPointRegistrationView *)pointRegView withShowRoles:(BOOL)showRoles withShowCount:(BOOL)showCount
+{
+    NSDictionary * choosedDic = [[ZEPointRegCache instance] getUserChoosedOptionDic];
+
+    for ( int i = 0;  i <= POINT_REG_TIME_DEGREE; i ++) {
+        if(![ZEUtil isNotNull:[choosedDic objectForKey:[ZEUtil getPointRegField:i]]]){
+            if (i != POINT_REG_WORKING_HOURS) {
+                [self showAlertView:[NSString stringWithFormat:@"请选择%@",[ZEUtil getPointRegInformation:i]]];
+                return;
+            }
+        }
+    }
+    if(showRoles && ![ZEUtil isNotNull:[choosedDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]]){
+        [self showAlertView:[NSString stringWithFormat:@"请选择%@",[ZEUtil getPointRegInformation:POINT_REG_JOB_ROLES]]];
+        return;
+    }
+    
+    [self submitMessageToServer:choosedDic withView:pointRegView];
+    
+ }
+-(void)submitMessageToServer:(NSDictionary *)dic withView:(ZEPointRegistrationView *)pointRegView
+{
+    NSMutableDictionary * dataDic = [NSMutableDictionary dictionaryWithDictionary:dic];
+
+    if(![ZEUtil isNotNull:[dataDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]]]){
+        [dataDic setValue:@"1" forKey:@"times"];
+    }
+    
+    [dataDic setValue:[ZESetLocalData getNumber] forKey:@"userid"];
+    [dataDic setValue:[ZESetLocalData getUsername] forKey:@"username"];
+    [dataDic setValue:[ZESetLocalData getOrgcode] forKey:@"userOrgcode"];
+    [dataDic setValue:[ZESetLocalData getUnitcode] forKey:@"userUnitcode"];
+    [dataDic setValue:[ZESetLocalData getOrgcode] forKey:@"userOrgCodeName"];
+    [dataDic setValue:[ZESetLocalData getUnitName] forKey:@"userUintName"];
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [ZEUserServer submitPointRegMessage:dataDic Success:^(id data) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        if ([ZEUtil isNotNull:data]) {
+            if ([[data objectForKey:@"data"] integerValue] == 1) {
+                [self showAlertView:@"提交成功"];
+                [[ZEPointRegCache instance] clear];
+                [pointRegView reloadContentView];
+            }else{
+                [self showAlertView:@"提交失败"];
+            }
+        }
+    }
+                                   fail:^(NSError *errorCode) {
+                                       [self showAlertView:@"提交失败"];
+                                       [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                                       
+                                   }];
+    
+}
+-(void)showAlertView:(NSString *)str
+{
+    if (IS_IOS8) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:str message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }else{
+        UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:str message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
+}
+
+
+-(void)view:(ZEPointRegistrationView *)pointRegView didSelectRowAtIndexpath:(NSIndexPath *)indexpath withShowRules:(BOOL)showRules
 {
     switch (indexpath.row) {
         case 0:
@@ -45,7 +116,21 @@
         case 3:
             [self showTypeView:pointRegView];
             break;
-            
+        case 4:
+            [self showDiffCoeView:pointRegView];
+            break;
+        case 5:
+            [self showTimeCoeView:pointRegView];
+            break;
+        case POINT_REG_JOB_ROLES:
+        {
+            if (showRules) {
+                [self showWorkRolesView:pointRegView];
+            }else{
+                NSLog(@"没有");
+            }
+        }
+            break;
         default:
             break;
     }
@@ -59,14 +144,14 @@
     taskCacheArr = [[ZEPointRegCache instance] getTaskCaches];
     
     if (taskCacheArr.count > 0) {
-        [pointRegView showListView:taskCacheArr withLevel:TASK_LIST_LEVEL_JSON];
+        [pointRegView showListView:taskCacheArr withLevel:TASK_LIST_LEVEL_JSON withPointReg:POINT_REG_TASK];
     }else{
         [MBProgressHUD showHUDAddedTo:pointRegView animated:YES];
         [ZEUserServer getTaskDataSuccess:^(id data) {
             [MBProgressHUD hideAllHUDsForView:pointRegView animated:YES];
             if ([ZEUtil isNotNull:[data objectForKey:@"data"]]) {
                 [[ZEPointRegCache instance] setTaskCaches:[data objectForKey:@"data"]];
-                [pointRegView showListView:[data objectForKey:@"data"] withLevel:TASK_LIST_LEVEL_JSON];
+                [pointRegView showListView:[data objectForKey:@"data"] withLevel:TASK_LIST_LEVEL_JSON withPointReg:POINT_REG_TASK];
             }
         } fail:^(NSError *errorCode) {
             [MBProgressHUD hideAllHUDsForView:pointRegView animated:YES];
@@ -74,6 +159,76 @@
         }];
     }
 }
+
+-(void)showDiffCoeView:(ZEPointRegistrationView *)pointRegView
+{
+    NSArray * diffCoeCacheArr = nil;
+    diffCoeCacheArr = [[ZEPointRegCache instance] getDiffCoeCaches];
+    
+    if (diffCoeCacheArr.count > 0) {
+        [pointRegView showListView:diffCoeCacheArr withLevel:TASK_LIST_LEVEL_JSON withPointReg:POINT_REG_DIFF_DEGREE];
+    }else{
+        [MBProgressHUD showHUDAddedTo:pointRegView animated:YES];
+        [ZEUserServer getDiffCoeSuccess:^(id data) {
+            [MBProgressHUD hideAllHUDsForView:pointRegView animated:YES];
+            if ([ZEUtil isNotNull:[data objectForKey:@"data"]]) {
+                [[ZEPointRegCache instance] setDiffCoeCaches:[data objectForKey:@"data"]];
+                [pointRegView showListView:[data objectForKey:@"data"] withLevel:TASK_LIST_LEVEL_JSON withPointReg:POINT_REG_DIFF_DEGREE];
+            }
+        } fail:^(NSError *errorCode) {
+            [MBProgressHUD hideAllHUDsForView:pointRegView animated:YES];
+            
+        }];
+    }
+    
+}
+
+-(void)showTimeCoeView:(ZEPointRegistrationView *)pointRegView
+{
+    NSArray * timeCoeCacheArr = nil;
+    timeCoeCacheArr = [[ZEPointRegCache instance] getTimesCoeCaches];
+    
+    if (timeCoeCacheArr.count > 0) {
+        [pointRegView showListView:timeCoeCacheArr withLevel:TASK_LIST_LEVEL_JSON withPointReg:POINT_REG_TIME_DEGREE];
+    }else{
+        [MBProgressHUD showHUDAddedTo:pointRegView animated:YES];
+        [ZEUserServer getTimeCoeSuccess:^(id data) {
+            NSLog(@"%@",data);
+            [MBProgressHUD hideAllHUDsForView:pointRegView animated:YES];
+            if ([ZEUtil isNotNull:[data objectForKey:@"data"]]) {
+                [[ZEPointRegCache instance] setTimesCoeCaches:[data objectForKey:@"data"]];
+                [pointRegView showListView:[data objectForKey:@"data"] withLevel:TASK_LIST_LEVEL_JSON withPointReg:POINT_REG_DIFF_DEGREE];
+            }
+        } fail:^(NSError *errorCode) {
+            [MBProgressHUD hideAllHUDsForView:pointRegView animated:YES];
+            
+        }];
+    }
+    
+}
+-(void)showWorkRolesView:(ZEPointRegistrationView *)pointRegView
+{
+    NSArray * workRolesArr = nil;
+    workRolesArr = [[ZEPointRegCache instance] getWorkRulesCaches];
+    
+    if (workRolesArr.count > 0) {
+        [pointRegView showListView:workRolesArr withLevel:TASK_LIST_LEVEL_JSON withPointReg:POINT_REG_JOB_ROLES];
+    }else{
+        [MBProgressHUD showHUDAddedTo:pointRegView animated:YES];
+        [ZEUserServer getWorkRolesSuccess:^(id data) {
+            [MBProgressHUD hideAllHUDsForView:pointRegView animated:YES];
+            if ([ZEUtil isNotNull:[data objectForKey:@"data"]]) {
+                [[ZEPointRegCache instance] setWorkRulesCaches:[data objectForKey:@"data"]];
+                [pointRegView showListView:[data objectForKey:@"data"] withLevel:TASK_LIST_LEVEL_JSON withPointReg:POINT_REG_JOB_ROLES];
+            }
+        } fail:^(NSError *errorCode) {
+            [MBProgressHUD hideAllHUDsForView:pointRegView animated:YES];
+            
+        }];
+    }
+}
+
+
 #pragma mark - 发生日期
 -(void)showChooseDateView:(ZEPointRegistrationView *)pointRegView
 {
@@ -83,10 +238,8 @@
 
 -(void)showTypeView:(ZEPointRegistrationView *)pointRegView
 {
-    [pointRegView showListView:@[@"按系数分配",@"按人头均摊",@"按次分配",@"按工分*系数分配"] withLevel:TASK_LIST_LEVEL_NOJSON];
+    [pointRegView showListView:@[@"按系数分配",@"按人头均摊",@"按次分配",@"按工分*系数分配"] withLevel:TASK_LIST_LEVEL_NOJSON withPointReg:POINT_REG_TYPE];
 }
-
-
 
 #pragma mark -
 - (void)didReceiveMemoryWarning {

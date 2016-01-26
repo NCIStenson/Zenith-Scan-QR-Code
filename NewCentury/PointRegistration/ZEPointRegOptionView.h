@@ -10,7 +10,7 @@
 
 @protocol ZEPointRegOptionViewDelegate <NSObject>
 
--(void)didSelectOption:(NSDictionary *)object;
+-(void)didSelectOption:(NSDictionary *)object withRow:(NSInteger)row;
 
 @end;
 
@@ -18,6 +18,11 @@
 
 @property (nonatomic,assign) id <ZEPointRegOptionViewDelegate> delegate;
 
--(id)initWithOptionArr:(NSArray *)options showButtons:(BOOL)showBut withLevel:(TASK_LIST_LEVEL)level;
+/**
+ *  初始化弹出框界面
+ *  showBut   是否显示 “确定” “取消” 按钮
+ *  level     固定文字数组 或者 包涵json数组时处理方式不同
+ */
+-(id)initWithOptionArr:(NSArray *)options showButtons:(BOOL)showBut withLevel:(TASK_LIST_LEVEL)level withPointReg:(POINT_REG)pointReg;
 
 @end

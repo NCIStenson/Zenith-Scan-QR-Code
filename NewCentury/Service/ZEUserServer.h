@@ -24,4 +24,33 @@
 
 + (void)getTaskDataSuccess:(ServerResponseSuccessBlock)successBlock
                       fail:(ServerResponseFailBlock)failBlock;
+
+/**
+ *   获取难度系数列表
+ */
+
++ (void)getDiffCoeSuccess:(ServerResponseSuccessBlock)successBlock
+                      fail:(ServerResponseFailBlock)failBlock;
+
+/**
+ *   获取时间系数列表
+ */
++ (void)getTimeCoeSuccess:(ServerResponseSuccessBlock)successBlock
+                     fail:(ServerResponseFailBlock)failBlock;
+/**
+ *  获取角色列表
+ */
++ (void)getWorkRolesSuccess:(ServerResponseSuccessBlock)successBlock
+                       fail:(ServerResponseFailBlock)failBlock;
+
+/**
+ *   提交工分信息
+ */
+
++(void)submitPointRegMessage:(NSDictionary *)dic
+                     Success:(ServerResponseSuccessBlock)successBlock
+                        fail:(ServerResponseFailBlock)failBlock;
+
+
+
 @end

@@ -27,6 +27,9 @@ static ZEPointRegModel * pointReg = nil;
     pointReg.USER_ORGID     = [dic objectForKey:@"USER_ORGID"];
     pointReg.seqkey         = [dic objectForKey:@"seqkey"];
     
+    pointReg.NDXS_LEVEL     = [dic objectForKey:@"NDXS_LEVEL"];
+    pointReg.TWR_NAME       = [dic objectForKey:@"TWR_NAME"];
+    
     return pointReg;
 }
 

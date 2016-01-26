@@ -79,7 +79,7 @@ static ZEServerEngine *serverEngine = nil;
                              }
                          }
                      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                         
+                         failBlock(error);
                      }];
     }
     

@@ -21,6 +21,15 @@ typedef NS_ENUM (NSInteger,POINT_REG){
     POINT_REG_JOB_COUNT,
 };
 
+/*  分摊类型 */
+typedef NS_ENUM (NSInteger,POINT_REG_SHARE_TYPE){
+    POINT_REG_SHARE_TYPE_COE,//按系数分配
+    POINT_REG_SHARE_TYPE_PEO,//按人分配
+    POINT_REG_SHARE_TYPE_COUNT,//按次数分配
+    POINT_REG_SHARE_TYPE_WP,//按 工分 * 系数 分配（workPoints）
+};
+
+
 /*  任务列表json等级 */
 typedef NS_ENUM (NSInteger,TASK_LIST_LEVEL){
     TASK_LIST_LEVEL_NOJSON, //数组中没有包含json数据

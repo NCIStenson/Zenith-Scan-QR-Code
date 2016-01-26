@@ -57,7 +57,20 @@ static NSString * kUserInformation = @"keyUserInformation";
 {
     return [self Get:kUserInformation];
 }
++(NSString *)getNumber
+{
+    NSDictionary * dic = [self getUserData];
+    return [dic objectForKey:@"unum"];
+}
+/**
+ *  用户名
+ */
 
++(NSString *)getUsername
+{
+    NSDictionary * dic = [self getUserData];
+    return [dic objectForKey:@"uname"];
+}
 +(NSString *)getOrgcode
 {
     NSDictionary * dic = [self getUserData];
@@ -69,5 +82,23 @@ static NSString * kUserInformation = @"keyUserInformation";
     NSDictionary * dic = [self getUserData];
     return [dic objectForKey:@"unitcode"];
 }
+
+/**
+ *  部门名称
+ */
++(NSString *)getUserOrgCodeName
+{
+    NSDictionary * dic = [self getUserData];
+    return [dic objectForKey:@"orgname"];
+}
+/**
+ *  部门名称
+ */
++(NSString *)getUnitName
+{
+    NSDictionary * dic = [self getUserData];
+    return [dic objectForKey:@"unitname"];
+}
+
 
 @end

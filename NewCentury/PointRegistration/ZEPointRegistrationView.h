@@ -12,7 +12,16 @@
 
 @protocol ZEPointRegistrationViewDelegate <NSObject>
 
--(void)view:(ZEPointRegistrationView *)pointRegView didSelectRowAtIndexpath:(NSIndexPath *)indexpath;
+/**
+ *  选择工分登记界面row
+ */
+-(void)view:(ZEPointRegistrationView *)pointRegView didSelectRowAtIndexpath:(NSIndexPath *)indexpath withShowRules:(BOOL)showRules;
+
+/**
+ *  提交
+ */
+-(void)goSubmit:(ZEPointRegistrationView *)pointRegView withShowRoles:(BOOL)showRoles withShowCount:(BOOL)showCount;
+
 
 @end
 
@@ -22,7 +31,12 @@
 
 -(id)initWithFrame:(CGRect)rect;
 
--(void)showListView:(NSArray *)listArr withLevel:(TASK_LIST_LEVEL)level;
+-(void)showListView:(NSArray *)listArr withLevel:(TASK_LIST_LEVEL)level withPointReg:(POINT_REG)pointReg;
 -(void)showDateView;
+
+/**
+ *  刷新表
+ */
+-(void)reloadContentView;
 
 @end

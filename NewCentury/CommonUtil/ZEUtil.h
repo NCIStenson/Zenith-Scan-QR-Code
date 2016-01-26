@@ -26,8 +26,10 @@
 + (NSString *)formatDate:(NSDate *)date;
 
 //  获取登记页面登记信息
-
 + (NSString *)getPointRegInformation:(POINT_REG)point_reg;
 
-
+//  获取登记页面登记字段
++ (NSString *)getPointRegField:(POINT_REG)point_reg;
+//  获取分配类型中文
++ (NSString *)getPointRegShareType:(POINT_REG_SHARE_TYPE)point_reg_type;
 @end
