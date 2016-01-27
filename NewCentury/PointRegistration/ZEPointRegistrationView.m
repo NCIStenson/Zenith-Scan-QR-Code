@@ -12,7 +12,13 @@
 #define kNavBarMarginLeft 0.0f
 #define kNavBarMarginTop 0.0f
 
-// 导航栏内左侧按钮
+// 返回按钮位置
+#define kCloseBtnWidth  60.0f
+#define kCloseBtnHeight 60.0f
+#define kCloseBtnMarginLeft 10.0f
+#define kCloseBtnMarginTop 12.0f
+
+// 导航栏内右侧按钮
 #define kRightButtonWidth 76.0f
 #define kRightButtonHeight 40.0f
 #define kRightButtonMarginRight -10.0f
@@ -45,7 +51,7 @@
     UITableView * _contentTableView;
     BOOL _showJobRules; // 分摊类型为 按系数分配时  需用户选择角色
     BOOL _showJobCount; // 按次数分配时 输入次数
-    
+    BOOL _fromScanCode;
     UITextField * _countField;
 }
 
@@ -53,11 +59,12 @@
 
 @implementation ZEPointRegistrationView
 
--(id)initWithFrame:(CGRect)rect
+-(id)initWithFrame:(CGRect)rect withIsFromScan:(BOOL)fromScan
 {
     self = [super initWithFrame:rect];
     if (self) {
-        
+        _fromScanCode = fromScan;
+        _showJobRules = YES;
         [self initNavBar];
         [self initView];
     }
@@ -106,6 +113,10 @@
         make.size.mas_equalTo(CGSizeMake(kNavTitleLabelWidth, kNavTitleLabelHeight));
     }];
     
+    if (_fromScanCode) {
+        [self showLeftBackButton];
+    }
+    
 }
 
 -(void)initView
@@ -122,12 +133,30 @@
     }];
 }
 
+-(void)showLeftBackButton
+{
+    UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    closeBtn.frame = CGRectMake(kCloseBtnMarginLeft, kCloseBtnMarginTop, kCloseBtnWidth, kCloseBtnHeight);
+    closeBtn.backgroundColor = [UIColor clearColor];
+    closeBtn.contentMode = UIViewContentModeScaleAspectFit;
+    [closeBtn setImage:[UIImage imageNamed:@"icon_back" color:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [closeBtn addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self addSubview:closeBtn];
+}
+
+
 #pragma mark - Public
 /**
  *  刷新表
  */
--(void)reloadContentView
+-(void)reloadContentView:(BOOL)fromScanCode
 {
+    _fromScanCode = fromScanCode;
+    if(_fromScanCode){
+        _showJobRules = YES;
+    }
+    
     [_contentTableView reloadData];
 }
 
@@ -178,11 +207,14 @@
     }else{
         cell.textLabel.text = [ZEUtil getPointRegInformation:indexPath.row];
     }
-   
-    [self setListDetailText:indexPath.row cell:cell];
+    if(_fromScanCode){
+        [self setScanCodeListDetailText:indexPath.row cell:cell];
+    }else {
+        [self setListDetailText:indexPath.row cell:cell];
+    }
     
-    cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
-    
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:14];
+    cell.detailTextLabel.textColor = MAIN_COLOR;
     CALayer * lineLayer = [CALayer layer];
     lineLayer.frame = CGRectMake(10, 43.5f, SCREEN_WIDTH - 10, 0.5f);
     lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
@@ -208,6 +240,13 @@
         {
             if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TIME]]]) {
                 cell.detailTextLabel.text = [choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TIME]];
+            }else {
+                NSDate * date = [NSDate date];
+                NSDateFormatter * matter = [[NSDateFormatter alloc]init];
+                matter.dateFormat = @"yyyy-MM-dd";
+                NSString * dateStr = [matter stringFromDate:date];
+                [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_TIME]:dateStr}];
+                cell.detailTextLabel.text = dateStr;
             }
         }
             break;
@@ -215,27 +254,41 @@
         {
             if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TASK]]]) {
                 ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TASK]]];
-                cell.detailTextLabel.text = model.TR_VALID;
+                cell.detailTextLabel.text = model.TR_HOUR;
+            }else{
+                cell.detailTextLabel.text = @"";
             }
         }
             break;
         case POINT_REG_TYPE:
+        {
             if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TYPE]]]) {
                 cell.detailTextLabel.text = [ZEUtil getPointRegShareType:[[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TYPE]] integerValue]];
+            }else{
+                [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_TYPE]:@"1"}];
+                
+                cell.detailTextLabel.text = [ZEUtil getPointRegShareType:[[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TYPE]] integerValue]];
             }
+        }
             break;
         case POINT_REG_DIFF_DEGREE:
-            if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_DIFF_DEGREE]]]) {
-                ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_DIFF_DEGREE]]];
-                cell.detailTextLabel.text = model.NDXS_LEVEL;
+        {
+            cell.detailTextLabel.text = @"正常天气";
+            if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]]) {
+                ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]];
+                cell.detailTextLabel.text = model.TWR_NAME;
             }
+        }
             break;
             
         case POINT_REG_TIME_DEGREE:
+        {
             if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TIME_DEGREE]]]) {
                 ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TIME_DEGREE]]];
                 cell.detailTextLabel.text = model.NDXS_LEVEL;
             }
+            cell.detailTextLabel.text = @"正常工作日";
+        }
             break;
             
         case POINT_REG_JOB_ROLES:
@@ -248,17 +301,17 @@
                 cell.detailTextLabel.text = @"次";
                 
                 float fieldLeft = 0;
-                fieldLeft = SCREEN_WIDTH - 200.0f - 28.0f;
+                fieldLeft = SCREEN_WIDTH - 200.0f - 30.0f;
                 if (IPHONE6P){
-                    fieldLeft = SCREEN_WIDTH - 200.0f - 33.0f;
+                    fieldLeft = SCREEN_WIDTH - 200.0f - 35.0f;
                 }
                 
-                _countField = [[UITextField alloc]initWithFrame:CGRectMake(fieldLeft, 3.0f, 200.0f, 44.0f)];
+                _countField = [[UITextField alloc]initWithFrame:CGRectMake(fieldLeft, 2.0f, 200.0f, 44.0f)];
                 _countField.textColor = cell.detailTextLabel.textColor;
                 _countField.keyboardType = UIKeyboardTypeNumberPad;
                 _countField.text = @"1";
                 _countField.delegate = self;
-                _countField.font = [UIFont systemFontOfSize:12];
+                _countField.font = [UIFont systemFontOfSize:14];
                 _countField.textAlignment = NSTextAlignmentRight;
                 [cell.contentView addSubview:_countField];
                 
@@ -271,6 +324,109 @@
         default:
             break;
     }
+}
+/**
+ *   扫描界面进入工分登记界面不同
+ */
+-(void)setScanCodeListDetailText:(NSInteger)row cell:(UITableViewCell *)cell
+{
+    NSDictionary * choosedOptionDic = [[ZEPointRegCache instance] getUserChoosedOptionDic];
+    ZEPointRegModel * model = nil;
+    if ([ZEUtil isNotNull:choosedOptionDic]) {
+         model = [ZEPointRegModel getDetailWithDic:choosedOptionDic];
+    }
+
+    cell.detailTextLabel.text = @"请选择";
+    switch (row) {
+        case POINT_REG_TASK:
+        {
+            if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TASK]]]) {
+                ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TASK]]];
+                cell.detailTextLabel.text = model.TR_NAME;
+            }
+        }
+            break;
+        case POINT_REG_TIME:
+        {
+            if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TIME]]]) {
+                cell.detailTextLabel.text = [choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TIME]];
+            }else {
+                NSDate * date = [NSDate date];
+                NSDateFormatter * matter = [[NSDateFormatter alloc]init];
+                matter.dateFormat = @"yyyy-MM-dd";
+                NSString * dateStr = [matter stringFromDate:date];
+                [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_TIME]:dateStr}];
+                cell.detailTextLabel.text = dateStr;
+            }
+        }
+            break;
+        case POINT_REG_WORKING_HOURS:
+        {
+            if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TASK]]]) {
+                ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TASK]]];
+                cell.detailTextLabel.text = model.TR_HOUR;
+            }
+        }
+            break;
+        case POINT_REG_TYPE:
+            if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TYPE]]]) {
+                cell.detailTextLabel.text = [ZEUtil getPointRegShareType:[[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TYPE]] integerValue]];
+            }
+            break;
+        case POINT_REG_DIFF_DEGREE:
+        {
+            cell.detailTextLabel.text = @"正常天气";
+            if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]]) {
+                ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]];
+                cell.detailTextLabel.text = model.TWR_NAME;
+            }
+        }
+            break;
+            
+        case POINT_REG_TIME_DEGREE:
+        {
+            if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TIME_DEGREE]]]) {
+                ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TIME_DEGREE]]];
+                cell.detailTextLabel.text = model.NDXS_LEVEL;
+            }
+            cell.detailTextLabel.text = @"正常工作日";
+        }
+            break;
+            
+        case POINT_REG_JOB_ROLES:
+            if (_showJobRules) {
+                if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]]) {
+                    ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]];
+                    cell.detailTextLabel.text = model.TWR_NAME;
+                }
+            }else if (_showJobCount){
+                cell.detailTextLabel.text = @"次";
+                
+                float fieldLeft = 0;
+                fieldLeft = SCREEN_WIDTH - 200.0f - 30.0f;
+                if (IPHONE6P){
+                    fieldLeft = SCREEN_WIDTH - 200.0f - 35.0f;
+                }
+                
+                _countField = [[UITextField alloc]initWithFrame:CGRectMake(fieldLeft, 2.0f, 200.0f, 44.0f)];
+                _countField.textColor = cell.detailTextLabel.textColor;
+                _countField.keyboardType = UIKeyboardTypeNumberPad;
+                _countField.text = @"1";
+                _countField.delegate = self;
+                _countField.font = [UIFont systemFontOfSize:14];
+                _countField.textAlignment = NSTextAlignmentRight;
+                [cell.contentView addSubview:_countField];
+                
+                if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]]]) {
+                    _countField.text = [choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]];
+                }
+            }
+            break;
+            
+        default:
+            break;
+    }
+
 }
 
 #pragma mark - UITableViewDelegate
@@ -292,8 +448,14 @@
     }
 }
 
-#pragma mark - ZEPointRegistrationViewDelegate
 
+#pragma mark - ZEPointRegistrationViewDelegate
+-(void)goBack
+{
+    if ([self.delegate respondsToSelector:@selector(goBack)]) {
+        [self.delegate goBack];
+    }
+}
 -(void)goSubmit{
     if ([self.delegate respondsToSelector:@selector(goSubmit:withShowRoles:withShowCount:)]) {
         [self.delegate goSubmit:self withShowRoles:_showJobRules withShowCount:_showJobCount];
@@ -311,7 +473,7 @@
             ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:object];
             cell.detailTextLabel.text = model.TR_NAME;
             UITableViewCell * taskHoursCell = [_contentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
-            taskHoursCell.detailTextLabel.text = model.TR_VALID;
+            taskHoursCell.detailTextLabel.text = model.TR_HOUR;
         }else if (_currentSelectRow == POINT_REG_DIFF_DEGREE){
             [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_DIFF_DEGREE]:object}];
             ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:object];

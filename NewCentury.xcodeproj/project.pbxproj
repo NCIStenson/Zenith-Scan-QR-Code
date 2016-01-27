@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		9821C7701C4E10FF00FE9080 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9821C76F1C4E10FF00FE9080 /* Images.xcassets */; };
 		982F0C6A1C4E2D4600593946 /* ZEServerEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F0C691C4E2D4600593946 /* ZEServerEngine.m */; };
+		9858D3101C5891EF00937D54 /* icon_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9858D30E1C5891EF00937D54 /* icon_back@2x.png */; };
+		9858D3111C5891EF00937D54 /* icon_back@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9858D30F1C5891EF00937D54 /* icon_back@3x.png */; };
 		987B34A01C50CE540035FB6B /* ZEPointRegCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 987B349F1C50CE540035FB6B /* ZEPointRegCache.m */; };
 		987B34A31C50D54B0035FB6B /* ZEPointRegChooseDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 987B34A21C50D54B0035FB6B /* ZEPointRegChooseDateView.m */; };
 		987B34AA1C51C6080035FB6B /* ZELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 987B34A91C51C6080035FB6B /* ZELoginViewController.m */; };
@@ -71,6 +73,8 @@
 		9821C76F1C4E10FF00FE9080 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		982F0C681C4E2D4600593946 /* ZEServerEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEServerEngine.h; path = Service/ZEServerEngine.h; sourceTree = "<group>"; };
 		982F0C691C4E2D4600593946 /* ZEServerEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEServerEngine.m; path = Service/ZEServerEngine.m; sourceTree = "<group>"; };
+		9858D30E1C5891EF00937D54 /* icon_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_back@2x.png"; path = "SourceImage/icon_back@2x.png"; sourceTree = "<group>"; };
+		9858D30F1C5891EF00937D54 /* icon_back@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_back@3x.png"; path = "SourceImage/icon_back@3x.png"; sourceTree = "<group>"; };
 		987B349E1C50CE540035FB6B /* ZEPointRegCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPointRegCache.h; path = PointRegistration/ZEPointRegCache.h; sourceTree = "<group>"; };
 		987B349F1C50CE540035FB6B /* ZEPointRegCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEPointRegCache.m; path = PointRegistration/ZEPointRegCache.m; sourceTree = "<group>"; };
 		987B34A11C50D54B0035FB6B /* ZEPointRegChooseDateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPointRegChooseDateView.h; path = PointRegistration/ZEPointRegChooseDateView.h; sourceTree = "<group>"; };
@@ -329,6 +333,8 @@
 		98DB7C751C4F80BE0046D405 /* SourceImage */ = {
 			isa = PBXGroup;
 			children = (
+				9858D30E1C5891EF00937D54 /* icon_back@2x.png */,
+				9858D30F1C5891EF00937D54 /* icon_back@3x.png */,
 				98DB7C821C4F816C0046D405 /* icon_home@2x.png */,
 				98DB7C831C4F816C0046D405 /* icon_home@3x.png */,
 				98DB7C861C4F81B40046D405 /* icon_history@2x.png */,
@@ -484,6 +490,7 @@
 			files = (
 				98DB7C841C4F816C0046D405 /* icon_home@2x.png in Resources */,
 				98DB7CAF1C5085850046D405 /* icon_tick@3x.png in Resources */,
+				9858D3101C5891EF00937D54 /* icon_back@2x.png in Resources */,
 				98DB7C881C4F81B40046D405 /* icon_history@2x.png in Resources */,
 				98DB7CAE1C5085850046D405 /* icon_tick@2x.png in Resources */,
 				98DB7CA71C5077420046D405 /* zbar-samples.png in Resources */,
@@ -498,6 +505,7 @@
 				98DB7CA61C5077420046D405 /* zbar-line@2x.png in Resources */,
 				98DB7C8C1C4F827A0046D405 /* icon_share_all@2x.png in Resources */,
 				98DB7C851C4F816C0046D405 /* icon_home@3x.png in Resources */,
+				9858D3111C5891EF00937D54 /* icon_back@3x.png in Resources */,
 				98DB7CA31C5077420046D405 /* zbar-back.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

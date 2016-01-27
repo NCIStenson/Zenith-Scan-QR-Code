@@ -22,14 +22,17 @@
  */
 -(void)goSubmit:(ZEPointRegistrationView *)pointRegView withShowRoles:(BOOL)showRoles withShowCount:(BOOL)showCount;
 
-
+/**
+ *  返回扫描界面
+ */
+-(void)goBack;
 @end
 
 @interface ZEPointRegistrationView : UIView
 
 @property (nonatomic,assign) id <ZEPointRegistrationViewDelegate> delegate;
 
--(id)initWithFrame:(CGRect)rect;
+-(id)initWithFrame:(CGRect)rect withIsFromScan:(BOOL)fromScan;
 
 -(void)showListView:(NSArray *)listArr withLevel:(TASK_LIST_LEVEL)level withPointReg:(POINT_REG)pointReg;
 -(void)showDateView;
@@ -37,6 +40,6 @@
 /**
  *  刷新表
  */
--(void)reloadContentView;
+-(void)reloadContentView:(BOOL)fromScanCode;
 
 @end

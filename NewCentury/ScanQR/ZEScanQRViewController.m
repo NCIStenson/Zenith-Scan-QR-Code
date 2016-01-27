@@ -10,6 +10,7 @@
 #import "ZbarOverlayView.h"
 #import "ZBarSDK.h"
 #import "CreateView.h"
+#import "ZEPointRegistrationVC.h"
 @interface ZEScanQRViewController ()<ZBarReaderDelegate>
 
 @end
@@ -21,7 +22,6 @@
     // Do any additional setup after loading the view.
     self.navigationController.navigationBarHidden = YES;
     self.view.backgroundColor = [UIColor whiteColor];
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -29,10 +29,16 @@
     [super viewWillDisappear:YES];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+}
+
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:YES];
-    
+//    self.tabBarController.tabBar.hidden = NO;
+
     ZBarReaderViewController *reader = [ZBarReaderViewController new];
     //设置代理
     reader.readerDelegate = self;
@@ -104,6 +110,12 @@
     for (symbol in results)
         break;
     NSString * str = symbol.data;
+    if ([ZEUtil isStrNotEmpty:str]) {
+        ZEPointRegistrationVC * pointRegVC = [[ZEPointRegistrationVC alloc]init];
+        pointRegVC.codeStr = str;
+        pointRegVC.sendRequest = YES;
+        [self presentViewController:pointRegVC animated:YES completion:nil];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

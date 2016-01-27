@@ -6,12 +6,13 @@
 //  Copyright © 2016年 Stenson. All rights reserved.
 //
 
-#define kLoginType      @"tologin"
+#define kLoginType      @"tologin"//    登陆
 
-#define kTaskType       @"getRation"
-#define kDiffCoeType    @"getDiff"
-#define kGetWorkRole    @"getWorkRole"
-#define kInsertToTask   @"insertToTask"
+#define kTaskType       @"getRation"//  任务列表
+#define kDiffCoeType    @"getDiff"  //  1 是难度系数 2 是时间系数
+#define kGetWorkRole    @"getWorkRole" // g工作角色
+#define kInsertToTask   @"insertToTask"// 提交工作数据
+#define kGetRationItem  @"getRationItem" // 获取扫描结果
 
 #import "ZEUserServer.h"
 
@@ -37,7 +38,7 @@
                       fail:(ServerResponseFailBlock)failBlock
 {
     [[ZEServerEngine sharedInstance]requestWithParams:@{@"type":kTaskType,
-                                                        @"data":[NSString stringWithFormat:@"%@#%@",[ZESetLocalData getOrgcode],[ZESetLocalData getUnitcode]]}
+                                                        @"data":[NSString stringWithFormat:@"%@#%@#%@",[ZESetLocalData getNumber],[ZESetLocalData getOrgcode],[ZESetLocalData getUnitcode]]}
                                            httpMethod:HTTPMETHOD_POST
                                               success:^(id data) {
                                                   successBlock(data);
@@ -96,19 +97,30 @@
                      Success:(ServerResponseSuccessBlock)successBlock
                         fail:(ServerResponseFailBlock)failBlock
 {
-    NSError *error;
-    NSLog(@"insertDic >>>>   %@",dic);
-//    NSMutableDictionary * finalDic = [NSMutableDictionary dictionaryWithDictionary:dic];
-//    NSDictionary * taskdic = [dic objectForKey:[ZEUtil getPointRegField:POINT_REG_TASK]];
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&error];//此处data参数是我上面提到的key为"data"的数组
-//    [finalDic setObject:[[NSString alloc] initWithData:taskJsonData encoding:NSUTF8StringEncoding] forKey:[ZEUtil getPointRegField:POINT_REG_TASK]];
-//    NSLog(@" finalDic >>  %@",[finalDic objectForKey:@"task"]);
-    
     NSString * jsonStr = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
 
-    
     [[ZEServerEngine sharedInstance]requestWithParams:@{@"type":kInsertToTask,
                                                         @"data":jsonStr}
+                                           httpMethod:HTTPMETHOD_POST
+                                              success:^(id data) {
+                                                  successBlock(data);
+                                              }
+                                                 fail:^(NSError *errorCode) {
+                                                     failBlock(errorCode);
+                                                 }];
+    
+
+}
+/**
+ *   扫描二维码获取登记信息
+ */
+
++(void)getServerDataByCodeStr:(NSString *)codeStr
+                      Success:(ServerResponseSuccessBlock)successBlock
+                         fail:(ServerResponseFailBlock)failBlock
+{
+    [[ZEServerEngine sharedInstance]requestWithParams:@{@"type":kGetRationItem,
+                                                        @"data":codeStr}
                                            httpMethod:HTTPMETHOD_POST
                                               success:^(id data) {
                                                   successBlock(data);

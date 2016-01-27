@@ -32,7 +32,7 @@ static ZEPointRegCache * pointRegCahe = nil;
 {
     self = [super init];
     if (self) {
-        self.optionDic = [NSMutableDictionary dictionary];
+//        self.optionDic = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -101,6 +101,11 @@ static ZEPointRegCache * pointRegCahe = nil;
 /**
  *  存储用户选择过的选项
  */
+- (void)setOptionDic:(NSDictionary *)choosedDic
+{
+    _optionDic = [NSMutableDictionary dictionaryWithDictionary:choosedDic];
+}
+
 - (void)setUserChoosedOptionDic:(NSDictionary *)choosedDic
 {
     _optionDic = [NSMutableDictionary dictionaryWithDictionary:[self getUserChoosedOptionDic]];

@@ -51,6 +51,12 @@
                      Success:(ServerResponseSuccessBlock)successBlock
                         fail:(ServerResponseFailBlock)failBlock;
 
+/**
+ *   扫描二维码获取登记信息
+ */
 
++(void)getServerDataByCodeStr:(NSString *)codeStr
+                      Success:(ServerResponseSuccessBlock)successBlock
+                         fail:(ServerResponseFailBlock)failBlock;
 
 @end

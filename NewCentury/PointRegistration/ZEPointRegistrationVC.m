@@ -13,6 +13,9 @@
 #import "ZEUserServer.h"
 
 @interface ZEPointRegistrationVC ()<ZEPointRegistrationViewDelegate>
+{
+    ZEPointRegistrationView * _pointView;
+}
 
 @end
 
@@ -23,33 +26,62 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBarHidden = YES;
-    
-    NSLog(@">>  %@",[ZESetLocalData getUserData]);
-    
-    ZEPointRegistrationView * pointView = [[ZEPointRegistrationView alloc]initWithFrame:self.view.frame];
-    pointView.delegate = self;
-    [self.view addSubview:pointView];
+        
+    _pointView = [[ZEPointRegistrationView alloc]initWithFrame:self.view.frame withIsFromScan:_sendRequest];
+    _pointView.delegate = self;
+    [self.view addSubview:_pointView];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    if (_sendRequest) {
+        [self getDateByCodeStr];
+    }
+}
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:YES];
+}
+
+-(void)getDateByCodeStr
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [ZEUserServer getServerDataByCodeStr:_codeStr Success:^(id data) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        NSDictionary * dataDic = [data objectForKey:@"data"];
+        [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_TASK]:dataDic}];
+        [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_TYPE]:@"1"}];
+        [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]:@"1"}];
+        [_pointView reloadContentView:YES];
+    } fail:^(NSError *errorCode) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    }];
 }
 
 #pragma mark - ZEPointRegistrationViewDelegate
+
+-(void)goBack
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        [[ZEPointRegCache instance] clear];
+    }];
+}
 
 -(void)goSubmit:(ZEPointRegistrationView *)pointRegView withShowRoles:(BOOL)showRoles withShowCount:(BOOL)showCount
 {
     NSDictionary * choosedDic = [[ZEPointRegCache instance] getUserChoosedOptionDic];
 
-    for ( int i = 0;  i <= POINT_REG_TIME_DEGREE; i ++) {
-        if(![ZEUtil isNotNull:[choosedDic objectForKey:[ZEUtil getPointRegField:i]]]){
-            if (i != POINT_REG_WORKING_HOURS) {
-                [self showAlertView:[NSString stringWithFormat:@"请选择%@",[ZEUtil getPointRegInformation:i]]];
-                return;
-            }
-        }
+    if(![ZEUtil isNotNull:[choosedDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TASK]]]){
+        [self showAlertView:[NSString stringWithFormat:@"请选择%@",[ZEUtil getPointRegInformation:POINT_REG_TASK]]];
+        return;
     }
+    
     if(showRoles && ![ZEUtil isNotNull:[choosedDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]]){
         [self showAlertView:[NSString stringWithFormat:@"请选择%@",[ZEUtil getPointRegInformation:POINT_REG_JOB_ROLES]]];
         return;
     }
-    
+
     [self submitMessageToServer:choosedDic withView:pointRegView];
     
  }
@@ -74,8 +106,10 @@
         if ([ZEUtil isNotNull:data]) {
             if ([[data objectForKey:@"data"] integerValue] == 1) {
                 [self showAlertView:@"提交成功"];
-                [[ZEPointRegCache instance] clear];
-                [pointRegView reloadContentView];
+                if (!_sendRequest){
+                    [[ZEPointRegCache instance] clear];
+                    [pointRegView reloadContentView:NO];
+                }
             }else{
                 [self showAlertView:@"提交失败"];
             }
@@ -92,7 +126,11 @@
 {
     if (IS_IOS8) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:str message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            if (_sendRequest) {
+                [self goBack];
+            }
+        }];
         [alertController addAction:okAction];
         [self presentViewController:alertController animated:YES completion:nil];
     }else{
@@ -106,13 +144,13 @@
 {
     switch (indexpath.row) {
         case 0:
-            [self showTaskView:pointRegView];
+            if(!_sendRequest){
+                [self showTaskView:pointRegView];
+            }
             break;
-            
         case 1:
             [self showChooseDateView:pointRegView];
             break;
-            
         case 3:
             [self showTypeView:pointRegView];
             break;
@@ -193,7 +231,6 @@
     }else{
         [MBProgressHUD showHUDAddedTo:pointRegView animated:YES];
         [ZEUserServer getTimeCoeSuccess:^(id data) {
-            NSLog(@"%@",data);
             [MBProgressHUD hideAllHUDsForView:pointRegView animated:YES];
             if ([ZEUtil isNotNull:[data objectForKey:@"data"]]) {
                 [[ZEPointRegCache instance] setTimesCoeCaches:[data objectForKey:@"data"]];
