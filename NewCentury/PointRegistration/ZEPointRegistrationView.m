@@ -40,11 +40,11 @@
 #import "JCAlertView.h"
 #import "ZEPointRegOptionView.h"
 #import "ZEPointRegChooseDateView.h"
-
+#import "ZEPointChooseTaskView.h"
 #import "ZEPointRegModel.h"
 #import "ZEPointRegCache.h"
 
-@interface ZEPointRegistrationView ()<UITableViewDataSource,UITableViewDelegate,ZEPointRegOptionViewDelegate,ZEPointRegChooseDateViewDelegate,UITextFieldDelegate>
+@interface ZEPointRegistrationView ()<UITableViewDataSource,UITableViewDelegate,ZEPointRegOptionViewDelegate,ZEPointRegChooseDateViewDelegate,ZEPointChooseTaskViewDelegate,UITextFieldDelegate>
 {
     JCAlertView * _alertView;
     NSInteger _currentSelectRow;
@@ -154,9 +154,8 @@
 -(void)reloadContentView:(BOOL)fromScanCode
 {
     _fromScanCode = fromScanCode;
-    if(_fromScanCode){
-        _showJobRules = YES;
-    }
+    
+    _showJobRules = YES;
     
     [_contentTableView reloadData];
 }
@@ -166,6 +165,13 @@
     ZEPointRegOptionView * customAlertView = [[ZEPointRegOptionView alloc]initWithOptionArr:listArr showButtons:NO withLevel:level withPointReg:pointReg];
     customAlertView.delegate = self;
     _alertView = [[JCAlertView alloc]initWithCustomView:customAlertView dismissWhenTouchedBackground:YES];
+    [_alertView show];
+}
+-(void)showTaskView:(NSArray *)array
+{
+    ZEPointChooseTaskView * chooseTaskView = [[ZEPointChooseTaskView alloc]initWithOptionArr:array];
+    chooseTaskView.delegate = self;
+    _alertView = [[JCAlertView alloc]initWithCustomView:chooseTaskView dismissWhenTouchedBackground:YES];
     [_alertView show];
 }
 -(void)showDateView
@@ -539,12 +545,26 @@
 
     [_alertView dismissWithCompletion:nil];
 }
+#pragma mark - ZEPointRegChooseTaskViewDelegate
+
+-(void)didSeclectTask:(ZEPointChooseTaskView *)taskView withData:(NSDictionary *)dic
+{    
+    NSDictionary * diction = [NSDictionary dictionaryWithObject:dic forKey:[ZEUtil getPointRegField:POINT_REG_TASK]];
+    [[ZEPointRegCache instance] setUserChoosedOptionDic:diction];
+    
+    UITableViewCell * cell = [_contentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_currentSelectRow inSection:0]];
+    
+    ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:dic];
+    cell.detailTextLabel.text = model.TR_NAME;
+    UITableViewCell * taskHoursCell = [_contentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+    taskHoursCell.detailTextLabel.text = model.TR_HOUR;
+    [_alertView dismissWithCompletion:nil];
+}
 
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField;
 {
-    
     [UIView animateWithDuration:0.29 animations:^{
         if(IPHONE5){
             self.frame = CGRectMake(0, -120, SCREEN_WIDTH, SCREEN_HEIGHT);

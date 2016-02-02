@@ -35,7 +35,15 @@
 -(id)initWithFrame:(CGRect)rect withIsFromScan:(BOOL)fromScan;
 
 -(void)showListView:(NSArray *)listArr withLevel:(TASK_LIST_LEVEL)level withPointReg:(POINT_REG)pointReg;
+/**
+ *  显示日期列表
+ */
 -(void)showDateView;
+/**
+ *  显示任务列表
+ */
+-(void)showTaskView:(NSArray *)array;
+
 
 /**
  *  刷新表

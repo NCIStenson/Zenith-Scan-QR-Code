@@ -182,14 +182,14 @@
     taskCacheArr = [[ZEPointRegCache instance] getTaskCaches];
     
     if (taskCacheArr.count > 0) {
-        [pointRegView showListView:taskCacheArr withLevel:TASK_LIST_LEVEL_JSON withPointReg:POINT_REG_TASK];
+        [pointRegView showTaskView:taskCacheArr];
     }else{
         [MBProgressHUD showHUDAddedTo:pointRegView animated:YES];
         [ZEUserServer getTaskDataSuccess:^(id data) {
             [MBProgressHUD hideAllHUDsForView:pointRegView animated:YES];
             if ([ZEUtil isNotNull:[data objectForKey:@"data"]]) {
                 [[ZEPointRegCache instance] setTaskCaches:[data objectForKey:@"data"]];
-                [pointRegView showListView:[data objectForKey:@"data"] withLevel:TASK_LIST_LEVEL_JSON withPointReg:POINT_REG_TASK];
+                [pointRegView showTaskView:[data objectForKey:@"data"]];
             }
         } fail:^(NSError *errorCode) {
             [MBProgressHUD hideAllHUDsForView:pointRegView animated:YES];

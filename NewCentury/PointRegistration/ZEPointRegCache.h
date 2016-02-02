@@ -38,7 +38,6 @@
 /**
  *  存储用户选择过的选项
  */
-- (void)setOptionDic:(NSDictionary *)choosedDic;
 - (void)setUserChoosedOptionDic:(NSDictionary *)choosedDic;
 - (NSDictionary * )getUserChoosedOptionDic;
 
