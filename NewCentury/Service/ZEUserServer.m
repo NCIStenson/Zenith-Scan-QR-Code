@@ -13,6 +13,8 @@
 #define kGetWorkRole    @"getWorkRole" // g工作角色
 #define kInsertToTask   @"insertToTask"// 提交工作数据
 #define kGetRationItem  @"getRationItem" // 获取扫描结果
+#define kGetHistoryItem @"getHistoryItem"// 获取历史
+#define kGetHistoryByDate @"getHistoryByDate"
 
 #import "ZEUserServer.h"
 
@@ -121,6 +123,47 @@
 {
     [[ZEServerEngine sharedInstance]requestWithParams:@{@"type":kGetRationItem,
                                                         @"data":codeStr}
+                                           httpMethod:HTTPMETHOD_POST
+                                              success:^(id data) {
+                                                  successBlock(data);
+                                              }
+                                                 fail:^(NSError *errorCode) {
+                                                     failBlock(errorCode);
+                                                 }];
+
+}
+/**
+ *   获取历史记录
+ */
+
++(void)getHistoryDataWithPage:(NSString *)pageNum
+                      success:(ServerResponseSuccessBlock)successBlock
+                         fail:(ServerResponseFailBlock)failBlock;
+{
+    [[ZEServerEngine sharedInstance]requestWithParams:@{@"type":kGetHistoryItem,
+                                                        @"data":[NSString stringWithFormat:@"%@#%@",[ZESetLocalData getNumber],pageNum]}
+                                           httpMethod:HTTPMETHOD_POST
+                                              success:^(id data) {
+                                                  successBlock(data);
+                                              }
+                                                 fail:^(NSError *errorCode) {
+                                                     failBlock(errorCode);
+                                                 }];
+}
+
+
+/**
+ *  根据时间查找记录
+ */
+
++ (void)getHistoryDataByStartDate:(NSString *)startDate
+                          endDate:(NSString *)endDate
+                          success:(ServerResponseSuccessBlock)successBlock
+                             fail:(ServerResponseFailBlock)failBlock
+
+{
+    [[ZEServerEngine sharedInstance]requestWithParams:@{@"type":kGetHistoryByDate,
+                                                        @"data":[NSString stringWithFormat:@"%@#%@#%@",[ZESetLocalData getNumber],startDate,endDate]}
                                            httpMethod:HTTPMETHOD_POST
                                               success:^(id data) {
                                                   successBlock(data);

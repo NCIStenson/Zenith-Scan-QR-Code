@@ -212,5 +212,21 @@
     }
 }
 
++ (void)showAlertView:(NSString *)str viewController:(UIViewController *)viewCon
+{
+
+    if (IS_IOS8) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:str message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        }];
+        [alertController addAction:okAction];
+        [viewCon presentViewController:alertController animated:YES completion:nil];
+    }else{
+        UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:str message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
+    
+}
+
 
 @end

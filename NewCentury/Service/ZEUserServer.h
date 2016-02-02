@@ -59,4 +59,23 @@
                       Success:(ServerResponseSuccessBlock)successBlock
                          fail:(ServerResponseFailBlock)failBlock;
 
+/**
+ *   获取历史记录
+ */
+
++(void)getHistoryDataWithPage:(NSString *)pageNum
+                      success:(ServerResponseSuccessBlock)successBlock
+                         fail:(ServerResponseFailBlock)failBlock;
+
+
+/**
+ *  根据时间查找记录
+ */
+
++ (void)getHistoryDataByStartDate:(NSString *)startDate
+                          endDate:(NSString *)endDate
+                          success:(ServerResponseSuccessBlock)successBlock
+                             fail:(ServerResponseFailBlock)failBlock;
+
+
 @end

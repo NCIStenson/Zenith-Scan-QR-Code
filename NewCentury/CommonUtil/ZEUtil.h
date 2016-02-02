@@ -32,4 +32,8 @@
 + (NSString *)getPointRegField:(POINT_REG)point_reg;
 //  获取分配类型中文
 + (NSString *)getPointRegShareType:(POINT_REG_SHARE_TYPE)point_reg_type;
+
+//  弹出提示框
++ (void)showAlertView:(NSString *)str viewController:(UIViewController *)viewCon;
+
 @end

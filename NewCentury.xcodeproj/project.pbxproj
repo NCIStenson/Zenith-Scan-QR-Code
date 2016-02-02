@@ -11,6 +11,11 @@
 		982F0C6A1C4E2D4600593946 /* ZEServerEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F0C691C4E2D4600593946 /* ZEServerEngine.m */; };
 		9858D3101C5891EF00937D54 /* icon_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9858D30E1C5891EF00937D54 /* icon_back@2x.png */; };
 		9858D3111C5891EF00937D54 /* icon_back@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9858D30F1C5891EF00937D54 /* icon_back@3x.png */; };
+		9858D3141C58A36500937D54 /* ZEHistoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9858D3131C58A36500937D54 /* ZEHistoryView.m */; };
+		9858D3171C59B9F000937D54 /* epm_work_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9858D3151C59B9F000937D54 /* epm_work_icon@2x.png */; };
+		9858D3181C59B9F000937D54 /* epm_work_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9858D3161C59B9F000937D54 /* epm_work_icon@3x.png */; };
+		9858D31B1C59C89300937D54 /* ZEHistoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9858D31A1C59C89300937D54 /* ZEHistoryModel.m */; };
+		9858D3211C5EF19800937D54 /* ZEAlertSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9858D3201C5EF19800937D54 /* ZEAlertSearchView.m */; };
 		987B34A01C50CE540035FB6B /* ZEPointRegCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 987B349F1C50CE540035FB6B /* ZEPointRegCache.m */; };
 		987B34A31C50D54B0035FB6B /* ZEPointRegChooseDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 987B34A21C50D54B0035FB6B /* ZEPointRegChooseDateView.m */; };
 		987B34AA1C51C6080035FB6B /* ZELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 987B34A91C51C6080035FB6B /* ZELoginViewController.m */; };
@@ -75,6 +80,14 @@
 		982F0C691C4E2D4600593946 /* ZEServerEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEServerEngine.m; path = Service/ZEServerEngine.m; sourceTree = "<group>"; };
 		9858D30E1C5891EF00937D54 /* icon_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_back@2x.png"; path = "SourceImage/icon_back@2x.png"; sourceTree = "<group>"; };
 		9858D30F1C5891EF00937D54 /* icon_back@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_back@3x.png"; path = "SourceImage/icon_back@3x.png"; sourceTree = "<group>"; };
+		9858D3121C58A36500937D54 /* ZEHistoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEHistoryView.h; path = History/ZEHistoryView.h; sourceTree = "<group>"; };
+		9858D3131C58A36500937D54 /* ZEHistoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEHistoryView.m; path = History/ZEHistoryView.m; sourceTree = "<group>"; };
+		9858D3151C59B9F000937D54 /* epm_work_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "epm_work_icon@2x.png"; path = "SourceImage/epm_work_icon@2x.png"; sourceTree = "<group>"; };
+		9858D3161C59B9F000937D54 /* epm_work_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "epm_work_icon@3x.png"; path = "SourceImage/epm_work_icon@3x.png"; sourceTree = "<group>"; };
+		9858D3191C59C89300937D54 /* ZEHistoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEHistoryModel.h; path = History/ZEHistoryModel.h; sourceTree = "<group>"; };
+		9858D31A1C59C89300937D54 /* ZEHistoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEHistoryModel.m; path = History/ZEHistoryModel.m; sourceTree = "<group>"; };
+		9858D31F1C5EF19800937D54 /* ZEAlertSearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEAlertSearchView.h; path = History/ZEAlertSearchView.h; sourceTree = "<group>"; };
+		9858D3201C5EF19800937D54 /* ZEAlertSearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEAlertSearchView.m; path = History/ZEAlertSearchView.m; sourceTree = "<group>"; };
 		987B349E1C50CE540035FB6B /* ZEPointRegCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPointRegCache.h; path = PointRegistration/ZEPointRegCache.h; sourceTree = "<group>"; };
 		987B349F1C50CE540035FB6B /* ZEPointRegCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEPointRegCache.m; path = PointRegistration/ZEPointRegCache.m; sourceTree = "<group>"; };
 		987B34A11C50D54B0035FB6B /* ZEPointRegChooseDateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPointRegChooseDateView.h; path = PointRegistration/ZEPointRegChooseDateView.h; sourceTree = "<group>"; };
@@ -316,6 +329,12 @@
 			children = (
 				98DB7C6F1C4F7D790046D405 /* ZEHistoryViewController.h */,
 				98DB7C701C4F7D790046D405 /* ZEHistoryViewController.m */,
+				9858D3121C58A36500937D54 /* ZEHistoryView.h */,
+				9858D3131C58A36500937D54 /* ZEHistoryView.m */,
+				9858D3191C59C89300937D54 /* ZEHistoryModel.h */,
+				9858D31A1C59C89300937D54 /* ZEHistoryModel.m */,
+				9858D31F1C5EF19800937D54 /* ZEAlertSearchView.h */,
+				9858D3201C5EF19800937D54 /* ZEAlertSearchView.m */,
 			);
 			name = History;
 			sourceTree = "<group>";
@@ -333,6 +352,8 @@
 		98DB7C751C4F80BE0046D405 /* SourceImage */ = {
 			isa = PBXGroup;
 			children = (
+				9858D3151C59B9F000937D54 /* epm_work_icon@2x.png */,
+				9858D3161C59B9F000937D54 /* epm_work_icon@3x.png */,
 				9858D30E1C5891EF00937D54 /* icon_back@2x.png */,
 				9858D30F1C5891EF00937D54 /* icon_back@3x.png */,
 				98DB7C821C4F816C0046D405 /* icon_home@2x.png */,
@@ -489,6 +510,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				98DB7C841C4F816C0046D405 /* icon_home@2x.png in Resources */,
+				9858D3171C59B9F000937D54 /* epm_work_icon@2x.png in Resources */,
 				98DB7CAF1C5085850046D405 /* icon_tick@3x.png in Resources */,
 				9858D3101C5891EF00937D54 /* icon_back@2x.png in Resources */,
 				98DB7C881C4F81B40046D405 /* icon_history@2x.png in Resources */,
@@ -501,6 +523,7 @@
 				98DB7C8D1C4F827A0046D405 /* icon_share_all@3x.png in Resources */,
 				98DB7CB41C50ACCD0046D405 /* JCAlertView.bundle in Resources */,
 				989B2C531C4DE7AA00F14EFA /* Assets.xcassets in Resources */,
+				9858D3181C59B9F000937D54 /* epm_work_icon@3x.png in Resources */,
 				98DB7CA41C5077420046D405 /* zbar-help.html in Resources */,
 				98DB7CA61C5077420046D405 /* zbar-line@2x.png in Resources */,
 				98DB7C8C1C4F827A0046D405 /* icon_share_all@2x.png in Resources */,
@@ -582,9 +605,11 @@
 				98DB7CA81C5077420046D405 /* ZbarOverlayView.m in Sources */,
 				98DB7C501C4F4FA70046D405 /* ZEUtil.m in Sources */,
 				98DB7C741C4F7D8E0046D405 /* ZEScanQRViewController.m in Sources */,
+				9858D3211C5EF19800937D54 /* ZEAlertSearchView.m in Sources */,
 				987B34A01C50CE540035FB6B /* ZEPointRegCache.m in Sources */,
 				989B2C4B1C4DE7AA00F14EFA /* ZEAppDelegate.m in Sources */,
 				98DB7CB81C50ADF70046D405 /* ZEPointRegOptionView.m in Sources */,
+				9858D3141C58A36500937D54 /* ZEHistoryView.m in Sources */,
 				98DB7CB51C50ACCD0046D405 /* JCAlertView.m in Sources */,
 				989B2C481C4DE7AA00F14EFA /* main.m in Sources */,
 				98DB7C711C4F7D790046D405 /* ZEHistoryViewController.m in Sources */,
@@ -593,6 +618,7 @@
 				982F0C6A1C4E2D4600593946 /* ZEServerEngine.m in Sources */,
 				98DB7C621C4F56470046D405 /* ZEUserServer.m in Sources */,
 				98DB7C531C4F52050046D405 /* UIImage+ZEImage.m in Sources */,
+				9858D31B1C59C89300937D54 /* ZEHistoryModel.m in Sources */,
 				98DB7C6E1C4F7D650046D405 /* ZEPointRegistrationVC.m in Sources */,
 				987B34AD1C51C61A0035FB6B /* ZELoginView.m in Sources */,
 				987B34B01C5203450035FB6B /* ZESetLocalData.m in Sources */,
@@ -742,6 +768,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SHARED_PRECOMPS_DIR = "";
 				WARNING_CFLAGS = "";
+				ZENITH_APPNAME = "工分登记Debug";
 				ZENITH_BUNDLEID = "com.zenith.app-Debug";
 				ZENITH_SERVER = "http://192.168.9.153:8080/scanlogin/GetdataServlet";
 			};
@@ -763,8 +790,9 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SHARED_PRECOMPS_DIR = "";
 				WARNING_CFLAGS = "";
+				ZENITH_APPNAME = "工分登记";
 				ZENITH_BUNDLEID = "com.zenith.app-Release";
-				ZENITH_SERVER = "http://www.weather.com.cn/data/cityinfo/101010100.html\n";
+				ZENITH_SERVER = "http://192.168.9.153:8080/scanlogin/GetdataServlet";
 			};
 			name = Release;
 		};

@@ -124,6 +124,7 @@
     _contentTableView = [UITableView new];
     _contentTableView.delegate = self;
     _contentTableView.dataSource = self;
+    _contentTableView.backgroundColor = [UIColor clearColor];
     _contentTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self addSubview:_contentTableView];
     [_contentTableView mas_makeConstraints:^(MASConstraintMaker *make) {
