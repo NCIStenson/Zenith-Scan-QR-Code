@@ -10,6 +10,9 @@
 #import "ZEHistoryView.h"
 #import "MBProgressHUD.h"
 #import "ZEUserServer.h"
+
+#import "ZEHistoryDetailVC.h"
+
 @interface ZEHistoryViewController ()<ZEHistoryViewDelegate>
 {
     ZEHistoryView * _historyView;
@@ -45,7 +48,6 @@
     [ZEUserServer getHistoryDataWithPage:[NSString stringWithFormat:@"%ld",(long)_currentPage]
                                  success:^(id data) {
                                      NSArray * dataArr = [data objectForKey:@"data"];
-                                     NSLog(@"请求成功");
                                      if ([ZEUtil isNotNull:dataArr]) {
                                          if (_currentPage == 0) {
                                              [_historyView reloadFirstView:dataArr];
@@ -59,6 +61,7 @@
                                      [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }
                                     fail:^(NSError *errorCode) {
+                                        [_historyView headerEndRefreshing];
                                         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
 }
@@ -146,6 +149,13 @@
 -(void)loadMoreData:(ZEHistoryView *)hisView
 {
     [self sendRequest];
+}
+
+-(void)enterDetailView:(ZEHistoryModel *)hisMod
+{
+    ZEHistoryDetailVC * detailVC = [[ZEHistoryDetailVC alloc]init];
+    detailVC.hisModel = hisMod;
+    [self presentViewController:detailVC animated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {

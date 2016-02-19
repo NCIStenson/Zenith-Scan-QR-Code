@@ -6,6 +6,7 @@
 //  Copyright © 2016年 Stenson. All rights reserved.
 //
 
+#define kNotiRefreshAuditView @"kAuditRefresh" // 审核过工分之后，通知工分审核界面刷新。
 
 @interface ZEUtil : NSObject
 // 检查对象是否为空

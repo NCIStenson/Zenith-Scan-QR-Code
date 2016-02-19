@@ -78,9 +78,9 @@
         field.textColor = [UIColor whiteColor];
         [self addSubview:field];
         field.clipsToBounds = YES;
-        field.layer.cornerRadius = 5;
+        field.layer.cornerRadius = 10;
         field.layer.borderColor = [MAIN_LINE_COLOR CGColor];
-        field.layer.borderWidth = 0.5;
+        field.layer.borderWidth = 1;
         field.leftViewMode = UITextFieldViewModeAlways;
         field.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 0)];
 

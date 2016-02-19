@@ -37,7 +37,6 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:YES];
-//    self.tabBarController.tabBar.hidden = NO;
 
     ZBarReaderViewController *reader = [ZBarReaderViewController new];
     //设置代理

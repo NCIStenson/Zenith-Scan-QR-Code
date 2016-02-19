@@ -79,7 +79,6 @@
                                    success:^(id data) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                                        NSDictionary * dataDic = data;
-                                       NSLog(@"%@",dataDic);
                                        if ([ZEUtil isNotNull:dataDic]) {
                                            if ([[dataDic objectForKey:@"login"] integerValue] == 0) {
                                                if (IS_IOS8) {
@@ -106,7 +105,7 @@
                                        }
     }
                                       fail:^(NSError *errorCode) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                                          [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                                       }];
     
     

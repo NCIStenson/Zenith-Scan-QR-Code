@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZEHistoryModel.h"
 @class ZEHistoryView;
 @protocol ZEHistoryViewDelegate <NSObject>
 
@@ -20,15 +21,16 @@
  */
 -(void)loadMoreData:(ZEHistoryView * )hisView;
 
-/**
- *  查询按钮点击
- */
--(void)goSearch;
 
 /**
  *  开始查询
  */
 -(void)beginSearch:(ZEHistoryView *)hisView withStartDate:(NSString *)startDate withEndDate:(NSString *)endDate;
+
+/**
+ *  进入工分登记详情页面
+ */
+-(void)enterDetailView:(ZEHistoryModel *)hisMod;
 
 @end
 
@@ -58,6 +60,10 @@
  *    加载更多数据
  */
 -(void)canLoadMoreData;
+/**
+ *  停止刷新
+ */
+-(void)headerEndRefreshing;
 /**
  *  隐藏弹出框
  */

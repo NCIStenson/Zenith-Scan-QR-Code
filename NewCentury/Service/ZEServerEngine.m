@@ -41,12 +41,13 @@ static ZEServerEngine *serverEngine = nil;
                     fail:(ServerResponseFailBlock)failBlock
 {
     NSString * serverAdress = Zenith_Server;
-    
+
     AFHTTPSessionManager *sessionManager = [AFHTTPSessionManager manager];
     sessionManager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
     sessionManager.requestSerializer = [AFHTTPRequestSerializer serializer];
     sessionManager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    
+    sessionManager.requestSerializer.timeoutInterval = 10.f;
+
     if ([httpMethod isEqualToString:HTTPMETHOD_GET]) {
         [sessionManager GET:serverAdress
                  parameters:nil
@@ -69,7 +70,7 @@ static ZEServerEngine *serverEngine = nil;
                   parameters:params
                     progress:nil
                      success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                         if ([ZEUtil isNotNull:responseObject]) {
+                         if (![ZEUtil isNotNull:responseObject]) {
                              [self showNetErrorAlertView];
                          }
                          NSDictionary * responseDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
@@ -79,6 +80,7 @@ static ZEServerEngine *serverEngine = nil;
                              }
                          }
                      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                         [self showNetErrorAlertView];
                          failBlock(error);
                      }];
     }
@@ -88,22 +90,22 @@ static ZEServerEngine *serverEngine = nil;
 
 -(void)showNetErrorAlertView
 {
-    if (IS_IOS8) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"网络连接异常，请重试"
-                                                                                 message:nil
-                                                                          preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
-        [alertController addAction:okAction];
-//        [self presentViewController:alertController animated:YES completion:nil];
-        
-    }else{
+//    if (IS_IOS8) {
+//        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"网络连接异常，请重试"
+//                                                                                 message:nil
+//                                                                          preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
+//        [alertController addAction:okAction];
+////        [self presentViewController:alertController animated:YES completion:nil];
+//        
+//    }else{
         UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"网络连接异常，请重试"
                                                             message:nil
                                                            delegate:nil
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil, nil];
         [alertView show];
-    }
+//    }
 }
 
 

@@ -1,11 +1,10 @@
 //
-//  ZEHistoryView.m
+//  ZEPointAuditView.m
 //  NewCentury
 //
-//  Created by Stenson on 16/1/27.
+//  Created by Stenson on 16/2/17.
 //  Copyright © 2016年 Zenith Electronic. All rights reserved.
 //
-
 // 导航栏
 #define kNavBarWidth SCREEN_WIDTH
 #define kNavBarHeight 64.0f
@@ -34,42 +33,33 @@
 #define kContentViewWidth       SCREEN_WIDTH
 #define kContentViewHeight      (SCREEN_HEIGHT - kNavBarHeight - 44.0f)
 
-
-#import "ZEHistoryView.h"
+#import "ZEPointAuditView.h"
 #import "MJRefresh.h"
-#import "MJRefreshComponent.h"
-#import "ZEHistoryModel.h"
-#import "JCAlertView.h"
-#import "ZEAlertSearchView.h"
-@interface ZEHistoryView ()<UITableViewDataSource,UITableViewDelegate,ZEAlertSearchViewDlegate>
+
+#import "ZEPointAuditModel.h"
+
+@interface ZEPointAuditView ()
 {
-    CGRect _viewFrame;
     UITableView * _contentTableView;
-    
-    NSMutableArray * _dateArr;//存储一共有多少个日期
-    NSMutableArray * _listDataArr;
-    NSInteger _currentMinDate;
-    
-    JCAlertView * _alertView;
+    NSInteger _currentSelectRow;
 }
 @property (nonatomic,retain) NSMutableArray * dateArr;
 @property (nonatomic,retain) NSMutableArray * listDataArr;
 @end
 
-@implementation ZEHistoryView
--(id)initWithFrame:(CGRect)rect
+@implementation ZEPointAuditView
+
+-(id)initWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:rect];
+    self = [super initWithFrame:frame];
     if (self) {
-        _viewFrame = rect;
-        self.dateArr = [NSMutableArray array];
-        self.listDataArr = [NSMutableArray array];
         [self initNavBar];
         [self initView];
     }
     return self;
 }
 
+#pragma mark - initView
 - (void)initNavBar
 {
     UIView *navBar = [[UIView alloc] initWithFrame:CGRectMake(kNavBarMarginLeft, kNavBarMarginTop, kNavBarWidth, kNavBarHeight)];
@@ -84,10 +74,10 @@
     navBar.clipsToBounds = YES;
     
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightBtn setTitle:@"查询" forState:UIControlStateNormal];
+    [rightBtn setTitle:@"审核" forState:UIControlStateNormal];
     rightBtn.backgroundColor = [UIColor clearColor];
     rightBtn.contentMode = UIViewContentModeScaleAspectFit;
-    [rightBtn addTarget:self action:@selector(goSearch) forControlEvents:UIControlEventTouchUpInside];
+    [rightBtn addTarget:self action:@selector(goAudit) forControlEvents:UIControlEventTouchUpInside];
     [navBar addSubview:rightBtn];
     [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.offset(kRightButtonMarginRight);
@@ -100,7 +90,7 @@
     navTitleLabel.textAlignment = NSTextAlignmentCenter;
     navTitleLabel.textColor = [UIColor whiteColor];
     navTitleLabel.font = [UIFont systemFontOfSize:24.0f];
-    navTitleLabel.text = @"历史查询";
+    navTitleLabel.text = @"工分审核";
     [navBar addSubview:navTitleLabel];
     [navTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.rightMargin.offset(kNavTitleLabelMarginLeft);
@@ -110,7 +100,7 @@
 }
 
 -(void)initView
-{
+{    
     _contentTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
     _contentTableView.delegate = self;
     _contentTableView.dataSource = self;
@@ -125,24 +115,24 @@
     
     MJRefreshFooter * footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     _contentTableView.mj_footer = footer;
+
 }
 
-
-#pragma mark - Public Method
--(void)canLoadMoreData
-{
-    MJRefreshFooter * footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-    _contentTableView.mj_footer = footer;
-}
+#pragma mark - PublicMethod
+/**
+ *  刷新界面
+ */
 -(void)reloadFirstView:(NSArray *)array
 {
     self.listDataArr = [NSMutableArray array];
     self.dateArr = [NSMutableArray array];
-
+    
     [self reloadView:array];
 }
 -(void)reloadView:(NSArray *)array
 {
+    NSLog(@">>>   %@",array[0]);
+
     dispatch_queue_t queue = dispatch_queue_create("my.concurrent.queue", DISPATCH_QUEUE_CONCURRENT);
     
     dispatch_async(queue, ^{
@@ -153,79 +143,28 @@
         }
         for (int i = 0; i < array.count ; i ++ ) {
             NSDictionary * dic = array[i];
-            ZEHistoryModel * hisModel = [ZEHistoryModel getDetailWithDic:dic];
+            ZEPointAuditModel * pointAM = [ZEPointAuditModel getDetailWithDic:dic];
             
             if (_dateArr.count > 0) {
-                if([hisModel.TT_ENDDATE isEqualToString:[_dateArr lastObject]]){
-                    [detailArr addObject:hisModel];
+                if([pointAM.TT_ENDDATE isEqualToString:[_dateArr lastObject]]){
+                    [detailArr addObject:pointAM];
                     
                     if (i == array.count - 1) {
                         [self.listDataArr addObject:detailArr];
                     }
                 }else{
-                    [_dateArr addObject:hisModel.TT_ENDDATE];
+                    [_dateArr addObject:pointAM.TT_ENDDATE];
                     [self.listDataArr addObject:detailArr];
                     detailArr = [NSMutableArray array];
-                    [detailArr addObject:hisModel];                    
-                    if (i == array.count - 1) {
-                        [self.listDataArr addObject:detailArr];
-                    }
-
-                }
-            }else{
-                [_dateArr addObject:hisModel.TT_ENDDATE];
-                [detailArr addObject:hisModel];
-            }
-        }
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_contentTableView.mj_header endRefreshing];
-            if (array.count % 20 != 0) {
-                [_contentTableView.mj_footer endRefreshingWithNoMoreData];
-            }else{
-                [_contentTableView.mj_footer endRefreshing];
-            }
-            [_contentTableView reloadData];
-        });
-    });
-}
-
--(void)reloadSearchView:(NSArray *)array
-{
-    dispatch_queue_t queue = dispatch_queue_create("my.concurrent.queue", DISPATCH_QUEUE_CONCURRENT);
-    
-    dispatch_async(queue, ^{
-        self.dateArr = [NSMutableArray array];
-        self.listDataArr = [NSMutableArray array];
-        NSMutableArray * detailArr = [NSMutableArray array];
-        if (_dateArr.count > 0) {
-            detailArr = [NSMutableArray arrayWithArray:[self.listDataArr lastObject]];
-            [self.listDataArr removeLastObject];
-        }
-        for (int i = 0; i < array.count ; i ++ ) {
-            NSDictionary * dic = array[i];
-            ZEHistoryModel * hisModel = [ZEHistoryModel getDetailWithDic:dic];
-            
-            if (_dateArr.count > 0) {
-                if([hisModel.TT_ENDDATE isEqualToString:[_dateArr lastObject]]){
-                    [detailArr addObject:hisModel];
-                    
-                    if (i == array.count - 1) {
-                        [self.listDataArr addObject:detailArr];
-                    }
-                }else{
-                    [_dateArr addObject:hisModel.TT_ENDDATE];
-                    [self.listDataArr addObject:detailArr];
-                    detailArr = [NSMutableArray array];
-                    [detailArr addObject:hisModel];
+                    [detailArr addObject:pointAM];
                     if (i == array.count - 1) {
                         [self.listDataArr addObject:detailArr];
                     }
                     
                 }
             }else{
-                [_dateArr addObject:hisModel.TT_ENDDATE];
-                [detailArr addObject:hisModel];
+                [_dateArr addObject:pointAM.TT_ENDDATE];
+                [detailArr addObject:pointAM];
             }
         }
         
@@ -239,37 +178,7 @@
             [_contentTableView reloadData];
         });
     });
-}
-
-/**
- *  隐藏弹出框
- */
--(void)showAlertView:(BOOL)isShow
-{
-    if(isShow){
-        [_alertView dismissWithCompletion:nil];
-    }else{
-        [self goSearch];
-    }
-}
-
--(void)loadNoMoreData
-{
-    [_contentTableView.mj_footer endRefreshingWithNoMoreData];
-}
-
-
--(void)loadNewData
-{
-    if([self.delegate respondsToSelector:@selector(loadNewData:)]){
-        [self.delegate loadNewData:self];
-    }
-}
-
--(void)loadMoreData{
-    if([self.delegate respondsToSelector:@selector(loadMoreData:)]){
-        [self.delegate loadMoreData:self];
-    }
+    
 }
 /**
  *  停止刷新
@@ -279,7 +188,16 @@
     [_contentTableView.mj_header endRefreshing];
 }
 
+/**
+ *  审核成功，刷新界面
+ */
+-(void)auditSuccessRefreshView
+{
+    
+}
+
 #pragma mark - Provite Method
+
 - (NSString*)weekdayStringFromDate:(NSString*)inputDateStr {
     
     NSArray * dateStrArr = [inputDateStr componentsSeparatedByString:@"-"];
@@ -291,19 +209,18 @@
     [comps setDay:[dateStrArr[2] integerValue]];
     [comps setMonth:[dateStrArr[1] integerValue]];
     [comps setYear:[dateStrArr[0] integerValue]];
-
+    
     NSDate * date = [calendar dateFromComponents:comps];
     comps = [calendar components:unitFlags fromDate:date];
     
     NSArray *characters = [NSArray arrayWithObjects: [NSNull null], @"周日", @"周一", @"周二", @"周三", @"周四", @"周五", @"周六", nil];
     NSInteger weekday = [comps weekday];
     NSString * weekdayStr = [characters objectAtIndex:weekday];
-
+    
     return [NSString stringWithFormat:@"%@ %@",inputDateStr,weekdayStr];
 }
 
-
-#pragma mark - UITableViewDelegate
+#pragma mark - UITableViewDataSource
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -333,7 +250,7 @@
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{   
+{
     return 50.0f;
 }
 
@@ -342,16 +259,19 @@
     static NSString * cellID = @"cell";
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (!cell) {
-       cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     for (UIView * view in cell.contentView.subviews) {
         [view removeFromSuperview];
     }
-    ZEHistoryModel * hisMod = nil;
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    ZEPointAuditModel * pointAM = nil;
     if ([ZEUtil isNotNull:self.listDataArr]) {
-        hisMod = self.listDataArr[indexPath.section][indexPath.row];
+        pointAM = self.listDataArr[indexPath.section][indexPath.row];
     }
     
     UIView * cellContent = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50.0f)];
@@ -362,55 +282,69 @@
     [imageView setImage:[UIImage imageNamed:@"epm_work_icon.png"]];
     [cellContent addSubview:imageView];
     
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"+%@",hisMod.REAL_HOUR];
-    cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
-    
+    UIImageView * maskImageView = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 30.0f, 15.0f, 20.0f, 20.0f)];
+    if ([pointAM.TT_FLAG isEqualToString:@"未审核"]) {
+        [maskImageView setImage:[UIImage imageNamed:@"audit_no_icon.png"]];
+    }else{
+        [maskImageView setImage:[UIImage imageNamed:@"audit_yes_icon.png"]];
+    }
+    [cellContent addSubview:maskImageView];
+
+        
     UILabel * taskNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(65.0f, 5.0f, 200.0f, 20.0f)];
     taskNameLabel.font = [UIFont systemFontOfSize:15.0f];
-    taskNameLabel.text = hisMod.TT_TASK;
+    taskNameLabel.text = pointAM.TT_TASK;
     [cellContent addSubview:taskNameLabel];
     
     UILabel * staffNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(65.0f, 27.0f, 200.0f, 20.0f)];
-    staffNameLabel.text = hisMod.NDSX_NAME;
+    staffNameLabel.text = pointAM.TT_CONTENT;
     staffNameLabel.font = [UIFont systemFontOfSize:13.0f];
     [cellContent addSubview:staffNameLabel];
     
     return cell;
 }
+#pragma mark - UITableViewDelegate
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ZEHistoryModel * hisMod = nil;
+    ZEPointAuditModel * pointAM = nil;
     if ([ZEUtil isNotNull:self.listDataArr]) {
-        hisMod = self.listDataArr[indexPath.section][indexPath.row];
+        pointAM = self.listDataArr[indexPath.section][indexPath.row];
     }
-    
-    NSLog(@"%@",hisMod);
-    
-    if ([self.delegate respondsToSelector:@selector(enterDetailView:)]) {
-        [self.delegate enterDetailView:hisMod];
+    if ([pointAM.TT_FLAG isEqualToString:@"未审核"]) {
+        if ([self.delegate respondsToSelector:@selector(confirmWeatherAudit:withModel:)]) {
+            [self.delegate confirmWeatherAudit:self withModel:pointAM];
+        }
     }
 }
 
-#pragma mark - ZEHistoryViewDelegate
--(void)goSearch
-{
-    ZEAlertSearchView * customAlertView = [[ZEAlertSearchView alloc]initWithFrame:CGRectZero];
-    customAlertView.delegate = self;
-    _alertView = [[JCAlertView alloc]initWithCustomView:customAlertView dismissWhenTouchedBackground:YES];
-    [_alertView show];
-}
+#pragma mark - ZEPointAuditViewDelegate
 
-#pragma mark - ZEAlertSearchViewDelegate
-
--(void)cancelSearch
+-(void)goAudit
 {
-    [_alertView dismissWithCompletion:nil];
-}
--(void)confirmSearchStartDate:(NSString *)startDate endDate:(NSString *)endDate
-{
-    if ([self.delegate respondsToSelector:@selector(beginSearch:withStartDate:withEndDate:)]) {
-        [self.delegate beginSearch:self withStartDate:startDate withEndDate:endDate];
+    if([self.delegate respondsToSelector:@selector(goAuditVC)]){
+        [self.delegate goAuditVC];
     }
 }
+
+-(void)loadNoMoreData
+{
+    [_contentTableView.mj_footer endRefreshingWithNoMoreData];
+}
+
+
+-(void)loadNewData
+{
+    if([self.delegate respondsToSelector:@selector(loadNewData:)]){
+        [self.delegate loadNewData:self];
+    }
+}
+
+-(void)loadMoreData{
+    if([self.delegate respondsToSelector:@selector(loadMoreData:)]){
+        [self.delegate loadMoreData:self];
+    }
+}
+
+
 @end

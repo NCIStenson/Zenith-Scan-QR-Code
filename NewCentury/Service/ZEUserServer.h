@@ -18,6 +18,8 @@
                          success:(ServerResponseSuccessBlock)successBlock
                             fail:(ServerResponseFailBlock)failBlock;
 
+#pragma mark - 工分登记
+
 /**
  *   获取登记页面工作任务列表
  */
@@ -42,7 +44,6 @@
  */
 + (void)getWorkRolesSuccess:(ServerResponseSuccessBlock)successBlock
                        fail:(ServerResponseFailBlock)failBlock;
-
 /**
  *   提交工分信息
  */
@@ -51,6 +52,7 @@
                      Success:(ServerResponseSuccessBlock)successBlock
                         fail:(ServerResponseFailBlock)failBlock;
 
+#pragma mark - 二维码扫描
 /**
  *   扫描二维码获取登记信息
  */
@@ -58,6 +60,8 @@
 +(void)getServerDataByCodeStr:(NSString *)codeStr
                       Success:(ServerResponseSuccessBlock)successBlock
                          fail:(ServerResponseFailBlock)failBlock;
+
+#pragma mark - 历史记录
 
 /**
  *   获取历史记录
@@ -77,5 +81,25 @@
                           success:(ServerResponseSuccessBlock)successBlock
                              fail:(ServerResponseFailBlock)failBlock;
 
+#pragma mark - 工分审核
+/**
+ *  获取工分审核列表
+ */
++ (void)getPointAuditWithPage:(NSString *)pageNum
+                      success:(ServerResponseSuccessBlock)successBlock
+                         fail:(ServerResponseFailBlock)failBlock;
+
+/**
+ *  进行工分审核
+ */
++ (void)auditingTeamTask:(NSArray *)taskArr
+                 success:(ServerResponseSuccessBlock)successBlock
+                    fail:(ServerResponseFailBlock)failBlock;
+/**
+ *  根据时间查询当天审核列表
+ */
++ (void)queryTeamTaskByDate:(NSString *)dateStr
+                    success:(ServerResponseSuccessBlock)successBlock
+                       fail:(ServerResponseFailBlock)failBlock;
 
 @end

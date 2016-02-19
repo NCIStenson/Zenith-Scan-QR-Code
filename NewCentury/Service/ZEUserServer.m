@@ -6,15 +6,20 @@
 //  Copyright © 2016年 Stenson. All rights reserved.
 //
 
-#define kLoginType      @"tologin"//    登陆
+#define kLoginType          @"tologin"//    登陆
 
-#define kTaskType       @"getRation"//  任务列表
-#define kDiffCoeType    @"getDiff"  //  1 是难度系数 2 是时间系数
-#define kGetWorkRole    @"getWorkRole" // g工作角色
-#define kInsertToTask   @"insertToTask"// 提交工作数据
-#define kGetRationItem  @"getRationItem" // 获取扫描结果
-#define kGetHistoryItem @"getHistoryItem"// 获取历史
-#define kGetHistoryByDate @"getHistoryByDate"
+#define kTaskType           @"getRation"        //  任务列表
+#define kDiffCoeType        @"getDiff"          //  1 是难度系数 2 是时间系数
+#define kGetWorkRole        @"getWorkRole"      // g工作角色
+#define kInsertToTask       @"insertToTask"     // 提交工作数据
+#define kGetRationItem      @"getRationItem"    // 获取扫描结果
+
+#define kGetHistoryItem     @"getHistoryItem"   // 获取历史
+#define kGetHistoryByDate   @"getHistoryByDate"   //根据时间查询历史列表
+
+#define kQueryTeamTask      @"queryTeamTask"    //  获取工分审核列表
+#define kAuditingTeamTask   @"auditingTeamTask" //  进行审核
+#define kQueryTeamTaskByDate   @"queryTeamTaskByDate" //  当天日期审核列表
 
 #import "ZEUserServer.h"
 
@@ -173,4 +178,73 @@
                                                  }];
 
 }
+
+/**
+ *  获取工分审核列表
+ */
++ (void)getPointAuditWithPage:(NSString *)pageNum
+                      success:(ServerResponseSuccessBlock)successBlock
+                         fail:(ServerResponseFailBlock)failBlock
+
+{
+    [[ZEServerEngine sharedInstance]requestWithParams:@{@"type":kQueryTeamTask,
+                                                        @"data":[NSString stringWithFormat:@"%@#%@#%@",[ZESetLocalData getOrgcode],[ZESetLocalData getUnitcode],pageNum]}
+                                           httpMethod:HTTPMETHOD_POST
+                                              success:^(id data) {
+                                                  successBlock(data);
+                                              }
+                                                 fail:^(NSError *errorCode) {
+                                                     failBlock(errorCode);
+                                                 }];
+    
+}
+
+/**
+ *  进行工分审核
+ */
++ (void)auditingTeamTask:(NSArray *)taskArr
+                 success:(ServerResponseSuccessBlock)successBlock
+                    fail:(ServerResponseFailBlock)failBlock
+
+{
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:taskArr
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:nil];
+    
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData
+                                                 encoding:NSUTF8StringEncoding];
+    
+    [[ZEServerEngine sharedInstance]requestWithParams:@{@"type":kAuditingTeamTask,
+                                                        @"data":jsonString}
+
+                                           httpMethod:HTTPMETHOD_POST
+                                              success:^(id data) {
+                                                  successBlock(data);
+                                              }
+                                                 fail:^(NSError *errorCode) {
+                                                     failBlock(errorCode);
+                                                 }];
+    
+}
+/**
+ *  根据时间查询当天审核列表
+ */
++ (void)queryTeamTaskByDate:(NSString *)dateStr
+                    success:(ServerResponseSuccessBlock)successBlock
+                       fail:(ServerResponseFailBlock)failBlock
+
+{
+    [[ZEServerEngine sharedInstance]requestWithParams:@{@"type":kQueryTeamTaskByDate,
+                                                        @"data":[NSString stringWithFormat:@"%@#%@#%@",[ZESetLocalData getOrgcode],[ZESetLocalData getUnitcode],dateStr]}
+     
+                                           httpMethod:HTTPMETHOD_POST
+                                              success:^(id data) {
+                                                  successBlock(data);
+                                              }
+                                                 fail:^(NSError *errorCode) {
+                                                     failBlock(errorCode);
+                                                 }];
+    
+}
+
 @end

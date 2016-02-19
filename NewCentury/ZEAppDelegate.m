@@ -13,7 +13,7 @@
 #import "ZEScanQRViewController.h"
 #import "ZEHistoryViewController.h"
 #import "ZEPointRegistrationVC.h"
-
+#import "ZEPointAuditViewController.h"
 @interface ZEAppDelegate ()
 
 @end
@@ -25,7 +25,7 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     application.applicationSupportsShakeToEdit = YES;
-
+    NSLog(@"%@",Zenith_Server);
     ZEScanQRViewController * scanQRVC = [[ZEScanQRViewController alloc]init];
     scanQRVC.tabBarItem.image = [UIImage imageNamed:@"icon_home.png"];
     scanQRVC.title = @"首页";
@@ -41,9 +41,13 @@
     historyVC.title = @"历史记录";
     UINavigationController * historyNav = [[UINavigationController alloc]initWithRootViewController:historyVC];
     
+    ZEPointAuditViewController * pointAuditVC = [[ZEPointAuditViewController alloc]init];
+    pointAuditVC.tabBarItem.image = [UIImage imageNamed:@"icon_history.png"];
+    pointAuditVC.title = @"工分审核";
+    UINavigationController * pointAuditNav = [[UINavigationController alloc]initWithRootViewController:pointAuditVC];
     
     UITabBarController * tabBarVC = [[UITabBarController alloc]init];
-    tabBarVC.viewControllers = @[scanQRNav,pointNav,historyNav];
+    tabBarVC.viewControllers = @[scanQRNav,pointNav,historyNav,pointAuditNav];
     
     NSDictionary * userDataDic = [ZESetLocalData getUserData];
     if (userDataDic.allKeys > 0) {
