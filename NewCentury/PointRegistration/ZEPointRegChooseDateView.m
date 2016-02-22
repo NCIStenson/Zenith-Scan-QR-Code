@@ -71,7 +71,6 @@
             [self.delegate cancelChooseDate];
         }
     }else{
-        NSLog(@"%@",_picker.date);
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         NSString * dateStr = [dateFormatter stringFromDate:_picker.date];

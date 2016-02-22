@@ -86,7 +86,6 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer auditingTeamTask:@[auditKey]
                            success:^(id data) {
-                               NSLog(@"<<  %@",data);
                                if ([ZEUtil isNotNull:data]) {
                                    if ([[data objectForKey:@"data"] integerValue] == 1) {
                                        _currentPage = 0;

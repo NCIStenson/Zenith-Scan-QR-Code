@@ -27,15 +27,16 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBarHidden = YES;
         
-    _pointView = [[ZEPointRegistrationView alloc]initWithFrame:self.view.frame withIsFromScan:_sendRequest];
+    _pointView = [[ZEPointRegistrationView alloc]initWithFrame:self.view.frame withEnterType:_enterType];
     _pointView.delegate = self;
+    _pointView.historyModel = _hisModel;
     [self.view addSubview:_pointView];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    if (_sendRequest) {
+    if (_enterType == ENTER_POINTREG_TYPE_SCAN) {
         [self getDateByCodeStr];
     }
 }
@@ -53,7 +54,7 @@
         [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_TASK]:dataDic}];
         [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_TYPE]:@"1"}];
         [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]:@"1"}];
-        [_pointView reloadContentView:YES];
+        [_pointView reloadContentView:ENTER_POINTREG_TYPE_SCAN];
     } fail:^(NSError *errorCode) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
@@ -106,9 +107,9 @@
         if ([ZEUtil isNotNull:data]) {
             if ([[data objectForKey:@"data"] integerValue] == 1) {
                 [self showAlertView:@"提交成功"];
-                if (!_sendRequest){
+                if (_enterType != ENTER_POINTREG_TYPE_SCAN){
                     [[ZEPointRegCache instance] clear];
-                    [pointRegView reloadContentView:NO];
+                    [pointRegView reloadContentView:ENTER_POINTREG_TYPE_DEFAULT];
                 }
             }else{
                 [self showAlertView:@"提交失败"];
@@ -127,7 +128,7 @@
     if (IS_IOS8) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:str message:nil preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            if (_sendRequest) {
+            if (_enterType == ENTER_POINTREG_TYPE_SCAN) {
                 [self goBack];
             }
         }];
@@ -144,7 +145,7 @@
 {
     switch (indexpath.row) {
         case 0:
-            if(!_sendRequest){
+            if(_enterType != ENTER_POINTREG_TYPE_SCAN){
                 [self showTaskView:pointRegView];
             }
             break;
@@ -165,7 +166,7 @@
             if (showRules) {
                 [self showWorkRolesView:pointRegView];
             }else{
-                NSLog(@"没有");
+
             }
         }
             break;

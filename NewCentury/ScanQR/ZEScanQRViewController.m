@@ -112,7 +112,7 @@
     if ([ZEUtil isStrNotEmpty:str]) {
         ZEPointRegistrationVC * pointRegVC = [[ZEPointRegistrationVC alloc]init];
         pointRegVC.codeStr = str;
-        pointRegVC.sendRequest = YES;
+        pointRegVC.enterType = ENTER_POINTREG_TYPE_SCAN;
         [self presentViewController:pointRegVC animated:YES completion:nil];
     }
 }

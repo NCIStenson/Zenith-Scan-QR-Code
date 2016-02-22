@@ -362,8 +362,21 @@
     [imageView setImage:[UIImage imageNamed:@"epm_work_icon.png"]];
     [cellContent addSubview:imageView];
     
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"+%@",hisMod.REAL_HOUR];
-    cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
+    UIImageView * maskImageView = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 30.0f, 15.0f, 20.0f, 20.0f)];
+    if ([hisMod.TT_FLAG isEqualToString:@"未审核"]) {
+        [maskImageView setImage:[UIImage imageNamed:@"audit_no_icon.png"]];
+    }else{
+        [maskImageView setImage:[UIImage imageNamed:@"audit_yes_icon.png"]];
+    }
+    [cellContent addSubview:maskImageView];
+
+    UILabel * realHourLabel = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 80.0f, 0.0f, 50.0f, 50.0f)];
+    realHourLabel.font = [UIFont systemFontOfSize:12.0f];
+    realHourLabel.textColor = [UIColor lightGrayColor];
+    realHourLabel.textAlignment = NSTextAlignmentRight;
+    realHourLabel.text = [NSString stringWithFormat:@"+%@",hisMod.REAL_HOUR];
+    [cellContent addSubview:realHourLabel];
+
     
     UILabel * taskNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(65.0f, 5.0f, 200.0f, 20.0f)];
     taskNameLabel.font = [UIFont systemFontOfSize:15.0f];
@@ -384,9 +397,7 @@
     if ([ZEUtil isNotNull:self.listDataArr]) {
         hisMod = self.listDataArr[indexPath.section][indexPath.row];
     }
-    
-    NSLog(@"%@",hisMod);
-    
+        
     if ([self.delegate respondsToSelector:@selector(enterDetailView:)]) {
         [self.delegate enterDetailView:hisMod];
     }

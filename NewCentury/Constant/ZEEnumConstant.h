@@ -30,10 +30,18 @@ typedef NS_ENUM (NSInteger,POINT_REG_SHARE_TYPE){
 };
 
 
-/*  任务列表json等级 */
+/*  任务列表 json等级 */
 typedef NS_ENUM (NSInteger,TASK_LIST_LEVEL){
     TASK_LIST_LEVEL_NOJSON, //数组中没有包含json数据
     TASK_LIST_LEVEL_JSON    //数组中包含json数据
 };
+
+/*  进入工分登记页面方式 */
+typedef NS_ENUM (NSInteger,ENTER_POINTREG_TYPE){
+    ENTER_POINTREG_TYPE_SCAN,      //扫描进入工分登记页面
+    ENTER_POINTREG_TYPE_DEFAULT,   //手动点击进入工分登记页面
+    ENTER_POINTREG_TYPE_HISTORY    //历史详情进入工分登记页面
+};
+
 
 #endif /* ZEEnumConstant_h */

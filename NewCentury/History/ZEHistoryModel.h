@@ -17,7 +17,10 @@
 @property (nonatomic,copy) NSString * DISPATCH_TYPE;      //   分摊类型
 @property (nonatomic,copy) NSString * NDSX_NAME;    //  难度系数
 @property (nonatomic,copy) NSString * SJSX_NAME;      //   时间系数
+@property (nonatomic,copy) NSString * TT_FLAG;      //   是否审核
 
+@property (nonatomic,copy) NSString * ROLENAME;     //  工作角色
+@property (nonatomic,copy) NSString * TIMES;        //  工作次数
 
 
 @property (nonatomic,retain) NSDictionary * integration;

@@ -11,11 +11,19 @@
 
 @protocol ZEHistoryDetailViewDelegate <NSObject>
 
+/**
+ *  返回
+ */
 -(void)goBack;
+
+/**
+ *  重新提交
+ */
+-(void)goResubmit;
 
 @end
 
-@interface ZEHistoryDetailView : UIView<UITableViewDataSource,UITableViewDelegate>
+@interface ZEHistoryDetailView : UIView<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 
 @property(nonatomic,assign) id <ZEHistoryDetailViewDelegate> delegate;
 

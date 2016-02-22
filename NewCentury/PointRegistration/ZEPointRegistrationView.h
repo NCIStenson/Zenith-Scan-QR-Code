@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZEHistoryModel.h"
 
 @class ZEPointRegistrationView;
 
@@ -30,9 +31,10 @@
 
 @interface ZEPointRegistrationView : UIView
 
+@property (nonatomic,retain) ZEHistoryModel * historyModel;     // 从历史界面进入工分登记修改数据
 @property (nonatomic,assign) id <ZEPointRegistrationViewDelegate> delegate;
 
--(id)initWithFrame:(CGRect)rect withIsFromScan:(BOOL)fromScan;
+-(id)initWithFrame:(CGRect)rect withEnterType:(ENTER_POINTREG_TYPE)enterType;
 
 -(void)showListView:(NSArray *)listArr withLevel:(TASK_LIST_LEVEL)level withPointReg:(POINT_REG)pointReg;
 /**
@@ -48,6 +50,6 @@
 /**
  *  刷新表
  */
--(void)reloadContentView:(BOOL)fromScanCode;
+-(void)reloadContentView:(ENTER_POINTREG_TYPE)entertype;
 
 @end

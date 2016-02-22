@@ -51,7 +51,7 @@
     UITableView * _contentTableView;
     BOOL _showJobRules; // 分摊类型为 按系数分配时  需用户选择角色
     BOOL _showJobCount; // 按次数分配时 输入次数
-    BOOL _fromScanCode;
+    ENTER_POINTREG_TYPE _enterType;
     UITextField * _countField;
 }
 
@@ -59,11 +59,11 @@
 
 @implementation ZEPointRegistrationView
 
--(id)initWithFrame:(CGRect)rect withIsFromScan:(BOOL)fromScan
+-(id)initWithFrame:(CGRect)rect withEnterType:(ENTER_POINTREG_TYPE)enterType;
 {
     self = [super initWithFrame:rect];
     if (self) {
-        _fromScanCode = fromScan;
+        _enterType = enterType;
         _showJobRules = YES;
         [self initNavBar];
         [self initView];
@@ -113,7 +113,7 @@
         make.size.mas_equalTo(CGSizeMake(kNavTitleLabelWidth, kNavTitleLabelHeight));
     }];
     
-    if (_fromScanCode) {
+    if (_enterType != ENTER_POINTREG_TYPE_DEFAULT) {
         [self showLeftBackButton];
     }
     
@@ -151,9 +151,9 @@
 /**
  *  刷新表
  */
--(void)reloadContentView:(BOOL)fromScanCode
+-(void)reloadContentView:(ENTER_POINTREG_TYPE)entertype
 {
-    _fromScanCode = fromScanCode;
+    _enterType = entertype;
     
     _showJobRules = YES;
     
@@ -186,6 +186,13 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+//    if (_enterType == ENTER_POINTREG_TYPE_HISTORY) {
+//        if (!_showJobCount&&!_showJobRules){
+//            return 7;
+//        }
+//        return 8;
+//    }
+    
     if (!_showJobCount&&!_showJobRules){
         return 6;
     }
@@ -214,9 +221,11 @@
     }else{
         cell.textLabel.text = [ZEUtil getPointRegInformation:indexPath.row];
     }
-    if(_fromScanCode){
+    if(_enterType == ENTER_POINTREG_TYPE_SCAN){
         [self setScanCodeListDetailText:indexPath.row cell:cell];
-    }else {
+    }else if(_enterType == ENTER_POINTREG_TYPE_HISTORY){
+        [self setHistoryListDetailText:indexPath.row cell:cell];
+    }else{
         [self setListDetailText:indexPath.row cell:cell];
     }
     
@@ -229,7 +238,7 @@
     
     return cell;
 }
-
+#pragma mark - 默认界面
 -(void)setListDetailText:(NSInteger)row cell:(UITableViewCell *)cell
 {
     NSDictionary * choosedOptionDic = [[ZEPointRegCache instance] getUserChoosedOptionDic];
@@ -332,6 +341,7 @@
             break;
     }
 }
+#pragma mark - 扫描界面
 /**
  *   扫描界面进入工分登记界面不同
  */
@@ -435,13 +445,95 @@
     }
 
 }
+#pragma mark - 历史界面
+-(void)setHistoryListDetailText:(NSInteger)row cell:(UITableViewCell *)cell
+{
+//    cell.textLabel.text = [ZEUtil getPointRegInformation:row - 1];
+    
+//    if (row == 0) {
+//        cell.textLabel.text = @"工作人员";
+//        cell.detailTextLabel.text = [ZESetLocalData getUsername];
+//    }
+    
+    switch (row ) {
+        case POINT_REG_TASK:
+        {
+            cell.detailTextLabel.text = _historyModel.TT_TASK;
+        }
+            break;
+        case POINT_REG_TIME:
+        {
+            cell.detailTextLabel.text = _historyModel.TT_ENDDATE;
+        }
+            break;
+        case POINT_REG_WORKING_HOURS:
+        {
+            cell.detailTextLabel.text = _historyModel.TT_HOUR;
+        }
+            break;
+        case POINT_REG_TYPE:
+        {
+            cell.detailTextLabel.text = [ZEUtil getPointRegShareType:[_historyModel.DISPATCH_TYPE integerValue]];
+        }
+            break;
+        case POINT_REG_DIFF_DEGREE:
+        {
+            cell.detailTextLabel.text = _historyModel.NDSX_NAME;
+        }
+            break;
+            
+        case POINT_REG_TIME_DEGREE:
+        {
+            cell.detailTextLabel.text = _historyModel.SJSX_NAME;
+        }
+            break;
+            
+        case POINT_REG_JOB_ROLES:
+        {
+            if([_historyModel.DISPATCH_TYPE integerValue] == 1 ||[_historyModel.DISPATCH_TYPE integerValue] == 4 ){
+                //按系数分配的情况
+                cell.detailTextLabel.text = _historyModel.ROLENAME;
+            }else if ([_historyModel.DISPATCH_TYPE integerValue] == 3){
+                cell.textLabel.text = [ZEUtil getPointRegInformation:row];
+                if ([_historyModel.TT_FLAG isEqualToString:@"未审核"]) {
+                    cell.detailTextLabel.text = @"次";
+                    float fieldLeft = 0;
+                    fieldLeft = SCREEN_WIDTH - 200.0f - 30.0f;
+                    if (IPHONE6P){
+                        fieldLeft = SCREEN_WIDTH - 200.0f - 35.0f;
+                    }
+                    
+                    _countField = [[UITextField alloc]initWithFrame:CGRectMake(fieldLeft, 2.0f, 200.0f, 44.0f)];
+                    _countField.textColor = cell.detailTextLabel.textColor;
+                    _countField.keyboardType = UIKeyboardTypeNumberPad;
+                    _countField.text = @"1";
+                    _countField.delegate = self;
+                    _countField.font = [UIFont systemFontOfSize:14];
+                    _countField.textAlignment = NSTextAlignmentRight;
+                    [cell.contentView addSubview:_countField];
+                }else{
+                    cell.detailTextLabel.text = [NSString stringWithFormat: @"%@次",_historyModel.TIMES];
+                }
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 
 #pragma mark - UITableViewDelegate
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     _currentSelectRow = indexPath.row;
-    
+//    if(_enterType == ENTER_POINTREG_TYPE_HISTORY){
+//        _currentSelectRow = indexPath.row - 1;
+//        indexPath = [NSIndexPath indexPathForRow:_currentSelectRow inSection:0];
+//    }
+
     if (_currentSelectRow != POINT_REG_JOB_ROLES) {
         if (![_countField isExclusiveTouch]) {
             [UIView animateWithDuration:0.29 animations:^{

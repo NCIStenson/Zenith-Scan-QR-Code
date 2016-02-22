@@ -25,7 +25,7 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     application.applicationSupportsShakeToEdit = YES;
-    NSLog(@"%@",Zenith_Server);
+
     ZEScanQRViewController * scanQRVC = [[ZEScanQRViewController alloc]init];
     scanQRVC.tabBarItem.image = [UIImage imageNamed:@"icon_home.png"];
     scanQRVC.title = @"首页";
@@ -34,6 +34,7 @@
     ZEPointRegistrationVC * pointVC = [[ZEPointRegistrationVC alloc]init];
     pointVC.tabBarItem.image = [UIImage imageNamed:@"icon_share_all.png"];
     pointVC.title = @"登记工分";
+    pointVC.enterType = ENTER_POINTREG_TYPE_DEFAULT;
     UINavigationController * pointNav = [[UINavigationController alloc]initWithRootViewController:pointVC];
     
     ZEHistoryViewController * historyVC = [[ZEHistoryViewController alloc]init];

@@ -12,7 +12,7 @@
 #import "ZEUserServer.h"
 
 #import "ZEHistoryDetailVC.h"
-
+#import "ZEPointRegistrationVC.h"
 @interface ZEHistoryViewController ()<ZEHistoryViewDelegate>
 {
     ZEHistoryView * _historyView;
@@ -72,7 +72,6 @@
     [ZEUserServer getHistoryDataByStartDate:startDate
                                     endDate:endDate
                                     success:^(id data) {
-                                        NSLog(@"%@",data);
                                         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                                         NSArray * dataArr = [data objectForKey:@"data"];
                                         if ([ZEUtil isNotNull:dataArr]) {
@@ -98,8 +97,6 @@
         [ZEUtil showAlertView:@"请至少选择一个日期" viewController:self];
         return;
     }
-    NSLog(@"   %d   ",[self compareDate:startDate withDate:endDate]);
-    
     if ([self compareDate:startDate withDate:endDate] == -1) {
         [ZEUtil showAlertView:@"开始日期不能晚于结束日期" viewController:self];
         [hisView showAlertView:YES];
@@ -134,7 +131,6 @@
         case NSOrderedDescending: ci=-1; break;
             //date02=date01
         case NSOrderedSame: ci=0; break;
-        default: NSLog(@"erorr dates %@, %@", dt2, dt1); break;
     }
     return ci;
 }
@@ -153,9 +149,16 @@
 
 -(void)enterDetailView:(ZEHistoryModel *)hisMod
 {
-    ZEHistoryDetailVC * detailVC = [[ZEHistoryDetailVC alloc]init];
-    detailVC.hisModel = hisMod;
-    [self presentViewController:detailVC animated:YES completion:nil];
+    if ([hisMod.TT_FLAG isEqualToString:@"未审核"]) {
+        ZEPointRegistrationVC * pointRegVC = [[ZEPointRegistrationVC alloc]init];
+        pointRegVC.enterType = ENTER_POINTREG_TYPE_HISTORY;
+        pointRegVC.hisModel = hisMod;
+        [self presentViewController:pointRegVC animated:YES completion:nil];
+    }else{
+        ZEHistoryDetailVC * detailVC = [[ZEHistoryDetailVC alloc]init];
+        detailVC.hisModel = hisMod;
+        [self presentViewController:detailVC animated:YES completion:nil];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
