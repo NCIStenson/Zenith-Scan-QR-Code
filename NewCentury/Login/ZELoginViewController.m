@@ -15,6 +15,7 @@
 #import "ZEScanQRViewController.h"
 #import "ZEPointRegistrationVC.h"
 #import "ZEHistoryViewController.h"
+#import "ZEPointAuditViewController.h"
 
 @interface ZELoginViewController ()<ZELoginViewDelegate>
 
@@ -120,6 +121,7 @@
     ZEPointRegistrationVC * pointVC = [[ZEPointRegistrationVC alloc]init];
     pointVC.tabBarItem.image = [UIImage imageNamed:@"icon_share_all.png"];
     pointVC.title = @"登记工分";
+    pointVC.enterType = ENTER_POINTREG_TYPE_DEFAULT;
     UINavigationController * pointNav = [[UINavigationController alloc]initWithRootViewController:pointVC];
     
     ZEHistoryViewController * historyVC = [[ZEHistoryViewController alloc]init];
@@ -127,9 +129,13 @@
     historyVC.title = @"历史记录";
     UINavigationController * historyNav = [[UINavigationController alloc]initWithRootViewController:historyVC];
     
+    ZEPointAuditViewController * pointAuditVC = [[ZEPointAuditViewController alloc]init];
+    pointAuditVC.tabBarItem.image = [UIImage imageNamed:@"icon_history.png"];
+    pointAuditVC.title = @"工分审核";
+    UINavigationController * pointAuditNav = [[UINavigationController alloc]initWithRootViewController:pointAuditVC];
     
     UITabBarController * tabBarVC = [[UITabBarController alloc]init];
-    tabBarVC.viewControllers = @[scanQRNav,pointNav,historyNav];
+    tabBarVC.viewControllers = @[scanQRNav,pointNav,historyNav,pointAuditNav];
     
     UIWindow * window = [UIApplication sharedApplication].keyWindow;
     window.rootViewController = tabBarVC;

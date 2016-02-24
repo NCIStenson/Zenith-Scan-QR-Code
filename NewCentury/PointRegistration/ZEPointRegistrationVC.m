@@ -71,27 +71,56 @@
 
 -(void)goSubmit:(ZEPointRegistrationView *)pointRegView withShowRoles:(BOOL)showRoles withShowCount:(BOOL)showCount
 {
-    NSDictionary * choosedDic = [[ZEPointRegCache instance] getUserChoosedOptionDic];
+    if (_enterType == ENTER_POINTREG_TYPE_HISTORY) {
+        [self resubmitPointReg:[[ZEPointRegCache instance] getResubmitCachesDic]];
+    }else{
+        NSDictionary * choosedDic = [[ZEPointRegCache instance] getUserChoosedOptionDic];
 
-    if(![ZEUtil isNotNull:[choosedDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TASK]]]){
-        [self showAlertView:[NSString stringWithFormat:@"请选择%@",[ZEUtil getPointRegInformation:POINT_REG_TASK]]];
-        return;
+        if(![ZEUtil isNotNull:[choosedDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TASK]]]){
+            [self showAlertView:[NSString stringWithFormat:@"请选择%@",[ZEUtil getPointRegInformation:POINT_REG_TASK]] goBack:NO];
+            return;
+        }
+
+        if(showRoles && ![ZEUtil isNotNull:[choosedDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]]){
+            [self showAlertView:[NSString stringWithFormat:@"请选择%@",[ZEUtil getPointRegInformation:POINT_REG_JOB_ROLES]] goBack:NO];
+            return;
+        }
+        [self submitMessageToServer:choosedDic withView:pointRegView];
+    }
+}
+-(void)resubmitPointReg:(NSDictionary *)dic
+{
+    if([[dic objectForKey:@"shareType"] integerValue] == 1 || [[dic objectForKey:@"shareType"] integerValue] == 4){
+        NSDictionary * roleDic = [dic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
+        if ([[roleDic objectForKey:@"TWR_NAME"] isEqualToString:@""]) {
+            [self showAlertView:@"请选择角色" goBack:NO];
+            return;
+        }
     }
     
-    if(showRoles && ![ZEUtil isNotNull:[choosedDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]]){
-        [self showAlertView:[NSString stringWithFormat:@"请选择%@",[ZEUtil getPointRegInformation:POINT_REG_JOB_ROLES]]];
-        return;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [ZEUserServer updateTask:dic success:^(id data) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        if ([ZEUtil isNotNull:data]) {
+            if ([[data objectForKey:@"data"] integerValue] == 1) {
+                    [[ZEPointRegCache instance] clearResubmitCaches];
+                    [self showAlertView:@"提交成功" goBack:YES];
+            }
+        }
     }
+                                   fail:^(NSError *errorCode) {
+                                       [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                                       
+                                   }];
 
-    [self submitMessageToServer:choosedDic withView:pointRegView];
-    
- }
+}
+
 -(void)submitMessageToServer:(NSDictionary *)dic withView:(ZEPointRegistrationView *)pointRegView
 {
     NSMutableDictionary * dataDic = [NSMutableDictionary dictionaryWithDictionary:dic];
 
     if(![ZEUtil isNotNull:[dataDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]]]){
-        [dataDic setValue:@"1" forKey:@"times"];
+        [dataDic setValue:@"1" forKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]];
     }
     
     [dataDic setValue:[ZESetLocalData getNumber] forKey:@"userid"];
@@ -106,29 +135,40 @@
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         if ([ZEUtil isNotNull:data]) {
             if ([[data objectForKey:@"data"] integerValue] == 1) {
-                [self showAlertView:@"提交成功"];
-                if (_enterType != ENTER_POINTREG_TYPE_SCAN){
+                if (_enterType == ENTER_POINTREG_TYPE_DEFAULT){
+                    [self showAlertView:@"提交成功" goBack:NO];
                     [[ZEPointRegCache instance] clear];
                     [pointRegView reloadContentView:ENTER_POINTREG_TYPE_DEFAULT];
+                }else{
+                    [self showAlertView:@"提交成功" goBack:YES];
                 }
             }else{
-                [self showAlertView:@"提交失败"];
+                [self showAlertView:@"提交失败" goBack:NO];
             }
         }
     }
                                    fail:^(NSError *errorCode) {
-                                       [self showAlertView:@"提交失败"];
+                                       [self showAlertView:@"提交失败" goBack:NO];
                                        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                                        
                                    }];
     
 }
--(void)showAlertView:(NSString *)str
+/**
+ *  @author Zenith Electronic, 16-02-23 10:02:45
+ *
+ *  弹出提示框，如果是登记扫描完成就返回上层界面，
+ *
+ *
+ *  @param str      弹出框文本信息
+ *  @param isGoBack 是否返回上级界面
+ */
+-(void)showAlertView:(NSString *)str goBack:(BOOL)isGoBack
 {
     if (IS_IOS8) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:str message:nil preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            if (_enterType == ENTER_POINTREG_TYPE_SCAN) {
+            if (isGoBack) {
                 [self goBack];
             }
         }];

@@ -9,7 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @protocol ZEPointRegOptionViewDelegate <NSObject>
-
+/**
+ *  @author Zenith Electronic, 16-02-23 14:02:21
+ *
+ *  自定义弹出框提示
+ *
+ *  @param object 选择的数据
+ *  @param row    选择弹出框第几行
+ */
 -(void)didSelectOption:(NSDictionary *)object withRow:(NSInteger)row;
 
 @end;

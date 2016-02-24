@@ -42,6 +42,21 @@
 - (NSDictionary * )getUserChoosedOptionDic;
 
 /**
+ *  @author Zenith Electronic, 16-02-23 14:02:17
+ *
+ *  存储用户重新提交审核数据的历史数据信息
+ *
+ *  @param dic 历史数据信息
+ */
+-(void)setResubmitCaches:(NSDictionary *)dic;
+-(void)changeResubmitCache:(NSDictionary *)dic;
+- (NSDictionary * )getResubmitCachesDic;
+/**
+ *  清空审核修改数据
+ */
+-(void)clearResubmitCaches;
+
+/**
  *  清除输入次数缓存
  */
 -(void)clearCount;

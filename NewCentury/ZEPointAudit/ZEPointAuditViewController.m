@@ -72,6 +72,9 @@
             if (dataArr.count%20 == 0) {
                 _currentPage += 1;
             }
+        }else{
+            [_pointAuditView loadNoMoreData];
+            [_pointAuditView headerEndRefreshing];
         }
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     } fail:^(NSError *errorCode) {

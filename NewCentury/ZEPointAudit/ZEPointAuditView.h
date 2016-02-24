@@ -49,6 +49,7 @@
  *  停止刷新
  */
 -(void)headerEndRefreshing;
+-(void)loadNoMoreData;
 
 /**
  *  审核成功，刷新界面

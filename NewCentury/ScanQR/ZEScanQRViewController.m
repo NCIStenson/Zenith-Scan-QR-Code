@@ -11,7 +11,10 @@
 #import "ZBarSDK.h"
 #import "CreateView.h"
 #import "ZEPointRegistrationVC.h"
-@interface ZEScanQRViewController ()<ZBarReaderDelegate>
+
+#import "ZELoginViewController.h"
+
+@interface ZEScanQRViewController ()<ZBarReaderDelegate,ZbarOverlayViewDelegate>
 
 @end
 
@@ -58,15 +61,20 @@
     const float h = [UIScreen mainScreen].bounds.size.height;
     const float w = [UIScreen mainScreen].bounds.size.width;
     const float h_padding = w * 0.2;
-    const float v_padding = h / 6.0;
+    const float v_padding = h / 3.0;
     CGRect reader_rect = CGRectMake(h_padding, v_padding,
                                     w * 0.6, h / 3.0);//视图中的一小块,实际使用中最好传居中的区域
+    if (IPHONE4S_LESS) {
+        reader_rect = CGRectMake(h_padding, h / 4.0f,
+                                 w * 0.6, w * 0.6);
+    }
     CGRect reader_rect1 = CGRectMake(0, 0, w, h);//全屏模式
     reader.view.frame = reader_rect1;
 //    reader.backgroundColor = [UIColor redColor];
     
     ZbarOverlayView * _overLayView = [[ZbarOverlayView alloc]initWithFrame:reader.view.frame];//添加覆盖视图
     _overLayView.transparentArea = reader_rect;//设置中间可选框大小
+    _overLayView.delegate = self;
     [reader.view addSubview:_overLayView];
     reader.scanCrop = [self getScanCrop:reader_rect readerViewBounds:reader_rect1];
 }
@@ -115,6 +123,13 @@
         pointRegVC.enterType = ENTER_POINTREG_TYPE_SCAN;
         [self presentViewController:pointRegVC animated:YES completion:nil];
     }
+}
+#pragma mark - ZbarOverlayViewDelegate
+
+-(void)logout{
+    UIWindow * window = [UIApplication sharedApplication].keyWindow;
+    ZELoginViewController * loginVC = [[ZELoginViewController alloc]init];
+    window.rootViewController = loginVC;
 }
 
 - (void)didReceiveMemoryWarning {

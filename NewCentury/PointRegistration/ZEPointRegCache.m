@@ -16,7 +16,8 @@
     NSArray * _workRulesCachesArr;     //  工作角色
     NSMutableDictionary * _optionDic; // 用户选择信息缓存
 }
-@property(nonatomic,retain) NSDictionary * optionDic;
+@property(nonatomic,retain) NSMutableDictionary * optionDic;
+@property(nonatomic,retain) NSMutableDictionary * resubmitDataDic;
 @property (nonatomic,retain) NSArray * taskCachesArr;
 @property (nonatomic,retain) NSArray * diffCoeCachesArr;
 @property (nonatomic,retain) NSArray * timesCoeCachesArr;
@@ -112,6 +113,34 @@ static ZEPointRegCache * pointRegCahe = nil;
 - (NSDictionary * )getUserChoosedOptionDic
 {
     return _optionDic;
+}
+/**
+ *  @author Zenith Electronic, 16-02-23 14:02:17
+ *
+ *  存储用户重新提交审核数据的历史数据信息
+ *
+ *  @param dic 历史数据信息
+ */
+-(void)setResubmitCaches:(NSDictionary *)dic
+{
+    self.resubmitDataDic = [NSMutableDictionary dictionaryWithDictionary:dic];
+}
+-(void)changeResubmitCache:(NSDictionary *)dic
+{
+    self.resubmitDataDic = [NSMutableDictionary dictionaryWithDictionary:[self getResubmitCachesDic]];
+    [self.resubmitDataDic setValue:dic.allValues[0] forKey:dic.allKeys[0]];
+}
+- (NSDictionary * )getResubmitCachesDic
+{
+    return self.resubmitDataDic;
+}
+/**
+ *  清空审核修改数据
+ */
+-(void)clearResubmitCaches
+{
+    [self.resubmitDataDic removeAllObjects];
+    self.resubmitDataDic = nil;
 }
 
 /**

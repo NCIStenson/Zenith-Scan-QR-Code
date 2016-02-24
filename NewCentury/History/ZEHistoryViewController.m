@@ -13,6 +13,9 @@
 
 #import "ZEHistoryDetailVC.h"
 #import "ZEPointRegistrationVC.h"
+
+#import "ZEPointRegCache.h"
+
 @interface ZEHistoryViewController ()<ZEHistoryViewDelegate>
 {
     ZEHistoryView * _historyView;
@@ -57,6 +60,9 @@
                                          if (dataArr.count%20 == 0) {
                                              _currentPage += 1;
                                          }
+                                     }else{
+                                         [_historyView headerEndRefreshing];
+                                         [_historyView loadNoMoreData];
                                      }
                                      [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }
@@ -150,9 +156,24 @@
 -(void)enterDetailView:(ZEHistoryModel *)hisMod
 {
     if ([hisMod.TT_FLAG isEqualToString:@"未审核"]) {
+        
+        NSMutableDictionary * historyDic = [NSMutableDictionary dictionary];
+        
+        [historyDic setObject:hisMod.TT_ENDDATE forKey:[ZEUtil getPointRegField:POINT_REG_TIME]];
+        [historyDic setObject:hisMod.NDXS forKey:@"ndxs"];
+        [historyDic setObject:hisMod.TT_HOUR forKey:@"hour"];
+        [historyDic setObject:hisMod.TT_TASK forKey:@"woekername"];
+        [historyDic setObject:[ZESetLocalData getUsername] forKey:@"username"];
+        [historyDic setObject:hisMod.seqkey forKey:@"sqlkey"];
+        [historyDic setObject:hisMod.DISPATCH_TYPE forKey:@"shareType"];
+        [historyDic setObject:hisMod.SJXS forKey:@"sjxs"];
+        [historyDic setObject:hisMod.TIMES forKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]];
+        [historyDic setObject:@{@"SEQKEY":hisMod.seqkey,@"TWR_QUOTIETY":hisMod.TTP_QUOTIETY,@"TWR_NAME":hisMod.ROLENAME} forKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
+        [[ZEPointRegCache instance] setResubmitCaches:historyDic];
+
         ZEPointRegistrationVC * pointRegVC = [[ZEPointRegistrationVC alloc]init];
-        pointRegVC.enterType = ENTER_POINTREG_TYPE_HISTORY;
-        pointRegVC.hisModel = hisMod;
+        pointRegVC.enterType               = ENTER_POINTREG_TYPE_HISTORY;
+        pointRegVC.hisModel                = hisMod;
         [self presentViewController:pointRegVC animated:YES completion:nil];
     }else{
         ZEHistoryDetailVC * detailVC = [[ZEHistoryDetailVC alloc]init];

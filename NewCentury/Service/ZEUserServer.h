@@ -101,5 +101,17 @@
 + (void)queryTeamTaskByDate:(NSString *)dateStr
                     success:(ServerResponseSuccessBlock)successBlock
                        fail:(ServerResponseFailBlock)failBlock;
+/**
+ *  @author Zenith Electronic, 16-02-23 14:02:45
+ *
+ *  重新提交审核任务
+ *
+ *  @param resubmitDic  修改后的审核数据
+ *  @param successBlock 提交成功处理
+ *  @param failBlock    失败处理
+ */
++ (void)updateTask:(NSDictionary *)resubmitDic
+           success:(ServerResponseSuccessBlock)successBlock
+              fail:(ServerResponseFailBlock)failBlock;
 
 @end

@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class ZbarOverlayView;
+
+@protocol ZbarOverlayViewDelegate <NSObject>
+
+-(void)logout;
+
+@end
+
 @interface ZbarOverlayView : UIView{
 
 }
@@ -15,6 +23,7 @@
  *  透明扫描框的区域
  */
 @property (nonatomic, assign) CGRect transparentArea;
+@property (nonatomic, assign) id <ZbarOverlayViewDelegate> delegate;
 -(void)startAnimation;
 -(void)stopAnimation;
 @end

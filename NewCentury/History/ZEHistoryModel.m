@@ -15,17 +15,21 @@ static ZEHistoryModel * historyModel = nil;
 {
     historyModel = [[ZEHistoryModel alloc]init];
     
-    historyModel.TT_ENDDATE     = [dic objectForKey:@"TT_ENDDATE"];
-    historyModel.TT_FLAG        = [dic objectForKey:@"TT_FLAG"];
-    historyModel.TT_TASK        = [dic objectForKey:@"TT_TASK"];
-    historyModel.TT_HOUR        = [dic objectForKey:@"TT_HOUR"];
-    historyModel.NDSX_NAME      = [dic objectForKey:@"NDSX_NAME"];
-    historyModel.REAL_HOUR      = [dic objectForKey:@"REAL_HOUR"];
-    historyModel.SJSX_NAME      = [dic objectForKey:@"SJSX_NAME"];
-    historyModel.DISPATCH_TYPE  = [dic objectForKey:@"DISPATCH_TYPE"];
-    historyModel.integration    = [dic objectForKey:@"integration"];
-    historyModel.ROLENAME       = [historyModel.integration objectForKey:@"ROLENAME"];
-    historyModel.TIMES          = [historyModel.integration objectForKey:@"TIMES"];
+    historyModel.TT_ENDDATE    = [dic objectForKey:@"TT_ENDDATE"];
+    historyModel.TT_FLAG       = [dic objectForKey:@"TT_FLAG"];
+    historyModel.TT_TASK       = [dic objectForKey:@"TT_TASK"];
+    historyModel.TT_HOUR       = [dic objectForKey:@"TT_HOUR"];
+    historyModel.NDSX_NAME     = [dic objectForKey:@"NDSX_NAME"];
+    historyModel.REAL_HOUR     = [dic objectForKey:@"REAL_HOUR"];
+    historyModel.SJSX_NAME     = [dic objectForKey:@"SJSX_NAME"];
+    historyModel.SJXS          = [dic objectForKey:@"SJXS"];
+    historyModel.NDXS          = [dic objectForKey:@"NDXS"];
+    historyModel.DISPATCH_TYPE = [dic objectForKey:@"DISPATCH_TYPE"];
+    historyModel.seqkey        = [dic objectForKey:@"seqkey"];
+    historyModel.integration   = [dic objectForKey:@"integration"];
+    historyModel.ROLENAME      = [historyModel.integration objectForKey:@"ROLENAME"];
+    historyModel.TTP_QUOTIETY  = [historyModel.integration objectForKey:@"TTP_QUOTIETY"];
+    historyModel.TIMES         = [historyModel.integration objectForKey:@"TIMES"];
     return historyModel;
 }
 

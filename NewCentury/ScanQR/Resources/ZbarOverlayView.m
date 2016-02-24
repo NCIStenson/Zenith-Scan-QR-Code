@@ -6,6 +6,35 @@
 //  Copyright (c) 2015年 limi. All rights reserved.
 //
 
+// 导航栏
+#define kNavBarWidth SCREEN_WIDTH
+#define kNavBarHeight 64.0f
+#define kNavBarMarginLeft 0.0f
+#define kNavBarMarginTop 0.0f
+
+// 返回按钮位置
+#define kCloseBtnWidth  60.0f
+#define kCloseBtnHeight 60.0f
+#define kCloseBtnMarginLeft 10.0f
+#define kCloseBtnMarginTop 12.0f
+
+// 导航栏内右侧按钮
+#define kRightButtonWidth 76.0f
+#define kRightButtonHeight 40.0f
+#define kRightButtonMarginRight -10.0f
+#define kRightButtonMarginTop 20.0f + 2.0f
+// 导航栏标题
+#define kNavTitleLabelWidth SCREEN_WIDTH
+#define kNavTitleLabelHeight 44.0f
+#define kNavTitleLabelMarginLeft 0.0f
+#define kNavTitleLabelMarginTop 20.0f
+
+#define kContentViewMarginTop   64.0f
+#define kContentViewMarginLeft  0.0f
+#define kContentViewWidth       SCREEN_WIDTH
+#define kContentViewHeight      (SCREEN_HEIGHT - kNavBarHeight - 44.0f)
+
+
 #import "ZbarOverlayView.h"
 
 static NSTimeInterval kLineAnimateDuration = 0.02;
@@ -23,11 +52,59 @@ static NSTimeInterval kLineAnimateDuration = 0.02;
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
+        [self initNavBar];
 
     }
     return self;
 }
-- (void)layoutSubviews {//call when frame change and addSubview 
+
+- (void)initNavBar
+{
+    UIView *navBar = [[UIView alloc] initWithFrame:CGRectMake(kNavBarMarginLeft, kNavBarMarginTop, kNavBarWidth, kNavBarHeight)];
+    [self addSubview:navBar];
+    
+    [navBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.offset(kNavBarMarginLeft);
+        make.top.offset(kNavBarMarginTop);
+        make.size.mas_equalTo(CGSizeMake(kNavBarWidth, kNavBarHeight));
+    }];
+    navBar.backgroundColor = MAIN_COLOR;
+    navBar.clipsToBounds = YES;
+    
+    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [rightBtn setTitle:@"切换账号" forState:UIControlStateNormal];
+    rightBtn.backgroundColor = [UIColor clearColor];
+    rightBtn.contentMode = UIViewContentModeScaleAspectFit;
+    [rightBtn addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
+    [navBar addSubview:rightBtn];
+    [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.offset(kRightButtonMarginRight);
+        make.top.offset(kRightButtonMarginTop);
+        make.size.mas_equalTo(CGSizeMake(kRightButtonWidth, kRightButtonHeight));
+    }];
+    
+    UILabel *navTitleLabel = [UILabel new];
+    navTitleLabel.backgroundColor = [UIColor clearColor];
+    navTitleLabel.textAlignment = NSTextAlignmentCenter;
+    navTitleLabel.textColor = [UIColor whiteColor];
+    navTitleLabel.font = [UIFont systemFontOfSize:24.0f];
+    navTitleLabel.text = @"二维码登记";
+    [navBar addSubview:navTitleLabel];
+    [navTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.rightMargin.offset(kNavTitleLabelMarginLeft);
+        make.top.offset(kNavTitleLabelMarginTop);
+        make.size.mas_equalTo(CGSizeMake(kNavTitleLabelWidth, kNavTitleLabelHeight));
+    }];
+}
+
+-(void)logout
+{
+    if ([self.delegate respondsToSelector:@selector(logout)]) {
+        [self.delegate logout];
+    }
+}
+
+- (void)layoutSubviews {//call when frame change and addSubview
     
     [super layoutSubviews];
     if (!_imgLine) {
