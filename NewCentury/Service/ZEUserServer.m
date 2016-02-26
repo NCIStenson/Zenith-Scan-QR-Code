@@ -164,12 +164,13 @@
 
 + (void)getHistoryDataByStartDate:(NSString *)startDate
                           endDate:(NSString *)endDate
+                             page:(NSString *)pageNum
                           success:(ServerResponseSuccessBlock)successBlock
                              fail:(ServerResponseFailBlock)failBlock
 
-{
+{    
     [[ZEServerEngine sharedInstance]requestWithParams:@{@"type":kGetHistoryByDate,
-                                                        @"data":[NSString stringWithFormat:@"%@#%@#%@",[ZESetLocalData getNumber],startDate,endDate]}
+                                                        @"data":[NSString stringWithFormat:@"%@#%@#%@#%@",[ZESetLocalData getNumber],pageNum,startDate,endDate]}
                                            httpMethod:HTTPMETHOD_POST
                                               success:^(id data) {
                                                   successBlock(data);

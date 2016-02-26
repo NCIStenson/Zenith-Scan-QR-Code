@@ -78,9 +78,9 @@
 
 + (void)getHistoryDataByStartDate:(NSString *)startDate
                           endDate:(NSString *)endDate
+                             page:(NSString *)pageNum
                           success:(ServerResponseSuccessBlock)successBlock
                              fail:(ServerResponseFailBlock)failBlock;
-
 #pragma mark - 工分审核
 /**
  *  获取工分审核列表

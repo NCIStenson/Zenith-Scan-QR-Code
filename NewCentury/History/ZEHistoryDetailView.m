@@ -84,20 +84,6 @@
         make.size.mas_equalTo(CGSizeMake(kNavTitleLabelWidth, kNavTitleLabelHeight));
     }];
     
-    if ([_historyModel.TT_FLAG isEqualToString:@"未审核"]) {
-        UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [rightBtn setTitle:@"重新提交" forState:UIControlStateNormal];
-        rightBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-        rightBtn.backgroundColor = [UIColor clearColor];
-        rightBtn.contentMode = UIViewContentModeScaleAspectFit;
-        [rightBtn addTarget:self action:@selector(goResubmit) forControlEvents:UIControlEventTouchUpInside];
-        [navBar addSubview:rightBtn];
-        [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.offset(kRightButtonMarginRight);
-            make.top.offset(kRightButtonMarginTop);
-            make.size.mas_equalTo(CGSizeMake(kRightButtonWidth, kRightButtonHeight));
-        }];
-    }
     
     UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     closeBtn.frame = CGRectMake(kCloseBtnMarginLeft, kCloseBtnMarginTop, kCloseBtnWidth, kCloseBtnHeight);
@@ -291,20 +277,6 @@
 
     if ([self.delegate respondsToSelector:@selector(goBack)]) {
         [self.delegate goBack];
-    }
-}
-
--(void)goResubmit
-{
-    if (![_countField isExclusiveTouch]) {
-        [UIView animateWithDuration:0.29 animations:^{
-            self.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        }];
-        [_countField resignFirstResponder];
-    }
-
-    if ([self.delegate respondsToSelector:@selector(goResubmit)]) {
-        [self.delegate goResubmit];
     }
 }
 

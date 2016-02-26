@@ -48,10 +48,6 @@
  */
 -(void)reloadView:(NSArray *)array;
 /**
- *  刷新搜索结果页面
- */
--(void)reloadSearchView:(NSArray *)array;
-/**
  *    没有更多数据了
  */
 

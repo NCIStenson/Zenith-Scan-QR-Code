@@ -16,10 +16,6 @@
  */
 -(void)goBack;
 
-/**
- *  重新提交
- */
--(void)goResubmit;
 
 @end
 

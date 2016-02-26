@@ -29,6 +29,12 @@
     
     [self initView];
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+}
+
 -(void)initView
 {
     ZELoginView * loginView = [[ZELoginView alloc]initWithFrame:self.view.frame];

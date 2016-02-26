@@ -127,6 +127,9 @@
 #pragma mark - ZbarOverlayViewDelegate
 
 -(void)logout{
+    
+    [ZESetLocalData deleteLoaclUserData];
+    
     UIWindow * window = [UIApplication sharedApplication].keyWindow;
     ZELoginViewController * loginVC = [[ZELoginViewController alloc]init];
     window.rootViewController = loginVC;

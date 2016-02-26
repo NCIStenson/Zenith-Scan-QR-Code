@@ -175,60 +175,12 @@
             }else{
                 [_dateArr addObject:hisModel.TT_ENDDATE];
                 [detailArr addObject:hisModel];
-            }
-        }
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_contentTableView.mj_header endRefreshing];
-            if (array.count % 20 != 0) {
-                [_contentTableView.mj_footer endRefreshingWithNoMoreData];
-            }else{
-                [_contentTableView.mj_footer endRefreshing];
-            }
-            [_contentTableView reloadData];
-        });
-    });
-}
-
--(void)reloadSearchView:(NSArray *)array
-{
-    dispatch_queue_t queue = dispatch_queue_create("my.concurrent.queue", DISPATCH_QUEUE_CONCURRENT);
-    
-    dispatch_async(queue, ^{
-        self.dateArr = [NSMutableArray array];
-        self.listDataArr = [NSMutableArray array];
-        NSMutableArray * detailArr = [NSMutableArray array];
-        if (_dateArr.count > 0) {
-            detailArr = [NSMutableArray arrayWithArray:[self.listDataArr lastObject]];
-            [self.listDataArr removeLastObject];
-        }
-        for (int i = 0; i < array.count ; i ++ ) {
-            NSDictionary * dic = array[i];
-            ZEHistoryModel * hisModel = [ZEHistoryModel getDetailWithDic:dic];
-            
-            if (_dateArr.count > 0) {
-                if([hisModel.TT_ENDDATE isEqualToString:[_dateArr lastObject]]){
-                    [detailArr addObject:hisModel];
-                    
-                    if (i == array.count - 1) {
-                        [self.listDataArr addObject:detailArr];
-                    }
-                }else{
-                    [_dateArr addObject:hisModel.TT_ENDDATE];
+                if (i == array.count - 1) {
                     [self.listDataArr addObject:detailArr];
-                    detailArr = [NSMutableArray array];
-                    [detailArr addObject:hisModel];
-                    if (i == array.count - 1) {
-                        [self.listDataArr addObject:detailArr];
-                    }
-                    
                 }
-            }else{
-                [_dateArr addObject:hisModel.TT_ENDDATE];
-                [detailArr addObject:hisModel];
             }
         }
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
             [_contentTableView.mj_header endRefreshing];
             if (array.count % 20 != 0) {
@@ -240,6 +192,7 @@
         });
     });
 }
+
 
 /**
  *  隐藏弹出框

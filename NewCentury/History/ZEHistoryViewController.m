@@ -20,6 +20,9 @@
 {
     ZEHistoryView * _historyView;
     NSInteger _currentPage;
+    BOOL _isSearch;
+    NSString * _startDate;
+    NSString * _endDate;
 }
 @end
 
@@ -48,7 +51,10 @@
 -(void)sendRequest
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [ZEUserServer getHistoryDataWithPage:[NSString stringWithFormat:@"%ld",(long)_currentPage]
+    NSString * str = @"null";
+    [ZEUserServer getHistoryDataByStartDate:str
+                                    endDate:str
+                                       page:[NSString stringWithFormat:@"%ld",(long)_currentPage]
                                  success:^(id data) {
                                      NSArray * dataArr = [data objectForKey:@"data"];
                                      if ([ZEUtil isNotNull:dataArr]) {
@@ -72,20 +78,31 @@
     }];
 }
 
--(void)searchHistoryStartDate:(NSString *)startDate withEndDate:(NSString *)endDate{
+-(void)searchHistoryStartDate:(NSString *)startDate withEndDate:(NSString *)endDate
+{
     [_historyView showAlertView:YES];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getHistoryDataByStartDate:startDate
                                     endDate:endDate
+                                       page:[NSString stringWithFormat:@"%ld",(long)_currentPage]
                                     success:^(id data) {
                                         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                                         NSArray * dataArr = [data objectForKey:@"data"];
+
                                         if ([ZEUtil isNotNull:dataArr]) {
-                                            if(dataArr.count > 0){
-                                                [_historyView reloadSearchView:dataArr];
-                                            }else{
+                                            if(dataArr.count == 0){
                                                 [ZEUtil showAlertView:@"未查询到历史数据" viewController:self];
+                                                return;
                                             }
+                                            if (_currentPage == 0) {
+                                                [_historyView reloadFirstView:dataArr];
+                                            }else{
+                                                [_historyView reloadView:dataArr];
+                                            }
+                                            if (dataArr.count%20 == 0) {
+                                                _currentPage += 1;
+                                            }
+                                            
                                         }
     }
                                        fail:^(NSError *errorCode) {
@@ -108,15 +125,18 @@
         [hisView showAlertView:YES];
         return;
     }
-
-    if ([startDate isEqualToString:@"开始日期"]) {
-        [self searchHistoryStartDate:@"" withEndDate:endDate];
-    }else if ([endDate isEqualToString:@"结束日期"]){
-        [self searchHistoryStartDate:startDate withEndDate:@""];
-    }else{
-        [self searchHistoryStartDate:startDate withEndDate:endDate];
-    }
+    _currentPage = 0;
+    _isSearch    = YES;
+    _startDate   = startDate;
+    _endDate     = endDate;
     
+    if ([startDate isEqualToString:@"开始日期"]) {
+        _startDate = @"null";
+    }else if ([endDate isEqualToString:@"结束日期"]){
+        _endDate = @"null";
+    }
+    [self searchHistoryStartDate:_startDate withEndDate:_endDate];
+
 }
 
 -(int)compareDate:(NSString*)date01 withDate:(NSString*)date02{
@@ -144,13 +164,18 @@
 
 -(void)loadNewData:(ZEHistoryView *)hisView
 {
+    _isSearch = NO;
     _currentPage = 0;
     [self sendRequest];
 }
 
 -(void)loadMoreData:(ZEHistoryView *)hisView
 {
-    [self sendRequest];
+    if (_isSearch) {
+        [self searchHistoryStartDate:_startDate withEndDate:_endDate];
+    }else{
+        [self sendRequest];
+    }
 }
 
 -(void)enterDetailView:(ZEHistoryModel *)hisMod

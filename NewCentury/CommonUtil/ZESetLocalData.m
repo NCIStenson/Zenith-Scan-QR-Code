@@ -57,6 +57,12 @@ static NSString * kUserInformation = @"keyUserInformation";
 {
     return [self Get:kUserInformation];
 }
+
++(void)deleteLoaclUserData
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUserInformation];
+}
+
 +(NSString *)getNumber
 {
     NSDictionary * dic = [self getUserData];

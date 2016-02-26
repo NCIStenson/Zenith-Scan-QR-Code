@@ -12,6 +12,7 @@
 
 +(void)setLocalUserData:(NSDictionary *)dic;
 +(NSDictionary *)getUserData;
++(void)deleteLoaclUserData;
 /**
  *  工号
  */
