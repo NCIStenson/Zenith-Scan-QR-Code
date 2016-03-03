@@ -56,26 +56,30 @@
                                     endDate:str
                                        page:[NSString stringWithFormat:@"%ld",(long)_currentPage]
                                  success:^(id data) {
-                                     NSArray * dataArr = [data objectForKey:@"data"];
-                                     if ([ZEUtil isNotNull:dataArr]) {
-                                         if (_currentPage == 0) {
-                                             [_historyView reloadFirstView:dataArr];
+                                     if ([ZEUtil isNotNull:data]) {
+                                         NSArray * dataArr = [data objectForKey:@"data"];
+                                         if ([ZEUtil isNotNull:dataArr]) {
+                                             if (_currentPage == 0) {
+                                                 [_historyView reloadFirstView:dataArr];
+                                             }else{
+                                                 [_historyView reloadView:dataArr];
+                                             }
+                                             if (dataArr.count%20 == 0) {
+                                         _currentPage      += 1;
+                                             }
                                          }else{
-                                             [_historyView reloadView:dataArr];
+                                             [_historyView headerEndRefreshing];
+                                             [_historyView loadNoMoreData];
                                          }
-                                         if (dataArr.count%20 == 0) {
-                                             _currentPage += 1;
-                                         }
-                                     }else{
-                                         [_historyView headerEndRefreshing];
-                                         [_historyView loadNoMoreData];
                                      }
                                      [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    }
+
+                                 }
                                     fail:^(NSError *errorCode) {
                                         [_historyView headerEndRefreshing];
                                         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    }];
+
+                                    }];
 }
 
 -(void)searchHistoryStartDate:(NSString *)startDate withEndDate:(NSString *)endDate
@@ -87,22 +91,22 @@
                                        page:[NSString stringWithFormat:@"%ld",(long)_currentPage]
                                     success:^(id data) {
                                         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                                        NSArray * dataArr = [data objectForKey:@"data"];
-
-                                        if ([ZEUtil isNotNull:dataArr]) {
-                                            if(dataArr.count == 0){
-                                                [ZEUtil showAlertView:@"未查询到历史数据" viewController:self];
-                                                return;
+                                        if ([ZEUtil isNotNull:data]) {
+                                            NSArray * dataArr = [data objectForKey:@"data"];                                            
+                                            if ([ZEUtil isNotNull:dataArr]) {
+                                                if(dataArr.count == 0){
+                                                    [ZEUtil showAlertView:@"未查询到历史数据" viewController:self];
+                                                    return;
+                                                }
+                                                if (_currentPage == 0) {
+                                                    [_historyView reloadFirstView:dataArr];
+                                                }else{
+                                                    [_historyView reloadView:dataArr];
+                                                }
+                                                if (dataArr.count%20 == 0) {
+                                                    _currentPage += 1;
+                                                }
                                             }
-                                            if (_currentPage == 0) {
-                                                [_historyView reloadFirstView:dataArr];
-                                            }else{
-                                                [_historyView reloadView:dataArr];
-                                            }
-                                            if (dataArr.count%20 == 0) {
-                                                _currentPage += 1;
-                                            }
-                                            
                                         }
     }
                                        fail:^(NSError *errorCode) {
@@ -143,8 +147,8 @@
     int ci;
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSDate *dt1 = [[NSDate alloc] init];
-    NSDate *dt2 = [[NSDate alloc] init];
+    NSDate *dt1 = nil;
+    NSDate *dt2 = nil;
     dt1 = [df dateFromString:[NSString stringWithFormat:@"%@ 00:00:00",date01]];
     dt2 = [df dateFromString:[NSString stringWithFormat:@"%@ 00:00:00",date02]];
 
@@ -192,8 +196,17 @@
         [historyDic setObject:hisMod.seqkey forKey:@"sqlkey"];
         [historyDic setObject:hisMod.DISPATCH_TYPE forKey:@"shareType"];
         [historyDic setObject:hisMod.SJXS forKey:@"sjxs"];
-        [historyDic setObject:hisMod.TIMES forKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]];
-        [historyDic setObject:@{@"SEQKEY":hisMod.seqkey,@"TWR_QUOTIETY":hisMod.TTP_QUOTIETY,@"TWR_NAME":hisMod.ROLENAME} forKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
+        NSLog(@"<<   %@",hisMod.TIMES);
+        if ([ZEUtil isNotNull:hisMod.TIMES]) {
+            [historyDic setObject:hisMod.TIMES forKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]];
+        }else{
+            [historyDic setObject:@"1" forKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]];
+        }
+        if ([ZEUtil isNotNull:hisMod.ROLENAME] && [ZEUtil isNotNull:hisMod.TTP_QUOTIETY]) {
+            [historyDic setObject:@{@"SEQKEY":hisMod.seqkey,@"TWR_QUOTIETY":hisMod.TTP_QUOTIETY,@"TWR_NAME":hisMod.ROLENAME} forKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
+        }else{
+            [historyDic setObject:@{@"SEQKEY":hisMod.seqkey,@"TWR_QUOTIETY":@"",@"TWR_NAME":@""} forKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
+        }
         [[ZEPointRegCache instance] setResubmitCaches:historyDic];
 
         ZEPointRegistrationVC * pointRegVC = [[ZEPointRegistrationVC alloc]init];

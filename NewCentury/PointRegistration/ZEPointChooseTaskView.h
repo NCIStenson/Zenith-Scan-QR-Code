@@ -15,7 +15,6 @@
  */
 
 -(void)didSeclectTask:(ZEPointChooseTaskView *)taskView withData:(NSDictionary *)dic;
-
 @end
 
 @interface ZEPointChooseTaskView : UIView

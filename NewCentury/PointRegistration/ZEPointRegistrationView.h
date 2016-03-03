@@ -27,6 +27,7 @@
  *  返回扫描界面
  */
 -(void)goBack;
+
 @end
 
 @interface ZEPointRegistrationView : UIView

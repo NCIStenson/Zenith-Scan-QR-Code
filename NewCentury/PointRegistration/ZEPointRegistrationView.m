@@ -349,10 +349,10 @@
 -(void)setScanCodeListDetailText:(NSInteger)row cell:(UITableViewCell *)cell
 {
     NSDictionary * choosedOptionDic = [[ZEPointRegCache instance] getUserChoosedOptionDic];
-    ZEPointRegModel * model = nil;
-    if ([ZEUtil isNotNull:choosedOptionDic]) {
-         model = [ZEPointRegModel getDetailWithDic:choosedOptionDic];
-    }
+//    ZEPointRegModel * model = nil;
+//    if ([ZEUtil isNotNull:choosedOptionDic]) {
+//         model = [ZEPointRegModel getDetailWithDic:choosedOptionDic];
+//    }
 
     cell.detailTextLabel.text = @"请选择";
     switch (row) {
@@ -587,6 +587,7 @@
         [self.delegate goSubmit:self withShowRoles:_showJobRules withShowCount:_showJobCount];
     }
 }
+#pragma mark - ZEPointRegOptionViewDelegate
 
 -(void)didSelectOption:(NSDictionary *)object withRow:(NSInteger)row
 {
@@ -647,6 +648,14 @@
     [_alertView dismissWithCompletion:nil];
   
 }
+
+-(void)hiddeAlertView{
+    [_alertView dismissWithCompletion:^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:kShowAllTaskList object:nil];
+    }];
+}
+
+
 /**
  *  @author Zenith Electronic, 16-02-23 14:02:56
  *

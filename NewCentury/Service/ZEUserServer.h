@@ -10,6 +10,17 @@
 #import "ZEServerEngine.h"
 
 @interface ZEUserServer : NSObject
+
+/**
+ *  获取版本是否更新接口
+ */
+
++ (void)getVersionUpdateSuccess:(ServerResponseSuccessBlock)successBlock
+                           fail:(ServerResponseFailBlock)failBlock;
+
+
+
+
 /**
  *  登录接口
  */
@@ -21,11 +32,17 @@
 #pragma mark - 工分登记
 
 /**
- *   获取登记页面工作任务列表
+ *   获取常用登记页面工作任务列表
  */
 
 + (void)getTaskDataSuccess:(ServerResponseSuccessBlock)successBlock
                       fail:(ServerResponseFailBlock)failBlock;
+/**
+ *   获取全部页面工作任务列表
+ */
+
++ (void)getAllTaskDataSuccess:(ServerResponseSuccessBlock)successBlock
+                         fail:(ServerResponseFailBlock)failBlock;
 
 /**
  *   获取难度系数列表

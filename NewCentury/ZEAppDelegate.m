@@ -14,7 +14,10 @@
 #import "ZEHistoryViewController.h"
 #import "ZEPointRegistrationVC.h"
 #import "ZEPointAuditViewController.h"
-@interface ZEAppDelegate ()
+
+#import "ZEUserServer.h"
+
+@interface ZEAppDelegate ()<UIAlertViewDelegate>
 
 @end
 
@@ -26,6 +29,9 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     application.applicationSupportsShakeToEdit = YES;
 
+    /***** 检测更新  *****/
+    [self checkUpdate];
+    
     ZEScanQRViewController * scanQRVC = [[ZEScanQRViewController alloc]init];
     scanQRVC.tabBarItem.image = [UIImage imageNamed:@"icon_home.png"];
     scanQRVC.title = @"首页";
@@ -59,9 +65,35 @@
     self.window.rootViewController = tabBarVC;
     self.window.rootViewController = loginVC;
 
-
     return YES;
 }
+
+-(void)checkUpdate
+{
+    NSString* localVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: (NSString*)kCFBundleVersionKey];
+
+    [ZEUserServer getVersionUpdateSuccess:^(id data) {
+        if ([ZEUtil isNotNull:data]) {
+            if([data objectForKey:@"data"]){
+                NSDictionary * dic = [data objectForKey:@"data"];
+                if ([localVersion floatValue] < [[dic objectForKey:@"versionCode"] floatValue]) {
+                    UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"经检测当前版本不是最新版本，点击确定跳转更新。" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+                    [alertView show];
+                }
+            }
+        }
+    } fail:^(NSError *errorCode) {
+        
+    }];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.baidu.com"]];
+    }
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

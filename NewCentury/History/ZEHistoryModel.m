@@ -27,9 +27,11 @@ static ZEHistoryModel * historyModel = nil;
     historyModel.DISPATCH_TYPE = [dic objectForKey:@"DISPATCH_TYPE"];
     historyModel.seqkey        = [dic objectForKey:@"seqkey"];
     historyModel.integration   = [dic objectForKey:@"integration"];
-    historyModel.ROLENAME      = [historyModel.integration objectForKey:@"ROLENAME"];
-    historyModel.TTP_QUOTIETY  = [historyModel.integration objectForKey:@"TTP_QUOTIETY"];
-    historyModel.TIMES         = [historyModel.integration objectForKey:@"TIMES"];
+    if([ZEUtil isNotNull:historyModel.integration]){
+        historyModel.ROLENAME      = [historyModel.integration objectForKey:@"ROLENAME"];
+        historyModel.TTP_QUOTIETY  = [historyModel.integration objectForKey:@"TTP_QUOTIETY"];
+        historyModel.TIMES         = [historyModel.integration objectForKey:@"TIMES"];
+    }
     return historyModel;
 }
 

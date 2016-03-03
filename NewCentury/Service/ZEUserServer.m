@@ -6,9 +6,13 @@
 //  Copyright © 2016年 Stenson. All rights reserved.
 //
 
+#define kCheckUpdate         @"checkUpdate"         //  检测更新
+
 #define kLoginType           @"tologin"            //    登陆
 
-#define kTaskType            @"getRation"          //  任务列表
+#define kGetTeamRation       @"getTeamRation"       // 所有任务列表
+#define kGetCommonRation     @"getCommonRation"     // 常用任务列表
+
 #define kDiffCoeType         @"getDiff"            //  1 是难度系数 2 是时间系数
 #define kGetWorkRole         @"getWorkRole"        // g工作角色
 #define kInsertToTask        @"insertToTask"       // 提交工作数据
@@ -26,6 +30,29 @@
 
 @implementation ZEUserServer
 
+/**
+ *  获取版本是否更新接口
+ */
+
++ (void)getVersionUpdateSuccess:(ServerResponseSuccessBlock)successBlock
+                           fail:(ServerResponseFailBlock)failBlock
+{
+    [[ZEServerEngine sharedInstance]requestWithParams:@{@"type":kCheckUpdate,
+                                                        @"data":@""}
+                                           httpMethod:HTTPMETHOD_POST
+                                              success:^(id data) {
+                                                  successBlock(data);
+                                              }
+                                                 fail:^(NSError *errorCode) {
+                                                     failBlock(errorCode);
+                                                 }];
+
+}
+
+
+/**
+ *  登录接口
+ */
 + (void)getLoginDataWithUsername:(NSString *)usernameStr
                     withPassword:(NSString *)passwordStr
                          success:(ServerResponseSuccessBlock)successBlock
@@ -45,7 +72,25 @@
 + (void)getTaskDataSuccess:(ServerResponseSuccessBlock)successBlock
                       fail:(ServerResponseFailBlock)failBlock
 {
-    [[ZEServerEngine sharedInstance]requestWithParams:@{@"type":kTaskType,
+    [[ZEServerEngine sharedInstance]requestWithParams:@{@"type":kGetCommonRation,
+                                                        @"data":[NSString stringWithFormat:@"%@#%@#%@",[ZESetLocalData getNumber],[ZESetLocalData getOrgcode],[ZESetLocalData getUnitcode]]}
+                                           httpMethod:HTTPMETHOD_POST
+                                              success:^(id data) {
+                                                  successBlock(data);
+                                              }
+                                                 fail:^(NSError *errorCode) {
+                                                     failBlock(errorCode);
+                                                 }];
+}
+
+/**
+ *   获取全部页面工作任务列表
+ */
+
++ (void)getAllTaskDataSuccess:(ServerResponseSuccessBlock)successBlock
+                         fail:(ServerResponseFailBlock)failBlock
+{
+    [[ZEServerEngine sharedInstance]requestWithParams:@{@"type":kGetTeamRation,
                                                         @"data":[NSString stringWithFormat:@"%@#%@#%@",[ZESetLocalData getNumber],[ZESetLocalData getOrgcode],[ZESetLocalData getUnitcode]]}
                                            httpMethod:HTTPMETHOD_POST
                                               success:^(id data) {

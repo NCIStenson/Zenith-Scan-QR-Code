@@ -28,17 +28,10 @@
 @implementation ZEPointChooseTaskView
 -(id)initWithOptionArr:(NSArray *)options
 {
-    int viewHeight = 0;
-    
-    viewHeight = 44.0f * (options.count + 1);
-    
-    if (viewHeight > kMaxHeight) {
-        viewHeight = kMaxHeight;
-    }
-    self = [super initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, viewHeight)];
+    self = [super initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, kMaxHeight)];
     if (self) {
         _optionsArray = options;
-        _viewFrame = CGRectMake(0, 0, SCREEN_WIDTH - 40, viewHeight);
+        _viewFrame = CGRectMake(0, 0, SCREEN_WIDTH - 40, kMaxHeight);
         self.backgroundColor = [UIColor whiteColor];
         self.clipsToBounds = YES;
         self.layer.cornerRadius = 5;
@@ -46,7 +39,6 @@
         [self initView];
     }
     return self;
-
 }
 
 -(void)initData
@@ -100,16 +92,18 @@
     _optionTableView.delegate = self;
     _optionTableView.dataSource = self;
     [self addSubview:_optionTableView];
-    int maxHeight = kMaxHeight;
-    if (_viewFrame.size.height != maxHeight) _optionTableView.scrollEnabled = NO;
+
+    if (_viewFrame.size.height != kMaxHeight) _optionTableView.scrollEnabled = NO;
     [_optionTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.offset(kOptionViewMarginLeft);
         make.top.offset(kOptionViewMarginTop);
-        if (_viewFrame.size.height == maxHeight) {
-            make.size.mas_equalTo(CGSizeMake(kOptionViewWidth,_viewFrame.size.height - 44.0f));
-        }else{
-            make.size.mas_equalTo(CGSizeMake(kOptionViewWidth, _optionsArray.count * 44.0f));
-        }
+        make.size.mas_equalTo(CGSizeMake(kOptionViewWidth,kMaxHeight));
+
+//        if (_viewFrame.size.height == kMaxHeight) {
+//            make.size.mas_equalTo(CGSizeMake(kOptionViewWidth,_viewFrame.size.height - 44.0f));
+//        }else{
+//            make.size.mas_equalTo(CGSizeMake(kOptionViewWidth, _optionsArray.count * 44.0f));
+//        }
     }];
 }
 #pragma mark - UITableViewDataSource
@@ -140,6 +134,12 @@
     headerBut.tag = section;
     [headerBut addTarget:self action:@selector(showDetailTaskList:) forControlEvents:UIControlEventTouchUpInside];
     
+    CALayer * lineLayer = [CALayer layer];
+    lineLayer.frame  = CGRectMake(10.0f, 39.5f, SCREEN_WIDTH - 50.0f, 0.5f);
+    [headerBut.layer addSublayer:lineLayer];
+    lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
+    
+    
     return headerBut;
 }
 
@@ -151,6 +151,8 @@
     [_maskArr insertObject:[NSString stringWithFormat:@"%d",boolean] atIndex:button.tag];
     NSIndexSet * indexSet = [NSIndexSet indexSetWithIndex:button.tag];
     [_optionTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+//    NSLog(@">>>  %@",NSStringFromCGSize(_optionTableView.contentSize));
+//    self.frame = CGRectMake(0, 0, SCREEN_WIDTH - 40, _optionTableView.contentSize.height + 44.0f);
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -191,12 +193,5 @@
     }
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

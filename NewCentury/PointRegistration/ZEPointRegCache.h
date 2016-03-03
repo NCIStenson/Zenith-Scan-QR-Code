@@ -13,10 +13,16 @@
 + (ZEPointRegCache*)instance;
 
 /**
- *  存储用户第一次请求任务列表，APP运行期间 只请求一次任务列表
+ *  存储用户第一次请求常用任务列表，APP运行期间 只请求一次任务列表
  */
 - (void)setTaskCaches:(NSArray *)taskArr;
 - (NSArray *)getTaskCaches;
+
+/**
+ *  存储用户第一次请求全部任务列表，APP运行期间 只请求一次任务列表
+ */
+- (void)setAllTaskCaches:(NSArray *)allTaskArr;
+- (NSArray *)getAllTaskCaches;
 
 /**
  *  存储用户第一次请求难度系数列表，APP运行期间 只请求一次难度系数列表

@@ -31,13 +31,21 @@
     _pointView.delegate = self;
     _pointView.historyModel = _hisModel;
     [self.view addSubview:_pointView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAllTaskView) name:kShowAllTaskList object:nil];
+    
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kShowAllTaskList object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
     if (_enterType == ENTER_POINTREG_TYPE_SCAN) {
-        [self getDateByCodeStr];
+        [self getDataByCodeStr];
     }
 }
 -(void)viewDidDisappear:(BOOL)animated
@@ -45,7 +53,7 @@
     [super viewDidDisappear:YES];
 }
 
--(void)getDateByCodeStr
+-(void)getDataByCodeStr
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getServerDataByCodeStr:_codeStr Success:^(id data) {
@@ -58,6 +66,33 @@
     } fail:^(NSError *errorCode) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
+}
+
+#pragma mark - Private Method
+/**
+ *  @author Zenith Electronic, 16-02-23 10:02:45
+ *
+ *  弹出提示框，如果是登记扫描完成就返回上层界面，
+ *
+ *
+ *  @param str      弹出框文本信息
+ *  @param isGoBack 是否返回上级界面
+ */
+-(void)showAlertView:(NSString *)str goBack:(BOOL)isGoBack
+{
+    if (IS_IOS8) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:str message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            if (isGoBack) {
+                [self goBack];
+            }
+        }];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }else{
+        UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:str message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
 }
 
 #pragma mark - ZEPointRegistrationViewDelegate
@@ -154,32 +189,6 @@
                                    }];
     
 }
-/**
- *  @author Zenith Electronic, 16-02-23 10:02:45
- *
- *  弹出提示框，如果是登记扫描完成就返回上层界面，
- *
- *
- *  @param str      弹出框文本信息
- *  @param isGoBack 是否返回上级界面
- */
--(void)showAlertView:(NSString *)str goBack:(BOOL)isGoBack
-{
-    if (IS_IOS8) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:str message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            if (isGoBack) {
-                [self goBack];
-            }
-        }];
-        [alertController addAction:okAction];
-        [self presentViewController:alertController animated:YES completion:nil];
-    }else{
-        UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:str message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alertView show];
-    }
-}
-
 
 -(void)view:(ZEPointRegistrationView *)pointRegView didSelectRowAtIndexpath:(NSIndexPath *)indexpath withShowRules:(BOOL)showRules
 {
@@ -213,8 +222,8 @@
         default:
             break;
     }
-    
 }
+
 #pragma mark - 工作任务
 
 -(void)showTaskView:(ZEPointRegistrationView *)pointRegView
@@ -223,14 +232,14 @@
     taskCacheArr = [[ZEPointRegCache instance] getTaskCaches];
     
     if (taskCacheArr.count > 0) {
-        [pointRegView showTaskView:taskCacheArr];
+        [pointRegView showListView:taskCacheArr withLevel:TASK_LIST_LEVEL_JSON withPointReg:POINT_REG_TASK];
     }else{
         [MBProgressHUD showHUDAddedTo:pointRegView animated:YES];
         [ZEUserServer getTaskDataSuccess:^(id data) {
             [MBProgressHUD hideAllHUDsForView:pointRegView animated:YES];
             if ([ZEUtil isNotNull:[data objectForKey:@"data"]]) {
                 [[ZEPointRegCache instance] setTaskCaches:[data objectForKey:@"data"]];
-                [pointRegView showTaskView:[data objectForKey:@"data"]];
+                [pointRegView showListView:[data objectForKey:@"data"] withLevel:TASK_LIST_LEVEL_JSON withPointReg:POINT_REG_TASK];
             }
         } fail:^(NSError *errorCode) {
             [MBProgressHUD hideAllHUDsForView:pointRegView animated:YES];
@@ -239,6 +248,29 @@
     }
 }
 
+-(void)showAllTaskView
+{
+    NSArray * allTaskCacheArr = nil;
+    allTaskCacheArr = [[ZEPointRegCache instance] getAllTaskCaches];
+    
+    if (allTaskCacheArr.count > 0) {
+        [_pointView showTaskView:allTaskCacheArr];
+    }else{
+        [MBProgressHUD showHUDAddedTo:_pointView animated:YES];
+        [ZEUserServer getAllTaskDataSuccess:^(id data) {
+            [MBProgressHUD hideAllHUDsForView:_pointView animated:YES];
+            if ([ZEUtil isNotNull:[data objectForKey:@"data"]]) {
+                [[ZEPointRegCache instance] setAllTaskCaches:[data objectForKey:@"data"]];
+                [_pointView showTaskView:[data objectForKey:@"data"]];
+            }
+        } fail:^(NSError *errorCode) {
+            [MBProgressHUD hideAllHUDsForView:_pointView animated:YES];
+            
+        }];
+    }
+}
+
+#pragma mark - 难度系数
 -(void)showDiffCoeView:(ZEPointRegistrationView *)pointRegView
 {
     NSArray * diffCoeCacheArr = nil;

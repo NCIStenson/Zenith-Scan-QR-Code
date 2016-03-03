@@ -34,7 +34,9 @@
     int viewHeight = 0;
     
     viewHeight = showBut ? (44.0f * (options.count + 2)) : (44.0f * (options.count + 1));
-    
+    if (pointReg == POINT_REG_TASK) {
+        viewHeight = 44.0f * (options.count + 2);
+    }
     if (viewHeight > kMaxHeight) {
         viewHeight = kMaxHeight;
     }
@@ -74,7 +76,11 @@
         if (_viewFrame.size.height == maxHeight) {
             make.size.mas_equalTo(CGSizeMake(kOptionViewWidth,_viewFrame.size.height - 44.0f));
         }else{
-            make.size.mas_equalTo(CGSizeMake(kOptionViewWidth, _optionsArray.count * 44.0f));
+            if (_pointReg == POINT_REG_TASK) {
+                make.size.mas_equalTo(CGSizeMake(kOptionViewWidth, (_optionsArray.count + 1) * 44.0f));
+            }else{
+                make.size.mas_equalTo(CGSizeMake(kOptionViewWidth, _optionsArray.count * 44.0f));
+            }
         }
     }];
 }
@@ -83,6 +89,9 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if(_pointReg == POINT_REG_TASK){
+        return _optionsArray.count + 1;
+    }
     return _optionsArray.count;
 }
 -(UITableViewCell * )tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -90,11 +99,23 @@
     NSString * cellID = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    CALayer * lineLayer = [CALayer layer];
+    lineLayer.frame = CGRectMake(10, 43.5f, SCREEN_WIDTH - 10, 0.5f);
+    lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
+    [cell.contentView.layer addSublayer:lineLayer];
+    
     if (_listLevel == TASK_LIST_LEVEL_JSON) {
         if (_pointReg == POINT_REG_TASK) {
+            if(indexPath.row == _optionsArray.count){
+                cell.textLabel.text = @"点击查看更多任务列表...";
+                cell.textLabel.textAlignment = NSTextAlignmentCenter;
+                cell.textLabel.font = [UIFont systemFontOfSize:13];
+                return cell;
+            }
             ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:_optionsArray[indexPath.row]];
             cell.textLabel.text = model.TR_NAME;
         }else if (_pointReg == POINT_REG_DIFF_DEGREE){
@@ -111,11 +132,6 @@
         cell.textLabel.text = _optionsArray[indexPath.row];
     }
     
-    CALayer * lineLayer = [CALayer layer];
-    lineLayer.frame = CGRectMake(10, 43.5f, SCREEN_WIDTH - 10, 0.5f);
-    lineLayer.backgroundColor = [MAIN_LINE_COLOR CGColor];
-    [cell.contentView.layer addSublayer:lineLayer];
-    
     return cell;
 }
 
@@ -123,6 +139,14 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (_pointReg == POINT_REG_TASK  && indexPath.row == _optionsArray.count) {
+        if([self.delegate respondsToSelector:@selector(hiddeAlertView)]){
+            [self.delegate hiddeAlertView];
+        }
+        return;
+    }
+    
+    
     if([self.delegate respondsToSelector:@selector(didSelectOption:withRow:)]){
         [self.delegate didSelectOption:_optionsArray[indexPath.row] withRow:indexPath.row];
     }

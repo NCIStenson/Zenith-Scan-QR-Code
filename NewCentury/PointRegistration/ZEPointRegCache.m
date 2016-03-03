@@ -10,7 +10,8 @@
 
 @interface ZEPointRegCache ()
 {
-    NSArray * _taskCachesArr;          //  任务列表缓存
+    NSArray * _taskCachesArr;          //  常用任务列表缓存
+    NSArray * _allTaskCachesArr;          //  全部任务列表缓存
     NSArray * _diffCoeCachesArr;       //  难度系数
     NSArray * _timesCoeCachesArr;      //  时间系数
     NSArray * _workRulesCachesArr;     //  工作角色
@@ -19,6 +20,7 @@
 @property(nonatomic,retain) NSMutableDictionary * optionDic;
 @property(nonatomic,retain) NSMutableDictionary * resubmitDataDic;
 @property (nonatomic,retain) NSArray * taskCachesArr;
+@property (nonatomic,retain) NSArray * allTaskCachesArr;
 @property (nonatomic,retain) NSArray * diffCoeCachesArr;
 @property (nonatomic,retain) NSArray * timesCoeCachesArr;
 @property (nonatomic,retain) NSArray * workRulesCachesArr;
@@ -63,6 +65,18 @@ static ZEPointRegCache * pointRegCahe = nil;
 {
     return self.taskCachesArr;
 }
+/**
+ *  存储用户第一次请求全部任务列表，APP运行期间 只请求一次任务列表
+ */
+- (void)setAllTaskCaches:(NSArray *)allTaskArr
+{
+    self.allTaskCachesArr = allTaskArr;
+}
+- (NSArray *)getAllTaskCaches
+{
+    return self.allTaskCachesArr;
+}
+
 
 /**
  *  存储用户第一次请求 难度系数 列表，APP运行期间 只请求一次 难度系数 列表

@@ -96,7 +96,7 @@
     }
     if (y + height > fullHeight) {
         if (height > fullHeight) {
-            height = fullHeight;
+//            height = fullHeight;
         }else{
             y = 0;
         }

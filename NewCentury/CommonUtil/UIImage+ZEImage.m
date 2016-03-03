@@ -186,7 +186,7 @@
                 drawTransposed = NO;
         }
         
-        transform = [self transformForOrientation:newSize];
+//        transform = [self transformForOrientation:newSize];
     }
     transform = [self transformForOrientation:newSize];
     return [self resizedImage:newSize transform:transform drawTransposed:drawTransposed interpolationQuality:quality];

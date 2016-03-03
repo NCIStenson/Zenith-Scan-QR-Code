@@ -19,6 +19,11 @@
  */
 -(void)didSelectOption:(NSDictionary *)object withRow:(NSInteger)row;
 
+/**
+ *  隐藏常用列表弹出框
+ */
+-(void)hiddeAlertView;
+
 @end;
 
 @interface ZEPointRegOptionView : UIView

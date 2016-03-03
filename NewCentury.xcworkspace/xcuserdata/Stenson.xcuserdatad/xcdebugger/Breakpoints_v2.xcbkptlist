@@ -9,28 +9,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "NewCentury/History/ZEHistoryView.m"
-            timestampString = "478145252.958918"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
-            landmarkName = "-reloadView:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "NewCentury/PointRegistration/ZEPointRegistrationView.m"
-            timestampString = "477990977.461663"
+            timestampString = "478410379.371991"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "663"
-            endingLineNumber = "663"
+            startingLineNumber = "672"
+            endingLineNumber = "672"
             landmarkName = "-showDifferentListByShareTypeWithData:"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NewCentury/PointRegistration/ZEPointRegistrationView.m"
-            timestampString = "477990977.461663"
+            timestampString = "478410379.371991"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "667"
-            endingLineNumber = "667"
+            startingLineNumber = "676"
+            endingLineNumber = "676"
             landmarkName = "-showDifferentListByShareTypeWithData:"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NewCentury/PointRegistration/ZEPointRegistrationView.m"
-            timestampString = "477990977.461663"
+            timestampString = "478410379.371991"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "671"
-            endingLineNumber = "671"
+            startingLineNumber = "680"
+            endingLineNumber = "680"
             landmarkName = "-showDifferentListByShareTypeWithData:"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,29 +58,23 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NewCentury/PointRegistration/ZEPointRegistrationView.m"
-            timestampString = "477990977.461663"
+            timestampString = "478410379.371991"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "677"
-            endingLineNumber = "677"
+            startingLineNumber = "686"
+            endingLineNumber = "686"
             landmarkName = "-showDifferentListByShareTypeWithData:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "NewCentury/PointRegistration/ZEPointRegistrationView.m"
-            timestampString = "477991879.396165"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "707"
-            endingLineNumber = "707"
-            landmarkName = "-didSeclectTask:withData:"
-            landmarkType = "5">
+            scope = "0"
+            stopOnStyle = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -7,6 +7,7 @@
 //
 
 #define kNotiRefreshAuditView @"kAuditRefresh" // 审核过工分之后，通知工分审核界面刷新。
+#define kShowAllTaskList      @"kShowAllTaskList" // 显示全部任务列表
 
 @interface ZEUtil : NSObject
 // 检查对象是否为空
