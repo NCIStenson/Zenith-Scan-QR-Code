@@ -151,8 +151,6 @@
     [_maskArr insertObject:[NSString stringWithFormat:@"%d",boolean] atIndex:button.tag];
     NSIndexSet * indexSet = [NSIndexSet indexSetWithIndex:button.tag];
     [_optionTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
-//    NSLog(@">>>  %@",NSStringFromCGSize(_optionTableView.contentSize));
-//    self.frame = CGRectMake(0, 0, SCREEN_WIDTH - 40, _optionTableView.contentSize.height + 44.0f);
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

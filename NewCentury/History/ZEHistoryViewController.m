@@ -39,15 +39,16 @@
     [self.view addSubview:_historyView];
     
     _currentPage = 0;
+    [_historyView canLoadMoreData];
+    [self sendRequest];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    _currentPage = 0;
-    [_historyView canLoadMoreData];
-    [self sendRequest];
 }
+
 -(void)sendRequest
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -58,14 +59,14 @@
                                  success:^(id data) {
                                      if ([ZEUtil isNotNull:data]) {
                                          NSArray * dataArr = [data objectForKey:@"data"];
-                                         if ([ZEUtil isNotNull:dataArr]) {
+                                         if ([ZEUtil isNotNull:dataArr] && dataArr.count > 0) {
                                              if (_currentPage == 0) {
                                                  [_historyView reloadFirstView:dataArr];
                                              }else{
                                                  [_historyView reloadView:dataArr];
                                              }
                                              if (dataArr.count%20 == 0) {
-                                         _currentPage      += 1;
+                                                 _currentPage += 1;
                                              }
                                          }else{
                                              [_historyView headerEndRefreshing];
@@ -170,7 +171,9 @@
 {
     _isSearch = NO;
     _currentPage = 0;
-    [self sendRequest];
+    _startDate = @"null";
+    _endDate = @"null";
+    [self searchHistoryStartDate:@"null" withEndDate:@"null"];
 }
 
 -(void)loadMoreData:(ZEHistoryView *)hisView
@@ -196,17 +199,18 @@
         [historyDic setObject:hisMod.seqkey forKey:@"sqlkey"];
         [historyDic setObject:hisMod.DISPATCH_TYPE forKey:@"shareType"];
         [historyDic setObject:hisMod.SJXS forKey:@"sjxs"];
-        NSLog(@"<<   %@",hisMod.TIMES);
+
         if ([ZEUtil isNotNull:hisMod.TIMES]) {
             [historyDic setObject:hisMod.TIMES forKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]];
         }else{
             [historyDic setObject:@"1" forKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]];
         }
         if ([ZEUtil isNotNull:hisMod.ROLENAME] && [ZEUtil isNotNull:hisMod.TTP_QUOTIETY]) {
-            [historyDic setObject:@{@"SEQKEY":hisMod.seqkey,@"TWR_QUOTIETY":hisMod.TTP_QUOTIETY,@"TWR_NAME":hisMod.ROLENAME} forKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
+            [historyDic setObject:@{@"twr_id":hisMod.TWR_ID,@"TWR_QUOTIETY":hisMod.TTP_QUOTIETY,@"TWR_NAME":hisMod.ROLENAME} forKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
         }else{
-            [historyDic setObject:@{@"SEQKEY":hisMod.seqkey,@"TWR_QUOTIETY":@"",@"TWR_NAME":@""} forKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
+            [historyDic setObject:@{@"twr_id":hisMod.TWR_ID,@"TWR_QUOTIETY":@"",@"TWR_NAME":@""} forKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
         }
+
         [[ZEPointRegCache instance] setResubmitCaches:historyDic];
 
         ZEPointRegistrationVC * pointRegVC = [[ZEPointRegistrationVC alloc]init];
@@ -215,7 +219,8 @@
         [self presentViewController:pointRegVC animated:YES completion:nil];
     }else{
         ZEHistoryDetailVC * detailVC = [[ZEHistoryDetailVC alloc]init];
-        detailVC.hisModel = hisMod;
+        detailVC.model = hisMod;
+        detailVC.enterType = ENTER_FIXED_POINTREG_TYPE_HIS;
         [self presentViewController:detailVC animated:YES completion:nil];
     }
 }

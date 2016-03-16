@@ -304,7 +304,10 @@
     }
     ZEHistoryModel * hisMod = nil;
     if ([ZEUtil isNotNull:self.listDataArr]) {
-        hisMod = self.listDataArr[indexPath.section][indexPath.row];
+        NSArray * sectionDataArr = self.listDataArr[indexPath.section];
+        if (sectionDataArr.count > indexPath.row) {
+            hisMod = sectionDataArr[indexPath.row];
+        }
     }
     
     UIView * cellContent = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50.0f)];

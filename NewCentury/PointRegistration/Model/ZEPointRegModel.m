@@ -15,16 +15,16 @@ static ZEPointRegModel * pointReg = nil;
 {
     pointReg = [[ZEPointRegModel alloc]init];
     
-    pointReg.DISPATCH_TYPE  = [dic objectForKey:@"DISPATCH_TYPE"];
-    pointReg.SUITUNIT       = [dic objectForKey:@"SUITUNIT"];
-    pointReg.TRC_ID         = [dic objectForKey:@"TRC_ID"];
-    pointReg.TRC_NAME       = [dic objectForKey:@"TRC_NAME"];
-    pointReg.TR_HOUR        = [dic objectForKey:@"TR_HOUR"];
-    pointReg.TR_NAME        = [dic objectForKey:@"TR_NAME"];
-    pointReg.TR_REMARK      = [dic objectForKey:@"TR_REMARK"];
-    pointReg.TR_UNIT        = [dic objectForKey:@"TR_UNIT"];
-    pointReg.TR_VALID       = [dic objectForKey:@"TR_VALID"];
-    pointReg.USER_ORGID     = [dic objectForKey:@"USER_ORGID"];
+    pointReg.DISPATCH_TYPE  = [dic objectForKey:@"dispatchType"];
+    pointReg.SUITUNIT       = [dic objectForKey:@"suitunit"];
+    pointReg.TRC_ID         = [dic objectForKey:@"trcId"];
+    pointReg.TRC_NAME       = [dic objectForKey:@"trcName"];
+    pointReg.TR_HOUR        = [NSString stringWithFormat:@"%.2f",[[dic objectForKey:@"trHour"] floatValue]];
+    pointReg.TR_NAME        = [dic objectForKey:@"trName"];
+    pointReg.TR_REMARK      = [dic objectForKey:@"trRemark"];
+    pointReg.TR_UNIT        = [dic objectForKey:@"userUnitid"];
+    pointReg.TR_VALID       = [dic objectForKey:@"trValid"];
+    pointReg.USER_ORGID     = [dic objectForKey:@"userOrgid"];
     pointReg.seqkey         = [dic objectForKey:@"seqkey"];
     
     pointReg.NDXS_LEVEL     = [dic objectForKey:@"NDXS_LEVEL"];

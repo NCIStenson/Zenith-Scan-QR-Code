@@ -32,7 +32,8 @@
     NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSString * dateStr = [formatter stringFromDate:date];
-
+    _currentDateStr = dateStr;
+    
     [self sendRequestWithDateStr:dateStr];
 }
 

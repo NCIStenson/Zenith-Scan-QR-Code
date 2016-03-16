@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "ZEHistoryModel.h"
+
 @interface ZEHistoryDetailVC : UIViewController
 
-@property (nonatomic,retain) ZEHistoryModel * hisModel;
+@property (nonatomic,retain) id model;
+@property (nonatomic,assign) ENTER_FIXED_POINTREG_TYPE enterType;
+
 @end

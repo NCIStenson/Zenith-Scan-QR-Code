@@ -43,8 +43,9 @@
 #import "ZEPointChooseTaskView.h"
 #import "ZEPointRegModel.h"
 #import "ZEPointRegCache.h"
+#import "ZEPointRegChooseCountView.h"
 
-@interface ZEPointRegistrationView ()<UITableViewDataSource,UITableViewDelegate,ZEPointRegOptionViewDelegate,ZEPointRegChooseDateViewDelegate,ZEPointChooseTaskViewDelegate,UITextFieldDelegate>
+@interface ZEPointRegistrationView ()<UITableViewDataSource,UITableViewDelegate,ZEPointRegOptionViewDelegate,ZEPointRegChooseDateViewDelegate,ZEPointChooseTaskViewDelegate,UITextFieldDelegate,ZEPointRegChooseCountViewDelegate>
 {
     JCAlertView * _alertView;
     NSInteger _currentSelectRow;
@@ -184,6 +185,14 @@
     [_alertView show];
 }
 
+-(void)showCountView
+{
+    ZEPointRegChooseCountView * chooseCountView = [[ZEPointRegChooseCountView alloc]initWithFrame:CGRectZero];
+    chooseCountView.delegate = self;
+    _alertView = [[JCAlertView alloc]initWithCustomView:chooseCountView dismissWhenTouchedBackground:YES];
+    [_alertView show];
+}
+
 #pragma mark - UITableViewDataSource
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -315,25 +324,10 @@
                     cell.detailTextLabel.text = model.TWR_NAME;
                 }
             }else if (_showJobCount){
-                cell.detailTextLabel.text = @"次";
-                
-                float fieldLeft = 0;
-                fieldLeft = SCREEN_WIDTH - 200.0f - 30.0f;
-                if (IPHONE6P){
-                    fieldLeft = SCREEN_WIDTH - 200.0f - 35.0f;
-                }
-                
-                _countField = [[UITextField alloc]initWithFrame:CGRectMake(fieldLeft, 2.0f, 200.0f, 44.0f)];
-                _countField.textColor = cell.detailTextLabel.textColor;
-                _countField.keyboardType = UIKeyboardTypeNumberPad;
-                _countField.text = @"1";
-                _countField.delegate = self;
-                _countField.font = [UIFont systemFontOfSize:14];
-                _countField.textAlignment = NSTextAlignmentRight;
-                [cell.contentView addSubview:_countField];
+                cell.detailTextLabel.text = @"1次";
                 
                 if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]]]) {
-                    _countField.text = [choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]];
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@次",[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]]];
                 }
             }
             break;
@@ -419,24 +413,8 @@
                 }
             }else if (_showJobCount){
                 cell.detailTextLabel.text = @"次";
-                
-                float fieldLeft = 0;
-                fieldLeft = SCREEN_WIDTH - 200.0f - 30.0f;
-                if (IPHONE6P){
-                    fieldLeft = SCREEN_WIDTH - 200.0f - 35.0f;
-                }
-                
-                _countField = [[UITextField alloc]initWithFrame:CGRectMake(fieldLeft, 2.0f, 200.0f, 44.0f)];
-                _countField.textColor = cell.detailTextLabel.textColor;
-                _countField.keyboardType = UIKeyboardTypeNumberPad;
-                _countField.text = @"1";
-                _countField.delegate = self;
-                _countField.font = [UIFont systemFontOfSize:14];
-                _countField.textAlignment = NSTextAlignmentRight;
-                [cell.contentView addSubview:_countField];
-                
                 if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]]]) {
-                    _countField.text = [choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]];
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@次",[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]]];
                 }
             }
             break;
@@ -524,23 +502,9 @@
                     cell.textLabel.text = [ZEUtil getPointRegInformation:POINT_REG_JOB_ROLES];
                 }else if ([dispatch_type integerValue] == 3){
                     cell.textLabel.text = [ZEUtil getPointRegInformation:POINT_REG_JOB_COUNT];
-                    cell.detailTextLabel.text = @"次";
-                    float fieldLeft = 0;
-                    fieldLeft = SCREEN_WIDTH - 200.0f - 30.0f;
-                    if (IPHONE6P){
-                        fieldLeft = SCREEN_WIDTH - 200.0f - 35.0f;
-                    }
-                    
-                    _countField = [[UITextField alloc]initWithFrame:CGRectMake(fieldLeft, 2.0f, 200.0f, 44.0f)];
-                    _countField.textColor = MAIN_COLOR;
-                    _countField.keyboardType = UIKeyboardTypeNumberPad;
-                    _countField.text = @"1";
-                    _countField.delegate = self;
-                    _countField.font = [UIFont systemFontOfSize:14];
-                    _countField.textAlignment = NSTextAlignmentRight;
-                    [cell.contentView addSubview:_countField];
+                    cell.detailTextLabel.text = @"1次";
                     if ([ZEUtil isNotNull:[resubmitDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]]]) {
-                        _countField.text = [resubmitDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]];
+                        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@次",[resubmitDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]]];
                     }
                 }
             }
@@ -708,6 +672,26 @@
 
     [_alertView dismissWithCompletion:nil];
 }
+#pragma mark - ZEPointRegChooseCountViewDelegate
+
+-(void)cancelChooseCount
+{
+    [_alertView dismissWithCompletion:nil];
+}
+-(void)confirmChooseCount:(NSString *)countStr
+{
+    UITableViewCell * cell = [_contentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_currentSelectRow inSection:0]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@次",countStr];
+    if (_enterType == ENTER_POINTREG_TYPE_HISTORY) {
+        [[ZEPointRegCache instance] changeResubmitCache:@{[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]:countStr}];
+    }else{
+        [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]:countStr}];
+    }
+    
+    [_alertView dismissWithCompletion:nil];
+}
+
+
 #pragma mark - ZEPointRegChooseTaskViewDelegate
 
 -(void)didSeclectTask:(ZEPointChooseTaskView *)taskView withData:(NSDictionary *)dic

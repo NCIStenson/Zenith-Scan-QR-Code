@@ -20,7 +20,7 @@
 // 导航栏内右侧按钮
 #define kRightButtonWidth 76.0f
 #define kRightButtonHeight 40.0f
-#define kRightButtonMarginRight -10.0f
+#define kRightButtonMarginRight -15.0f
 #define kRightButtonMarginTop 20.0f + 2.0f
 // 导航栏标题
 #define kNavTitleLabelWidth SCREEN_WIDTH
@@ -74,7 +74,7 @@
     navBar.clipsToBounds = YES;
     
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightBtn setTitle:@"审核" forState:UIControlStateNormal];
+    [rightBtn setTitle:@"批量审核" forState:UIControlStateNormal];
     rightBtn.backgroundColor = [UIColor clearColor];
     rightBtn.contentMode = UIViewContentModeScaleAspectFit;
     [rightBtn addTarget:self action:@selector(goAudit) forControlEvents:UIControlEventTouchUpInside];
@@ -269,7 +269,10 @@
     
     ZEPointAuditModel * pointAM = nil;
     if ([ZEUtil isNotNull:self.listDataArr]) {
-        pointAM = self.listDataArr[indexPath.section][indexPath.row];
+        NSArray * sectionDataArr = self.listDataArr[indexPath.section];
+        if (sectionDataArr.count > indexPath.row) {
+            pointAM = self.listDataArr[indexPath.section][indexPath.row];
+        }
     }
     
     UIView * cellContent = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50.0f)];
@@ -309,10 +312,8 @@
     if ([ZEUtil isNotNull:self.listDataArr]) {
         pointAM = self.listDataArr[indexPath.section][indexPath.row];
     }
-    if ([pointAM.TT_FLAG isEqualToString:@"未审核"]) {
-        if ([self.delegate respondsToSelector:@selector(confirmWeatherAudit:withModel:)]) {
-            [self.delegate confirmWeatherAudit:self withModel:pointAM];
-        }
+    if ([self.delegate respondsToSelector:@selector(confirmWeatherAudit:withModel:)]) {
+        [self.delegate confirmWeatherAudit:self withModel:pointAM];
     }
 }
 

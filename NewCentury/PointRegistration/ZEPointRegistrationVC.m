@@ -58,11 +58,15 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getServerDataByCodeStr:_codeStr Success:^(id data) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        NSDictionary * dataDic = [data objectForKey:@"data"];
-        [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_TASK]:dataDic}];
-        [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_TYPE]:@"1"}];
-        [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]:@"1"}];
-        [_pointView reloadContentView:ENTER_POINTREG_TYPE_SCAN];
+        if ([ZEUtil isNotNull:data]) {
+            [self showAlertView:@"查询不到该二维码任务信息，请确定二维码正确后，重新扫描查询" goBack:YES];
+        }else{
+            NSDictionary * dataDic = [data objectForKey:@"data"];
+            [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_TASK]:dataDic}];
+            [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_TYPE]:@"1"}];
+            [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]:@"1"}];
+            [_pointView reloadContentView:ENTER_POINTREG_TYPE_SCAN];
+        }
     } fail:^(NSError *errorCode) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
@@ -100,7 +104,7 @@
 -(void)goBack
 {
     [self dismissViewControllerAnimated:YES completion:^{
-        [[ZEPointRegCache instance] clear];
+        [[ZEPointRegCache instance] clearUserOptions];
     }];
 }
 
@@ -172,7 +176,7 @@
             if ([[data objectForKey:@"data"] integerValue] == 1) {
                 if (_enterType == ENTER_POINTREG_TYPE_DEFAULT){
                     [self showAlertView:@"提交成功" goBack:NO];
-                    [[ZEPointRegCache instance] clear];
+                    [[ZEPointRegCache instance] clearUserOptions];
                     [pointRegView reloadContentView:ENTER_POINTREG_TYPE_DEFAULT];
                 }else{
                     [self showAlertView:@"提交成功" goBack:YES];
@@ -215,7 +219,7 @@
             if (showRules) {
                 [self showWorkRolesView:pointRegView];
             }else{
-
+                [self showChooseCountView:pointRegView];
             }
         }
             break;
@@ -344,6 +348,12 @@
 {
     [pointRegView showDateView];
 }
+#pragma mark - 发生日期
+-(void)showChooseCountView:(ZEPointRegistrationView *)pointRegView
+{
+    [pointRegView showCountView];
+}
+
 #pragma mark - 分摊类型
 
 -(void)showTypeView:(ZEPointRegistrationView *)pointRegView

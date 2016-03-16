@@ -13,6 +13,7 @@
 		982CEA0E1C7449F8008693C2 /* ZEPointAuditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 982CEA0D1C7449F8008693C2 /* ZEPointAuditViewController.m */; };
 		982CEA111C744A11008693C2 /* ZEPointAuditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 982CEA101C744A11008693C2 /* ZEPointAuditView.m */; };
 		982F0C6A1C4E2D4600593946 /* ZEServerEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 982F0C691C4E2D4600593946 /* ZEServerEngine.m */; };
+		984BFE011C97DD7300A117FD /* ZEPointRegChooseCountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 984BFE001C97DD7300A117FD /* ZEPointRegChooseCountView.m */; };
 		984F0DE71C75539D008106A5 /* ZEPointAuditModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 984F0DE61C75539D008106A5 /* ZEPointAuditModel.m */; };
 		984F0DEC1C7558AA008106A5 /* audit_no_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 984F0DE81C7558A9008106A5 /* audit_no_icon@2x.png */; };
 		984F0DED1C7558AA008106A5 /* audit_no_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 984F0DE91C7558AA008106A5 /* audit_no_icon@3x.png */; };
@@ -105,6 +106,8 @@
 		982CEA101C744A11008693C2 /* ZEPointAuditView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEPointAuditView.m; path = ZEPointAudit/ZEPointAuditView.m; sourceTree = "<group>"; };
 		982F0C681C4E2D4600593946 /* ZEServerEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEServerEngine.h; path = Service/ZEServerEngine.h; sourceTree = "<group>"; };
 		982F0C691C4E2D4600593946 /* ZEServerEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEServerEngine.m; path = Service/ZEServerEngine.m; sourceTree = "<group>"; };
+		984BFDFF1C97DD7300A117FD /* ZEPointRegChooseCountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPointRegChooseCountView.h; path = PointRegistration/ZEPointRegChooseCountView.h; sourceTree = "<group>"; };
+		984BFE001C97DD7300A117FD /* ZEPointRegChooseCountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEPointRegChooseCountView.m; path = PointRegistration/ZEPointRegChooseCountView.m; sourceTree = "<group>"; };
 		984F0DE51C75539D008106A5 /* ZEPointAuditModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPointAuditModel.h; path = ZEPointAudit/ZEPointAuditModel.h; sourceTree = "<group>"; };
 		984F0DE61C75539D008106A5 /* ZEPointAuditModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEPointAuditModel.m; path = ZEPointAudit/ZEPointAuditModel.m; sourceTree = "<group>"; };
 		984F0DE81C7558A9008106A5 /* audit_no_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "audit_no_icon@2x.png"; path = "SourceImage/audit_no_icon@2x.png"; sourceTree = "<group>"; };
@@ -382,6 +385,8 @@
 				9858D3231C60413400937D54 /* ZEPointChooseTaskView.m */,
 				987B34A11C50D54B0035FB6B /* ZEPointRegChooseDateView.h */,
 				987B34A21C50D54B0035FB6B /* ZEPointRegChooseDateView.m */,
+				984BFDFF1C97DD7300A117FD /* ZEPointRegChooseCountView.h */,
+				984BFE001C97DD7300A117FD /* ZEPointRegChooseCountView.m */,
 				987B349E1C50CE540035FB6B /* ZEPointRegCache.h */,
 				987B349F1C50CE540035FB6B /* ZEPointRegCache.m */,
 				987B34B11C5214970035FB6B /* ZEPointRegModel.h */,
@@ -696,6 +701,7 @@
 			files = (
 				98DB7CA81C5077420046D405 /* ZbarOverlayView.m in Sources */,
 				98DB7C501C4F4FA70046D405 /* ZEUtil.m in Sources */,
+				984BFE011C97DD7300A117FD /* ZEPointRegChooseCountView.m in Sources */,
 				98DB7C741C4F7D8E0046D405 /* ZEScanQRViewController.m in Sources */,
 				9858D3211C5EF19800937D54 /* ZEAlertSearchView.m in Sources */,
 				987B34A01C50CE540035FB6B /* ZEPointRegCache.m in Sources */,
@@ -870,7 +876,7 @@
 				WARNING_CFLAGS = "";
 				ZENITH_APPNAME = "工分登记Debug";
 				ZENITH_BUNDLEID = "com.zenith.app-Debug";
-				ZENITH_SERVER = "http://192.168.9.233:8080/scanlogin/GetdataServlet";
+				ZENITH_SERVER = "http://120.27.152.63:8080/scanlogin_test/GetdataServlet";
 			};
 			name = Debug;
 		};

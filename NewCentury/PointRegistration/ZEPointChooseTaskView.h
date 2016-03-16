@@ -21,6 +21,6 @@
 
 -(id)initWithOptionArr:(NSArray *)options;
 
-@property (nonatomic,assign) id <ZEPointChooseTaskViewDelegate> delegate;
+@property (nonatomic,weak) id <ZEPointChooseTaskViewDelegate> delegate;
 
 @end

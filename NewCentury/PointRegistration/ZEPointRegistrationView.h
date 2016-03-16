@@ -46,6 +46,10 @@
  *  显示任务列表
  */
 -(void)showTaskView:(NSArray *)array;
+/**
+ *  显示次数选择器
+ */
+-(void)showCountView;
 
 /**
  *  刷新表

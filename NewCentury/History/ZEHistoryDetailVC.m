@@ -8,7 +8,8 @@
 
 #import "ZEHistoryDetailVC.h"
 #import "ZEHistoryDetailView.h"
-
+#import "MBProgressHUD.h"
+#import "ZEUserServer.h"
 @interface ZEHistoryDetailVC ()<ZEHistoryDetailViewDelegate>
 
 @end
@@ -23,7 +24,7 @@
 }
 -(void)initView
 {
-    ZEHistoryDetailView * detailView = [[ZEHistoryDetailView alloc]initWithFrame:self.view.frame withModel:_hisModel];
+    ZEHistoryDetailView * detailView = [[ZEHistoryDetailView alloc]initWithFrame:self.view.frame withModel:_model withEnterType:_enterType];
     detailView.delegate = self;
     [self.view addSubview:detailView];
 }
@@ -34,6 +35,24 @@
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+-(void)confirmAudit:(NSString *)auditKey
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [ZEUserServer auditingTeamTask:@[auditKey]
+                           success:^(id data) {
+                               if ([ZEUtil isNotNull:data]) {
+                                   if ([[data objectForKey:@"data"] integerValue] == 1) {
+                                       [self goBack];
+                                   }
+                               }
+                               [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                           } fail:^(NSError *errorCode) {
+                               [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                           }];
+
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -10,6 +10,9 @@
 #import "ZEUserServer.h"
 #import "MBProgressHUD.h"
 #import "ZEAuditViewController.h"
+
+#import "ZEHistoryDetailVC.h"
+
 @interface ZEPointAuditViewController ()
 {
     ZEPointAuditView * _pointAuditView;
@@ -122,23 +125,29 @@
 -(void)confirmWeatherAudit:(ZEPointAuditView *)hisView withModel:(ZEPointAuditModel *)pointAM
 {
     _pointAuditM = pointAM;
-    if (IS_IOS8) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"您确定审核该任务？" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:^(UIAlertAction * _Nonnull action) {
-                                                             [self confirmAudit:pointAM.SEQKEY];
-                                                         }];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
-        [alertController addAction:okAction];
-        [alertController addAction:cancelAction];
-        [self presentViewController:alertController animated:YES completion:nil];
-        
-    }else{
-        UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您确定审核该任务？" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
-        alertView.delegate = self;
-        [alertView show];
-    }
+    
+    ZEHistoryDetailVC * detailVC = [[ZEHistoryDetailVC alloc]init];
+    detailVC.model = pointAM;
+    detailVC.enterType = ENTER_FIXED_POINTREG_TYPE_AUDIT;
+    [self presentViewController:detailVC animated:YES completion:nil];
+    
+//    if (IS_IOS8) {
+//        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"您确定审核该任务？" preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定"
+//                                                           style:UIAlertActionStyleDefault
+//                                                         handler:^(UIAlertAction * _Nonnull action) {
+//                                                             [self confirmAudit:pointAM.SEQKEY];
+//                                                         }];
+//        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+//        [alertController addAction:okAction];
+//        [alertController addAction:cancelAction];
+//        [self presentViewController:alertController animated:YES completion:nil];
+//        
+//    }else{
+//        UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您确定审核该任务？" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+//        alertView.delegate = self;
+//        [alertView show];
+//    }
 }
 
 #pragma mark - UIAlertViewDelegate

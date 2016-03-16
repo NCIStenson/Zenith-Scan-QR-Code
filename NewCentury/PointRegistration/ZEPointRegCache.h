@@ -71,11 +71,14 @@
  *  清除工作角色缓存
  */
 -(void)clearRoles;
+/**
+ *  清除用户选择过的信息
+ */
+-(void)clearUserOptions;
 
 /**
  *  清空缓存
  */
-
-- (void)clear;
+//- (void)clear;
 
 @end

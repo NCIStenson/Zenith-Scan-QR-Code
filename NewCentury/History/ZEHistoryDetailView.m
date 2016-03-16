@@ -18,7 +18,7 @@
 #define kCloseBtnMarginTop 12.0f
 
 // 导航栏内右侧按钮
-#define kRightButtonWidth 76.0f
+#define kRightButtonWidth 70.0f
 #define kRightButtonHeight 40.0f
 #define kRightButtonMarginRight -10.0f
 #define kRightButtonMarginTop 20.0f + 2.0f
@@ -35,11 +35,11 @@
 
 #import "ZEHistoryDetailView.h"
 #import "ZEPointRegModel.h"
-
+#import "ZEPointAuditModel.h"
 @interface ZEHistoryDetailView ()
 {
     ZEHistoryModel * _historyModel;
-    
+    ENTER_FIXED_POINTREG_TYPE _enterType;
     UITextField * _countField;
     BOOL _isAudit; //是否审核通过，通过审核的历史记录不能进行修改，未审核的历史记录可以进行修改。
 }
@@ -47,11 +47,12 @@
 
 @implementation ZEHistoryDetailView
 
--(id)initWithFrame:(CGRect)rect withModel:(ZEHistoryModel *)hisModel;
+-(id)initWithFrame:(CGRect)rect withModel:(id)model withEnterType:(ENTER_FIXED_POINTREG_TYPE)enterType
 {
     self = [super initWithFrame:rect];
     if (self) {
-        _historyModel = hisModel;
+        _enterType = enterType;
+        _historyModel = model;
         [self initNavBar];
         [self initView];
     }
@@ -76,7 +77,11 @@
     navTitleLabel.textAlignment = NSTextAlignmentCenter;
     navTitleLabel.textColor = [UIColor whiteColor];
     navTitleLabel.font = [UIFont systemFontOfSize:24.0f];
-    navTitleLabel.text = @"历史查询";
+    if(_enterType == ENTER_FIXED_POINTREG_TYPE_HIS){
+        navTitleLabel.text = @"历史查询";
+    }else{
+        navTitleLabel.text = @"工分审核";
+    }
     [navBar addSubview:navTitleLabel];
     [navTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.rightMargin.offset(kNavTitleLabelMarginLeft);
@@ -84,6 +89,22 @@
         make.size.mas_equalTo(CGSizeMake(kNavTitleLabelWidth, kNavTitleLabelHeight));
     }];
     
+    if(_enterType == ENTER_FIXED_POINTREG_TYPE_AUDIT){
+        UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [rightBtn setTitle:@"审核" forState:UIControlStateNormal];
+        rightBtn.backgroundColor = [UIColor clearColor];
+        [rightBtn setImage:[UIImage imageNamed:@"icon_tick.png" color:[UIColor whiteColor]] forState:UIControlStateNormal];
+        rightBtn.contentMode = UIViewContentModeScaleAspectFit;
+        [rightBtn addTarget:self action:@selector(goAudit) forControlEvents:UIControlEventTouchUpInside];
+        [rightBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -40, 0,0)];
+        [rightBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 50, 0,0)];
+        [navBar addSubview:rightBtn];
+        [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.offset(kRightButtonMarginRight);
+            make.top.offset(kRightButtonMarginTop);
+            make.size.mas_equalTo(CGSizeMake(kRightButtonWidth, kRightButtonHeight));
+        }];
+    }
     
     UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     closeBtn.frame = CGRectMake(kCloseBtnMarginLeft, kCloseBtnMarginTop, kCloseBtnWidth, kCloseBtnHeight);
@@ -188,25 +209,7 @@
                    cell.detailTextLabel.text = _historyModel.ROLENAME;
                }else if ([_historyModel.DISPATCH_TYPE integerValue] == 3){
                    cell.textLabel.text = [ZEUtil getPointRegInformation:row];
-                   if ([_historyModel.TT_FLAG isEqualToString:@"未审核"]) {
-                       cell.detailTextLabel.text = @"次";
-                       float fieldLeft = 0;
-                       fieldLeft = SCREEN_WIDTH - 200.0f - 30.0f;
-                       if (IPHONE6P){
-                           fieldLeft = SCREEN_WIDTH - 200.0f - 35.0f;
-                       }
-                       
-                       _countField = [[UITextField alloc]initWithFrame:CGRectMake(fieldLeft, 2.0f, 200.0f, 44.0f)];
-                       _countField.textColor = cell.detailTextLabel.textColor;
-                       _countField.keyboardType = UIKeyboardTypeNumberPad;
-                       _countField.text = @"1";
-                       _countField.delegate = self;
-                       _countField.font = [UIFont systemFontOfSize:14];
-                       _countField.textAlignment = NSTextAlignmentRight;
-                       [cell.contentView addSubview:_countField];
-                   }else{
-                       cell.detailTextLabel.text = [NSString stringWithFormat: @"%@次",_historyModel.TIMES];
-                   }
+                   cell.detailTextLabel.text = [NSString stringWithFormat: @"%@次",_historyModel.TIMES];
                }
             }
             break;
@@ -224,59 +227,21 @@
     }
 }
 
-#pragma mark - UITextFieldDelegate
-
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField;
-{
-    [UIView animateWithDuration:0.29 animations:^{
-        if(IPHONE5_MORE){
-            self.frame = CGRectMake(0, -120, SCREEN_WIDTH, SCREEN_HEIGHT);
-        }else if (IPHONE4S_LESS){
-            self.frame = CGRectMake(0, -216, SCREEN_WIDTH, SCREEN_HEIGHT);
-        }
-    }];
-    
-    return YES;
-}
--(void)textFieldDidEndEditing:(UITextField *)textField
-{
-    [UIView animateWithDuration:0.29 animations:^{
-        self.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    }];
-}
-
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    [UIView animateWithDuration:0.29 animations:^{
-        self.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    }];
-    return YES;
-}
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    if (![_countField isExclusiveTouch]) {
-        [UIView animateWithDuration:0.29 animations:^{
-            self.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        }];
-        [_countField resignFirstResponder];
-    }
-}
-
 
 #pragma mark - DetailViewDelegate
 
 -(void)goBack
-{
-    if (![_countField isExclusiveTouch]) {
-        [UIView animateWithDuration:0.29 animations:^{
-            self.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        }];
-        [_countField resignFirstResponder];
-    }
-
+{  
     if ([self.delegate respondsToSelector:@selector(goBack)]) {
         [self.delegate goBack];
+    }
+}
+
+-(void)goAudit
+{
+    ZEPointAuditModel * pointM = (ZEPointAuditModel *)_historyModel;
+    if ([self.delegate respondsToSelector:@selector(confirmAudit:)]) {
+        [self.delegate confirmAudit:pointM.SEQKEY];
     }
 }
 

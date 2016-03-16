@@ -176,6 +176,13 @@ static ZEPointRegCache * pointRegCahe = nil;
         [_optionDic removeObjectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
     }
 }
+/**
+ *  清除用户选择过的信息
+ */
+-(void)clearUserOptions
+{
+    _optionDic          = nil;    // 用户选择信息缓存
+}
 
 /**
  *  清空缓存

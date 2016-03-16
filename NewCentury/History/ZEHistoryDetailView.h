@@ -16,6 +16,10 @@
  */
 -(void)goBack;
 
+/**
+ *  确认审核
+ */
+-(void)confirmAudit:(NSString *)auditKey;
 
 @end
 
@@ -23,6 +27,6 @@
 
 @property(nonatomic,assign) id <ZEHistoryDetailViewDelegate> delegate;
 
--(id)initWithFrame:(CGRect)rect withModel:(ZEHistoryModel *)hisModel;
+-(id)initWithFrame:(CGRect)rect withModel:(id)model withEnterType:(ENTER_FIXED_POINTREG_TYPE)enterType;
 
 @end

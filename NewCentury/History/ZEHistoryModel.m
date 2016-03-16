@@ -29,6 +29,7 @@ static ZEHistoryModel * historyModel = nil;
     historyModel.integration   = [dic objectForKey:@"integration"];
     if([ZEUtil isNotNull:historyModel.integration]){
         historyModel.ROLENAME      = [historyModel.integration objectForKey:@"ROLENAME"];
+        historyModel.TWR_ID        = [historyModel.integration objectForKey:@"TWR_ID"];
         historyModel.TTP_QUOTIETY  = [historyModel.integration objectForKey:@"TTP_QUOTIETY"];
         historyModel.TIMES         = [historyModel.integration objectForKey:@"TIMES"];
     }
