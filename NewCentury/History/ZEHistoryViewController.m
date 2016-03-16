@@ -41,8 +41,15 @@
     _currentPage = 0;
     [_historyView canLoadMoreData];
     [self sendRequest];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewData:) name:kNotiRefreshHistoryView object:nil];
 
 }
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kNotiRefreshHistoryView object:nil];
+}
+
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -111,6 +118,7 @@
                                         }
     }
                                        fail:^(NSError *errorCode) {
+                                           [_historyView headerEndRefreshing];
                                            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
 }
@@ -205,10 +213,16 @@
         }else{
             [historyDic setObject:@"1" forKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]];
         }
-        if ([ZEUtil isNotNull:hisMod.ROLENAME] && [ZEUtil isNotNull:hisMod.TTP_QUOTIETY]) {
-            [historyDic setObject:@{@"twr_id":hisMod.TWR_ID,@"TWR_QUOTIETY":hisMod.TTP_QUOTIETY,@"TWR_NAME":hisMod.ROLENAME} forKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
+        if ([ZEUtil isNotNull:hisMod.TWR_ID]) {
+            [historyDic setObject:hisMod.TWR_ID forKey:@"twr_id"];
         }else{
-            [historyDic setObject:@{@"twr_id":hisMod.TWR_ID,@"TWR_QUOTIETY":@"",@"TWR_NAME":@""} forKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
+            [historyDic setObject:@"" forKey:@"twr_id"];
+        }
+        
+        if ([ZEUtil isNotNull:hisMod.ROLENAME] && [ZEUtil isNotNull:hisMod.TTP_QUOTIETY]) {
+            [historyDic setObject:@{@"SEQKEY":hisMod.seqkey,@"TWR_QUOTIETY":hisMod.TTP_QUOTIETY,@"TWR_NAME":hisMod.ROLENAME} forKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
+        }else{
+            [historyDic setObject:@{@"SEQKEY":hisMod.seqkey,@"TWR_QUOTIETY":@"",@"TWR_NAME":@""} forKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
         }
 
         [[ZEPointRegCache instance] setResubmitCaches:historyDic];

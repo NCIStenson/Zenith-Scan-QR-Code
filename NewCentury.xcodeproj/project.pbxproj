@@ -898,7 +898,7 @@
 				WARNING_CFLAGS = "";
 				ZENITH_APPNAME = "工分登记";
 				ZENITH_BUNDLEID = "com.zenith.app-Release";
-				ZENITH_SERVER = "http://120.27.152.63:8080/scanlogin/GetdataServlet";
+				ZENITH_SERVER = "http://120.27.152.63:8080/scanlogin_test/GetdataServlet";
 			};
 			name = Release;
 		};

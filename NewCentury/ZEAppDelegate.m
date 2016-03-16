@@ -28,7 +28,7 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     application.applicationSupportsShakeToEdit = YES;
-
+    NSLog(@"%@",Zenith_Server);
     /***** 检测更新  *****/
     [self checkUpdate];
     

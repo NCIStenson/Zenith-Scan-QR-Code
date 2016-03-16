@@ -86,23 +86,6 @@
     }];
 }
 
-/******   是否进行审核   ****/
--(void)confirmAudit:(NSString *)auditKey
-{
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [ZEUserServer auditingTeamTask:@[auditKey]
-                           success:^(id data) {
-                               if ([ZEUtil isNotNull:data]) {
-                                   if ([[data objectForKey:@"data"] integerValue] == 1) {
-                                       _currentPage = 0;
-                                       [self sendRequest];
-                                   }
-                               }
-                               [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                           } fail:^(NSError *errorCode) {
-                               [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                           }];
-}
 
 #pragma mark - ZEPointAuditDelegate
 
@@ -125,11 +108,12 @@
 -(void)confirmWeatherAudit:(ZEPointAuditView *)hisView withModel:(ZEPointAuditModel *)pointAM
 {
     _pointAuditM = pointAM;
-    
-    ZEHistoryDetailVC * detailVC = [[ZEHistoryDetailVC alloc]init];
-    detailVC.model = pointAM;
-    detailVC.enterType = ENTER_FIXED_POINTREG_TYPE_AUDIT;
-    [self presentViewController:detailVC animated:YES completion:nil];
+    if ([pointAM.TT_FLAG isEqualToString:@"未审核"]) {
+        ZEHistoryDetailVC * detailVC = [[ZEHistoryDetailVC alloc]init];
+        detailVC.model = pointAM;
+        detailVC.enterType = ENTER_FIXED_POINTREG_TYPE_AUDIT;
+        [self presentViewController:detailVC animated:YES completion:nil];
+    }
     
 //    if (IS_IOS8) {
 //        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"您确定审核该任务？" preferredStyle:UIAlertControllerStyleAlert];
@@ -148,15 +132,6 @@
 //        alertView.delegate = self;
 //        [alertView show];
 //    }
-}
-
-#pragma mark - UIAlertViewDelegate
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0) {
-        [self confirmAudit:_pointAuditM.SEQKEY];
-    }
 }
 
 - (void)didReceiveMemoryWarning {

@@ -117,7 +117,8 @@
                 return cell;
             }
             ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:_optionsArray[indexPath.row]];
-            cell.textLabel.text = model.TR_NAME;
+            cell.textLabel.text = [NSString stringWithFormat:@"%@(%@)",model.TR_NAME,model.TR_HOUR];
+;
         }else if (_pointReg == POINT_REG_DIFF_DEGREE){
             ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:_optionsArray[indexPath.row]];
             cell.textLabel.text = model.NDXS_LEVEL;

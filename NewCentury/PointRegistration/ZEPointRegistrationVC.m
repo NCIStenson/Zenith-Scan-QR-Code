@@ -89,6 +89,7 @@
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             if (isGoBack) {
                 [self goBack];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNotiRefreshHistoryView object:nil];
             }
         }];
         [alertController addAction:okAction];
@@ -136,21 +137,19 @@
             return;
         }
     }
-    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer updateTask:dic success:^(id data) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         if ([ZEUtil isNotNull:data]) {
             if ([[data objectForKey:@"data"] integerValue] == 1) {
-                    [[ZEPointRegCache instance] clearResubmitCaches];
-                    [self showAlertView:@"提交成功" goBack:YES];
+                [[ZEPointRegCache instance] clearResubmitCaches];
+                [self showAlertView:@"提交成功" goBack:YES];
             }
         }
     }
-                                   fail:^(NSError *errorCode) {
-                                       [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                                       
-                                   }];
+                        fail:^(NSError *errorCode) {
+                            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                        }];
 
 }
 

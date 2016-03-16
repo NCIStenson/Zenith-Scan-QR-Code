@@ -258,7 +258,7 @@
         {
             if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TASK]]]) {
                 ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TASK]]];
-                cell.detailTextLabel.text = model.TR_NAME;
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@(%@)",model.TR_NAME,model.TR_HOUR];
             }
         }
             break;
@@ -300,20 +300,20 @@
         case POINT_REG_DIFF_DEGREE:
         {
             cell.detailTextLabel.text = @"正常天气";
-            if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]]) {
-                ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]];
-                cell.detailTextLabel.text = model.TWR_NAME;
+            if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_DIFF_DEGREE]]]) {
+                ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_DIFF_DEGREE]]];
+                cell.detailTextLabel.text = model.NDXS_LEVEL;
             }
         }
             break;
             
         case POINT_REG_TIME_DEGREE:
         {
+            cell.detailTextLabel.text = @"正常工作日";
             if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TIME_DEGREE]]]) {
                 ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TIME_DEGREE]]];
                 cell.detailTextLabel.text = model.NDXS_LEVEL;
             }
-            cell.detailTextLabel.text = @"正常工作日";
         }
             break;
             
@@ -354,7 +354,7 @@
         {
             if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TASK]]]) {
                 ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TASK]]];
-                cell.detailTextLabel.text = model.TR_NAME;
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@(%@)",model.TR_NAME,model.TR_HOUR];
             }
         }
             break;
@@ -388,20 +388,20 @@
         case POINT_REG_DIFF_DEGREE:
         {
             cell.detailTextLabel.text = @"正常天气";
-            if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]]) {
-                ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]];
-                cell.detailTextLabel.text = model.TWR_NAME;
+            if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_DIFF_DEGREE]]]) {
+                ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_DIFF_DEGREE]]];
+                cell.detailTextLabel.text = model.NDXS_LEVEL;
             }
         }
             break;
             
         case POINT_REG_TIME_DEGREE:
         {
+            cell.detailTextLabel.text = @"正常工作日";
             if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TIME_DEGREE]]]) {
                 ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TIME_DEGREE]]];
                 cell.detailTextLabel.text = model.NDXS_LEVEL;
             }
-            cell.detailTextLabel.text = @"正常工作日";
         }
             break;
             
@@ -436,8 +436,8 @@
             cell.detailTextLabel.text = _historyModel.TT_TASK;
             if ([ZEUtil isNotNull:[resubmitDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TASK]]]) {
                 ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[resubmitDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TASK]]];
-                cell.detailTextLabel.text = model.TR_NAME;
-            }
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@(%@)",model.TR_NAME,model.TR_HOUR];
+                }
 
         }
             break;
@@ -566,7 +566,7 @@
             }
             
             ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:object];
-            cell.detailTextLabel.text = model.TR_NAME;
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@(%@)",model.TR_NAME,model.TR_HOUR];
             UITableViewCell * taskHoursCell = [_contentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
             taskHoursCell.detailTextLabel.text = model.TR_HOUR;
         }else if (_currentSelectRow == POINT_REG_DIFF_DEGREE){

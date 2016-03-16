@@ -8,7 +8,7 @@
 
 #import "ZEPointRegChooseCountView.h"
 
-@interface ZEPointRegChooseCountView ()
+@interface ZEPointRegChooseCountView ()<UIPickerViewDelegate,UIPickerViewDataSource>
 {
     UIPickerView * _picker;
     CGRect _viewFrame;

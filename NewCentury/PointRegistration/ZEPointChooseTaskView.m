@@ -170,7 +170,7 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:_detailTaskArr[indexPath.section][indexPath.row]];
-    cell.textLabel.text = model.TR_NAME;
+    cell.textLabel.text = [NSString stringWithFormat:@"%@(%@)",model.TR_NAME,model.TR_HOUR];
     cell.textLabel.font = [UIFont systemFontOfSize:13];
     cell.textLabel.textColor = MAIN_COLOR;
     
