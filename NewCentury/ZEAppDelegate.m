@@ -49,7 +49,7 @@
     UINavigationController * historyNav = [[UINavigationController alloc]initWithRootViewController:historyVC];
     
     ZEPointAuditViewController * pointAuditVC = [[ZEPointAuditViewController alloc]init];
-    pointAuditVC.tabBarItem.image = [UIImage imageNamed:@"icon_history.png"];
+    pointAuditVC.tabBarItem.image = [UIImage imageNamed:@"tab_xiaoxi_normal"];
     pointAuditVC.title = @"工分审核";
     UINavigationController * pointAuditNav = [[UINavigationController alloc]initWithRootViewController:pointAuditVC];
     

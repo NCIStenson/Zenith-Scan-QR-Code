@@ -33,6 +33,10 @@
 #define kLoginBtnToLeft (SCREEN_WIDTH - kLoginBtnWidth) / 2
 #define kLoginBtnToTop 300.0f
 
+#define kNavTitleLabelWidth SCREEN_WIDTH
+#define kNavTitleLabelHeight 44.0f
+#define kNavTitleLabelMarginLeft 0.0f
+#define kNavTitleLabelMarginTop 40.0f
 
 #import "ZELoginView.h"
 
@@ -65,9 +69,18 @@
 #pragma mark - custom view init
 - (void)initInputView
 {
-    UIImageView * backgroundImage = [[UIImageView alloc]initWithFrame:self.frame];
-    backgroundImage.image = [UIImage imageNamed:@"login.jpg"];
-    [self addSubview:backgroundImage];
+    UILabel *navTitleLabel = [UILabel new];
+    navTitleLabel.backgroundColor = [UIColor clearColor];
+    navTitleLabel.textAlignment = NSTextAlignmentCenter;
+    navTitleLabel.textColor = [UIColor whiteColor];
+    navTitleLabel.font = [UIFont systemFontOfSize:24.0f];
+    navTitleLabel.text = @"浙江省电力公司工分登记";
+    [self addSubview:navTitleLabel];
+    [navTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.rightMargin.offset(kNavTitleLabelMarginLeft);
+        make.top.offset(kNavTitleLabelMarginTop);
+        make.size.mas_equalTo(CGSizeMake(kNavTitleLabelWidth, kNavTitleLabelHeight));
+    }];
     
     for (int i = 0 ; i < 2; i ++) {
 
