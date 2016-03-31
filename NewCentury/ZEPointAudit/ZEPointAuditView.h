@@ -33,6 +33,11 @@
 
 -(void)goAuditVC;
 
+/**
+ *  删除未审核工分
+ */
+-(void)deleteNoAuditHistory:(NSString * )seqkey;
+
 @end
 
 @interface ZEPointAuditView : UIView<UITableViewDataSource,UITableViewDelegate>

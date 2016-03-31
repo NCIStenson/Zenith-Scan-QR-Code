@@ -55,9 +55,9 @@
 
 -(void)getDataByCodeStr
 {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [_pointView showProgress];
     [ZEUserServer getServerDataByCodeStr:_codeStr Success:^(id data) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [_pointView hiddenProgress];
         if ([ZEUtil isNotNull:data]) {
             [self showAlertView:@"查询不到该二维码任务信息，请确定二维码正确后，重新扫描查询" goBack:YES];
         }else{
@@ -68,7 +68,7 @@
             [_pointView reloadContentView:ENTER_POINTREG_TYPE_SCAN];
         }
     } fail:^(NSError *errorCode) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [_pointView hiddenProgress];
     }];
 }
 
@@ -137,9 +137,9 @@
             return;
         }
     }
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [_pointView showProgress];
     [ZEUserServer updateTask:dic success:^(id data) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [_pointView hiddenProgress];
         if ([ZEUtil isNotNull:data]) {
             if ([[data objectForKey:@"data"] integerValue] == 1) {
                 [[ZEPointRegCache instance] clearResubmitCaches];
@@ -148,7 +148,7 @@
         }
     }
                         fail:^(NSError *errorCode) {
-                            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                            [_pointView hiddenProgress];
                         }];
 
 }
@@ -168,9 +168,9 @@
     [dataDic setValue:[ZESetLocalData getOrgcode] forKey:@"userOrgCodeName"];
     [dataDic setValue:[ZESetLocalData getUnitName] forKey:@"userUintName"];
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [_pointView showProgress];
     [ZEUserServer submitPointRegMessage:dataDic Success:^(id data) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [_pointView hiddenProgress];
         if ([ZEUtil isNotNull:data]) {
             if ([[data objectForKey:@"data"] integerValue] == 1) {
                 if (_enterType == ENTER_POINTREG_TYPE_DEFAULT){
@@ -187,8 +187,7 @@
     }
                                    fail:^(NSError *errorCode) {
                                        [self showAlertView:@"提交失败" goBack:NO];
-                                       [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                                       
+                                       [_pointView hiddenProgress];
                                    }];
     
 }

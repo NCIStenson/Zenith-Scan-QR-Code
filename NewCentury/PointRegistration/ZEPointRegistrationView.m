@@ -44,6 +44,7 @@
 #import "ZEPointRegModel.h"
 #import "ZEPointRegCache.h"
 #import "ZEPointRegChooseCountView.h"
+#import "MBProgressHUD.h"
 
 @interface ZEPointRegistrationView ()<UITableViewDataSource,UITableViewDelegate,ZEPointRegOptionViewDelegate,ZEPointRegChooseDateViewDelegate,ZEPointChooseTaskViewDelegate,UITextFieldDelegate,ZEPointRegChooseCountViewDelegate>
 {
@@ -54,6 +55,7 @@
     BOOL _showJobCount; // 按次数分配时 输入次数
     ENTER_POINTREG_TYPE _enterType;
     UITextField * _countField;
+    UIView *navBar;
 }
 
 @end
@@ -74,7 +76,7 @@
 
 - (void)initNavBar
 {
-    UIView *navBar = [[UIView alloc] initWithFrame:CGRectMake(kNavBarMarginLeft, kNavBarMarginTop, kNavBarWidth, kNavBarHeight)];
+    navBar = [[UIView alloc] initWithFrame:CGRectMake(kNavBarMarginLeft, kNavBarMarginTop, kNavBarWidth, kNavBarHeight)];
     [self addSubview:navBar];
 
     [navBar mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -152,6 +154,19 @@
 
 
 #pragma mark - Public
+
+/**
+ *  显示隐藏加载菊花
+ */
+-(void)showProgress
+{
+    [MBProgressHUD showHUDAddedTo:self animated:YES];
+    [self bringSubviewToFront:navBar];
+}
+-(void)hiddenProgress
+{
+    [MBProgressHUD hideAllHUDsForView:self animated:YES];
+}
 /**
  *  刷新表
  */

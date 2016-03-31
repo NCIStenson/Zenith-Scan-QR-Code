@@ -35,6 +35,7 @@
 		9858D3281C60806B00937D54 /* icon_down@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9858D3261C60806B00937D54 /* icon_down@3x.png */; };
 		9858D32B1C6089A500937D54 /* icon_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9858D3291C6089A500937D54 /* icon_up@2x.png */; };
 		9858D32C1C6089A500937D54 /* icon_up@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9858D32A1C6089A500937D54 /* icon_up@3x.png */; };
+		986F19FD1CAD1B4A00B081E3 /* ZESettingRootVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 986F19FC1CAD1B4A00B081E3 /* ZESettingRootVC.m */; };
 		987B34A01C50CE540035FB6B /* ZEPointRegCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 987B349F1C50CE540035FB6B /* ZEPointRegCache.m */; };
 		987B34A31C50D54B0035FB6B /* ZEPointRegChooseDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 987B34A21C50D54B0035FB6B /* ZEPointRegChooseDateView.m */; };
 		987B34AA1C51C6080035FB6B /* ZELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 987B34A91C51C6080035FB6B /* ZELoginViewController.m */; };
@@ -137,6 +138,8 @@
 		9858D3261C60806B00937D54 /* icon_down@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_down@3x.png"; path = "SourceImage/icon_down@3x.png"; sourceTree = "<group>"; };
 		9858D3291C6089A500937D54 /* icon_up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_up@2x.png"; path = "SourceImage/icon_up@2x.png"; sourceTree = "<group>"; };
 		9858D32A1C6089A500937D54 /* icon_up@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_up@3x.png"; path = "SourceImage/icon_up@3x.png"; sourceTree = "<group>"; };
+		986F19FB1CAD1B4A00B081E3 /* ZESettingRootVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZESettingRootVC.h; sourceTree = "<group>"; };
+		986F19FC1CAD1B4A00B081E3 /* ZESettingRootVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZESettingRootVC.m; sourceTree = "<group>"; };
 		987B349E1C50CE540035FB6B /* ZEPointRegCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPointRegCache.h; path = PointRegistration/ZEPointRegCache.h; sourceTree = "<group>"; };
 		987B349F1C50CE540035FB6B /* ZEPointRegCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZEPointRegCache.m; path = PointRegistration/ZEPointRegCache.m; sourceTree = "<group>"; };
 		987B34A11C50D54B0035FB6B /* ZEPointRegChooseDateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZEPointRegChooseDateView.h; path = PointRegistration/ZEPointRegChooseDateView.h; sourceTree = "<group>"; };
@@ -305,6 +308,8 @@
 			children = (
 				989B2C491C4DE7AA00F14EFA /* ZEAppDelegate.h */,
 				989B2C4A1C4DE7AA00F14EFA /* ZEAppDelegate.m */,
+				986F19FB1CAD1B4A00B081E3 /* ZESettingRootVC.h */,
+				986F19FC1CAD1B4A00B081E3 /* ZESettingRootVC.m */,
 				987B34A71C51C5FE0035FB6B /* Login */,
 				98DB7C651C4F7C7D0046D405 /* ScanQR */,
 				98DB7C631C4F7C630046D405 /* PointRegistration */,
@@ -710,6 +715,7 @@
 				98DB7C741C4F7D8E0046D405 /* ZEScanQRViewController.m in Sources */,
 				9858D3211C5EF19800937D54 /* ZEAlertSearchView.m in Sources */,
 				987B34A01C50CE540035FB6B /* ZEPointRegCache.m in Sources */,
+				986F19FD1CAD1B4A00B081E3 /* ZESettingRootVC.m in Sources */,
 				989B2C4B1C4DE7AA00F14EFA /* ZEAppDelegate.m in Sources */,
 				98DB7CB81C50ADF70046D405 /* ZEPointRegOptionView.m in Sources */,
 				9858D3141C58A36500937D54 /* ZEHistoryView.m in Sources */,
@@ -869,8 +875,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Wu Xin Technology Co. Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Wu Xin Technology Co. Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yuhong Shu (G3V7YPDLXV)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yuhong Shu (G3V7YPDLXV)";
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/NewCentury/PrefixHeader.pch";

@@ -85,7 +85,6 @@
     for (int i = 0 ; i < 2; i ++) {
 
         UIImageView * usernameImage = [[UIImageView alloc]initWithFrame:self.frame];
-        usernameImage.image = [UIImage imageNamed:@"login.jpg"];
         [self addSubview:usernameImage];
         
         UITextField * field = [[UITextField alloc]init];
@@ -101,8 +100,7 @@
             lineLayer.frame = CGRectMake(kUsernameFieldMarginLeft, kUsernameFieldMarginTop + kUsernameFieldHeight, kUsernameFieldWidth, 0.5);
             lineLayer.backgroundColor = [[UIColor whiteColor] CGColor];
             [self.layer addSublayer:lineLayer];
-
-            usernameImage.image = [UIImage imageNamed:@"login_username.png" color:[UIColor whiteColor]];
+            usernameImage.image = [UIImage imageNamed:@"login_password.png" color:[UIColor whiteColor]];
             field.placeholder = @"请输入密码";
             [field setValue:[UIColor colorWithWhite:1 alpha:0.8] forKeyPath:@"_placeholderLabel.textColor"];
             field.secureTextEntry = YES;
@@ -132,8 +130,8 @@
                 make.size.mas_equalTo(CGSizeMake(kUsernameFieldWidth, kUsernameFieldHeight));
             }];
             _usernameField = field;
-            _usernameField.text = @"00180897";
-            usernameImage.image = [UIImage imageNamed:@"login_password.png" color:[UIColor whiteColor]];
+//            _usernameField.text = @"00180897";
+            usernameImage.image = [UIImage imageNamed:@"login_username.png" color:[UIColor whiteColor]];
 
             [usernameImage mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.offset(kUsernameLabMarginLeft);

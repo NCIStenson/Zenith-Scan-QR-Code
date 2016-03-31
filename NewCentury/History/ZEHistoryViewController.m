@@ -239,6 +239,28 @@
     }
 }
 
+
+-(void)deleteHistory:(NSString *)seqkey
+{
+    __block ZEHistoryViewController * safeSelf = self;
+    [ZEUserServer deleteHistoryItem:seqkey success:^(id data) {
+        if ([ZEUtil isNotNull:data]) {
+            if ([[data objectForKey:@"data"] integerValue] == 1) {
+                _currentPage = 0 ;
+                if(_isSearch){
+                    [safeSelf searchHistoryStartDate:_startDate withEndDate:_endDate];
+                }else{
+                    [safeSelf sendRequest];
+                }
+            }else{
+                [ZEUtil showAlertView:@"删除失败，请重试" viewController:self];
+            }
+        }
+    } fail:^(NSError *errorCode) {
+        
+    }];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

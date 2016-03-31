@@ -333,7 +333,6 @@
     realHourLabel.text = [NSString stringWithFormat:@"+%@",hisMod.REAL_HOUR];
     [cellContent addSubview:realHourLabel];
 
-    
     UILabel * taskNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(65.0f, 5.0f, 200.0f, 20.0f)];
     taskNameLabel.font = [UIFont systemFontOfSize:15.0f];
     taskNameLabel.text = hisMod.TT_TASK;
@@ -345,6 +344,46 @@
     [cellContent addSubview:staffNameLabel];
     
     return cell;
+}
+
+#pragma mark - 删除功能
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ZEHistoryModel * hisMod = nil;
+    if ([ZEUtil isNotNull:self.listDataArr]) {
+        NSArray * sectionDataArr = self.listDataArr[indexPath.section];
+        if (sectionDataArr.count > indexPath.row) {
+            hisMod = sectionDataArr[indexPath.row];
+        }
+    }
+    if ([hisMod.TT_FLAG isEqualToString:@"未审核"]) {
+        return YES;
+    }
+    return NO;
+}
+//设置编辑风格EditingStyle
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //当表视图处于没有未编辑状态时选择左滑删除
+    return UITableViewCellEditingStyleDelete;
+}
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return @"删除";
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ZEHistoryModel * hisMod = nil;
+    if ([ZEUtil isNotNull:self.listDataArr]) {
+        NSArray * sectionDataArr = self.listDataArr[indexPath.section];
+        if (sectionDataArr.count > indexPath.row) {
+            hisMod = sectionDataArr[indexPath.row];
+        }
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(deleteHistory:)]) {
+        [self.delegate deleteHistory:hisMod.seqkey];
+    }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

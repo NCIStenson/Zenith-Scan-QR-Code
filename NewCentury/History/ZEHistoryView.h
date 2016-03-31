@@ -31,6 +31,10 @@
  *  进入工分登记详情页面
  */
 -(void)enterDetailView:(ZEHistoryModel *)hisMod;
+/**
+ *  删除未审核历史记录
+ */
+-(void)deleteHistory:(NSString * )seqkey;
 
 @end
 

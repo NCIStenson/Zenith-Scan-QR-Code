@@ -56,4 +56,9 @@
  */
 -(void)reloadContentView:(ENTER_POINTREG_TYPE)entertype;
 
+/**
+ *  显示隐藏加载菊花
+ */
+-(void)showProgress;
+-(void)hiddenProgress;
 @end

@@ -26,6 +26,9 @@
 #define kQueryTeamTaskByDate @"queryTeamTaskByDate"//  当天日期审核列表
 #define kUpdateTask          @"updateTask"         //  重新提交审核
 
+#define kDeleteHistory       @"historyItemDelete"
+#define kDeleteAudit         @"teamTaskDelete"
+
 #import "ZEUserServer.h"
 
 @implementation ZEUserServer
@@ -326,5 +329,49 @@
                                                      failBlock(errorCode);
                                                  }];
 
+}
+/**
+ *  @author Zenith Electronic, 16-03-31 16:03:17
+ *
+ *  删除未审核历史记录
+ *
+ *  @param seqkey       主键
+ *  @param successBlock <#successBlock description#>
+ *  @param failBlock    <#failBlock description#>
+ */
++ (void)deleteHistoryItem:(NSString *)seqkey
+                  success:(ServerResponseSuccessBlock)successBlock
+                     fail:(ServerResponseFailBlock)failBlock
+{
+    [[ZEServerEngine sharedInstance] requestWithParams:@{@"type":kDeleteHistory,
+                                                         @"data":seqkey}
+                                            httpMethod:HTTPMETHOD_POST
+                                               success:^(id data) {
+                                                   successBlock(data);
+                                               } fail:^(NSError *errorCode) {
+                                                   failBlock(errorCode);
+                                               }];
+}
+/**
+ *  @author Zenith Electronic, 16-03-31 16:03:17
+ *
+ *  删除未审核工分
+ *
+ *  @param seqkey       主键
+ *  @param successBlock <#successBlock description#>
+ *  @param failBlock    <#failBlock description#>
+ */
++ (void)deleteTeamTask:(NSString *)seqkey
+               success:(ServerResponseSuccessBlock)successBlock
+                  fail:(ServerResponseFailBlock)failBlock
+{
+    [[ZEServerEngine sharedInstance] requestWithParams:@{@"type":kDeleteAudit,
+                                                       @"data":seqkey}
+                                          httpMethod:HTTPMETHOD_POST
+                                             success:^(id data) {
+                                                 successBlock(data);
+                                             } fail:^(NSError *errorCode) {
+                                                 failBlock(errorCode);
+                                             }];
 }
 @end

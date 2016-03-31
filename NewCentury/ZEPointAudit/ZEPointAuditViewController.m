@@ -63,7 +63,6 @@
 -(void)sendRequest
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-
     [ZEUserServer getPointAuditWithPage:[NSString stringWithFormat:@"%ld",(long)_currentPage] success:^(id data) {
         NSArray * dataArr = [data objectForKey:@"data"];
         if ([ZEUtil isNotNull:dataArr]) {
@@ -133,6 +132,25 @@
 //        [alertView show];
 //    }
 }
+
+-(void)deleteNoAuditHistory:(NSString *)seqkey
+{
+    __block ZEPointAuditViewController * safeSelf = self;
+    [ZEUserServer deleteTeamTask:seqkey success:^(id data) {
+        if ([ZEUtil isNotNull:data]) {
+            if ([[data objectForKey:@"data"] integerValue] == 1) {
+                _currentPage = 0 ;
+                [safeSelf sendRequest];
+            }else{
+                [ZEUtil showAlertView:@"删除失败，请重试" viewController:self];
+            }
+        }
+    } fail:^(NSError *errorCode) {
+        
+    }];
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
