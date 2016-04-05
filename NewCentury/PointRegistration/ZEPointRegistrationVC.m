@@ -131,15 +131,18 @@
 -(void)resubmitPointReg:(NSDictionary *)dic
 {
     if([[dic objectForKey:@"shareType"] integerValue] == 1 || [[dic objectForKey:@"shareType"] integerValue] == 4){
-        NSString * roleDic = [dic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
-        if ([roleDic isEqualToString:@""]) {
+        NSObject * roleDic = [dic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
+        if ([roleDic isKindOfClass:[NSDictionary class]]) {
+            if (![ZEUtil isStrNotEmpty:[(NSDictionary *)roleDic objectForKey:@"TWR_NAME"]]){
+                [self showAlertView:@"请选择角色" goBack:NO];
+                return;
+            }
+        }else if (![ZEUtil isStrNotEmpty:(NSString *)roleDic]){
             [self showAlertView:@"请选择角色" goBack:NO];
             return;
         }
     }
     
-    NSDictionary * roleDic = [dic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
-
     [_pointView showProgress];
     [ZEUserServer updateTask:dic success:^(id data) {
         [_pointView hiddenProgress];

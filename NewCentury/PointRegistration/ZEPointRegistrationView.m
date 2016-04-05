@@ -512,10 +512,18 @@
                     cell.detailTextLabel.text = @"请选择";
                     
                     ZEPointRegModel * pointReg =  [ZEPointRegModel getDetailWithDic:resubmitDic];
-                    if ([pointReg.workrole isEqualToString:@""]) {
-                        cell.detailTextLabel.text = @"请选择";
+                    if ([pointReg.workrole isKindOfClass:[NSDictionary class]]) {
+                        if ([[(NSDictionary *)pointReg.workrole objectForKey:@"TWR_NAME"] isEqualToString:@""]) {
+                            cell.detailTextLabel.text = @"请选择";
+                        }else{
+                            cell.detailTextLabel.text = [(NSDictionary *)pointReg.workrole objectForKey:@"TWR_NAME"];
+                        }
                     }else{
-                        cell.detailTextLabel.text = pointReg.workrole;
+                        if ([pointReg.workrole isEqualToString:@""]) {
+                            cell.detailTextLabel.text = @"请选择";
+                        }else{
+                            cell.detailTextLabel.text = pointReg.workrole;
+                        }
                     }
                     cell.textLabel.text = [ZEUtil getPointRegInformation:POINT_REG_JOB_ROLES];
                 }else if ([dispatch_type integerValue] == 3){
