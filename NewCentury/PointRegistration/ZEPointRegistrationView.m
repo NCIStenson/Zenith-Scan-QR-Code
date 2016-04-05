@@ -149,7 +149,8 @@
     [closeBtn setImage:[UIImage imageNamed:@"icon_back" color:[UIColor whiteColor]] forState:UIControlStateNormal];
     [closeBtn addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
     
-    [self addSubview:closeBtn];
+    [navBar addSubview:closeBtn];
+    
 }
 
 
@@ -442,9 +443,10 @@
 #pragma mark - 历史界面
 -(void)setHistoryListDetailText:(NSInteger)row cell:(UITableViewCell *)cell
 {
-
     NSDictionary * resubmitDic = [[ZEPointRegCache instance] getResubmitCachesDic];
-    
+    if ([ZEUtil isNotNull:[resubmitDic objectForKey:@"workrole"]]) {
+        [[ZEPointRegCache instance] changeResubmitCache:@{[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]:[resubmitDic objectForKey:@"workrole"]}];
+    }
     switch (row ) {
         case POINT_REG_TASK:
         {
@@ -508,11 +510,12 @@
                 NSString * dispatch_type = [resubmitDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TYPE]];
                 if ([dispatch_type integerValue] == 1 ||[dispatch_type integerValue] == 4  ) {
                     cell.detailTextLabel.text = @"请选择";
-                    ZEPointRegModel * pointReg =  [ZEPointRegModel getDetailWithDic:[resubmitDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]];
-                    if ([pointReg.TWR_NAME isEqualToString:@""]) {
+                    
+                    ZEPointRegModel * pointReg =  [ZEPointRegModel getDetailWithDic:resubmitDic];
+                    if ([pointReg.workrole isEqualToString:@""]) {
                         cell.detailTextLabel.text = @"请选择";
                     }else{
-                        cell.detailTextLabel.text = pointReg.TWR_NAME;
+                        cell.detailTextLabel.text = pointReg.workrole;
                     }
                     cell.textLabel.text = [ZEUtil getPointRegInformation:POINT_REG_JOB_ROLES];
                 }else if ([dispatch_type integerValue] == 3){
@@ -643,7 +646,7 @@
  *  @param object 选择数据
  */
 -(void)showDifferentListByShareTypeWithData:(NSDictionary *)object
-{    
+{
     if (_currentSelectRow == 3 && [[NSString stringWithFormat:@"%@",object] isEqualToString:[ZEUtil getPointRegShareType:POINT_REG_SHARE_TYPE_COE]]) {
         [[ZEPointRegCache instance] clearCount];
         _showJobRules = YES;
@@ -657,6 +660,7 @@
         [_contentTableView reloadData];
     }else if (_currentSelectRow == 3 && [[NSString stringWithFormat:@"%@",object] isEqualToString:[ZEUtil getPointRegShareType:POINT_REG_SHARE_TYPE_WP]]){
         [[ZEPointRegCache instance] clearCount];
+        [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]:@"1"}];
         _showJobRules = YES;
         _showJobCount = NO;
         [_contentTableView reloadData];

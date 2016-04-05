@@ -54,11 +54,11 @@ static ZEServerEngine *serverEngine = nil;
                    progress:nil
                     success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                         NSDictionary * responseDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
-                        if ([responseDic isKindOfClass:[NSDictionary class]] && [ZEUtil isNotNull:responseDic]) {
+//                        if ([responseDic isKindOfClass:[NSDictionary class]] && [ZEUtil isNotNull:responseDic]) {
                             if (successBlock != nil) {
                                 successBlock (responseDic);
                             }
-                        }
+//                        }
         }
                     failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                         if (error != nil) {
@@ -74,11 +74,11 @@ static ZEServerEngine *serverEngine = nil;
                              [self showNetErrorAlertView];
                          }
                          NSDictionary * responseDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
-                         if ([responseDic isKindOfClass:[NSDictionary class]] && [ZEUtil isNotNull:responseDic]) {
+//                         if ([ZEUtil isNotNull:responseDic]) {
                              if (successBlock != nil) {
                                  successBlock(responseDic);
                              }
-                         }
+//                         }
                      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                          [self showNetErrorAlertView];
                          failBlock(error);

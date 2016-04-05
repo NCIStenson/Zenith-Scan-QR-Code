@@ -26,7 +26,7 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBarHidden = YES;
-        
+    self.automaticallyAdjustsScrollViewInsets = NO;
     _pointView = [[ZEPointRegistrationView alloc]initWithFrame:self.view.frame withEnterType:_enterType];
     _pointView.delegate = self;
     _pointView.historyModel = _hisModel;
@@ -131,12 +131,15 @@
 -(void)resubmitPointReg:(NSDictionary *)dic
 {
     if([[dic objectForKey:@"shareType"] integerValue] == 1 || [[dic objectForKey:@"shareType"] integerValue] == 4){
-        NSDictionary * roleDic = [dic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
-        if ([[roleDic objectForKey:@"TWR_NAME"] isEqualToString:@""]) {
+        NSString * roleDic = [dic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
+        if ([roleDic isEqualToString:@""]) {
             [self showAlertView:@"请选择角色" goBack:NO];
             return;
         }
     }
+    
+    NSDictionary * roleDic = [dic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
+
     [_pointView showProgress];
     [ZEUserServer updateTask:dic success:^(id data) {
         [_pointView hiddenProgress];
@@ -148,6 +151,7 @@
         }
     }
                         fail:^(NSError *errorCode) {
+
                             [_pointView hiddenProgress];
                         }];
 
