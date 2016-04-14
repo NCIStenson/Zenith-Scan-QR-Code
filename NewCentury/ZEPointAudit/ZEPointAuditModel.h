@@ -18,6 +18,7 @@
 @property (nonatomic,copy) NSString * TT_FLAG;          //    是否审核
 @property (nonatomic,copy) NSString * TT_PERIOD;        //
 @property (nonatomic,copy) NSString * TT_REMARK;        //   备注
+@property (nonatomic,copy) NSString * TTP_NAME;        //   备注
 
 /*************   任务名称  ****************/
 @property (nonatomic,copy) NSString * TT_TASK;

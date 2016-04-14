@@ -29,6 +29,7 @@
 @property (nonatomic,copy) NSString * TTP_QUOTIETY; //  角色系数
 
 @property (nonatomic,retain) NSDictionary * integration;
+
 +(ZEHistoryModel *)getDetailWithDic:(NSDictionary *)dic;
 
 @end

@@ -16,7 +16,8 @@
 
 // 检查字符串是否为空
 + (BOOL)isStrNotEmpty:(NSString *)str;
-
+// 比较时间早晚
++(int)compareDate:(NSString*)date01 withDate:(NSString*)date02;
 // 计算文字高度
 + (double)heightForString:(NSString *)str font:(UIFont *)font andWidth:(float)width;
 
@@ -38,5 +39,8 @@
 
 //  弹出提示框
 + (void)showAlertView:(NSString *)str viewController:(UIViewController *)viewCon;
+
+//
+
 
 @end

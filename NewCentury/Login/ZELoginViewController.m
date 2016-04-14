@@ -121,7 +121,8 @@
     
 }
 
--(void)goHome{
+-(void)goHome
+{
     ZEScanQRViewController * scanQRVC = [[ZEScanQRViewController alloc]init];
     scanQRVC.tabBarItem.image = [UIImage imageNamed:@"icon_home.png"];
     scanQRVC.title = @"首页";
@@ -143,8 +144,12 @@
     pointAuditVC.title = @"工分审核";
     UINavigationController * pointAuditNav = [[UINavigationController alloc]initWithRootViewController:pointAuditVC];
     
+    NSArray * viewControllerArr = @[scanQRNav,pointNav,historyNav];
+    if([ZESetLocalData getRoleFlag]){
+        viewControllerArr = @[scanQRNav,pointNav,historyNav,pointAuditNav];
+    }
     UITabBarController * tabBarVC = [[UITabBarController alloc]init];
-    tabBarVC.viewControllers = @[scanQRNav,pointNav,historyNav,pointAuditNav];
+    tabBarVC.viewControllers = viewControllerArr;
     
     UIWindow * window = [UIApplication sharedApplication].keyWindow;
     window.rootViewController = tabBarVC;

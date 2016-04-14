@@ -29,6 +29,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     application.applicationSupportsShakeToEdit = YES;
     NSLog(@"%@",Zenith_Server);
+    NSLog(@"%@",NSHomeDirectory());
     /***** 检测更新  *****/
     [self checkUpdate];
     
@@ -53,8 +54,12 @@
     pointAuditVC.title = @"工分审核";
     UINavigationController * pointAuditNav = [[UINavigationController alloc]initWithRootViewController:pointAuditVC];
     
+    NSArray * viewControllerArr = @[scanQRNav,pointNav,historyNav];
+    if([ZESetLocalData getRoleFlag]){
+        viewControllerArr = @[scanQRNav,pointNav,historyNav,pointAuditNav];
+    }
     UITabBarController * tabBarVC = [[UITabBarController alloc]init];
-    tabBarVC.viewControllers = @[scanQRNav,pointNav,historyNav,pointAuditNav];
+    tabBarVC.viewControllers = viewControllerArr;
     
     NSDictionary * userDataDic = [ZESetLocalData getUserData];
     if (userDataDic.allKeys > 0) {

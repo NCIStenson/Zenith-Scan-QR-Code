@@ -40,6 +40,9 @@
  *  部门名称
  */
 +(NSString *)getUnitName;
-
+/**
+ *  用户是否具有审核权限
+ */
++(BOOL)getRoleFlag;
 
 @end

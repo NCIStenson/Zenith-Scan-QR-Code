@@ -18,6 +18,7 @@
     NSMutableDictionary * _optionDic; // 用户选择信息缓存
 }
 @property(nonatomic,retain) NSMutableDictionary * optionDic;
+@property(nonatomic,retain) NSMutableDictionary * scanOptionDic;
 @property(nonatomic,retain) NSMutableDictionary * resubmitDataDic;
 @property (nonatomic,retain) NSArray * taskCachesArr;
 @property (nonatomic,retain) NSArray * allTaskCachesArr;
@@ -128,6 +129,18 @@ static ZEPointRegCache * pointRegCahe = nil;
 {
     return _optionDic;
 }
+
+/**
+ *  用户扫描得到的登记信息
+ */
+- (void)setScanCodeChoosedOptionDic:(NSDictionary *)choosedDic
+{
+    self.scanOptionDic = [NSMutableDictionary dictionaryWithDictionary:choosedDic];
+}
+- (NSDictionary * )getScanCodeChoosedOptionDic
+{
+    return self.scanOptionDic;
+}
 /**
  *  @author Zenith Electronic, 16-02-23 14:02:17
  *
@@ -182,6 +195,7 @@ static ZEPointRegCache * pointRegCahe = nil;
 -(void)clearUserOptions
 {
     _optionDic          = nil;    // 用户选择信息缓存
+    _scanOptionDic      = nil;    // 用户扫描结果缓存
 }
 
 /**
@@ -190,6 +204,7 @@ static ZEPointRegCache * pointRegCahe = nil;
 
 - (void)clear
 {
+    _scanOptionDic      = nil;         // 用户扫描结果缓存
     _taskCachesArr      = nil;        //  任务列表缓存
     _diffCoeCachesArr   = nil;       //  难度系数
     _timesCoeCachesArr  = nil;      //  时间系数

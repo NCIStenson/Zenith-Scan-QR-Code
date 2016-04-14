@@ -88,6 +88,14 @@ static NSString * kUserInformation = @"keyUserInformation";
     NSDictionary * dic = [self getUserData];
     return [dic objectForKey:@"unitcode"];
 }
+/**
+ *  账号权限
+ */
++(BOOL)getRoleFlag
+{
+    NSDictionary * dic = [self getUserData];
+    return [[dic objectForKey:@"roleFlag"] boolValue];
+}
 
 /**
  *  部门名称

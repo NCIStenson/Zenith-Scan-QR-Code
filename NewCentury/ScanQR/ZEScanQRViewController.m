@@ -11,7 +11,7 @@
 #import "ZBarSDK.h"
 #import "CreateView.h"
 #import "ZEPointRegistrationVC.h"
-
+#import "ZEPointRegCache.h"
 #import "ZELoginViewController.h"
 
 @interface ZEScanQRViewController ()<ZBarReaderDelegate,ZbarOverlayViewDelegate>
@@ -130,6 +130,7 @@
 -(void)logout{
     
     [ZESetLocalData deleteLoaclUserData];
+    [[ZEPointRegCache instance] clear];
     
     UIWindow * window = [UIApplication sharedApplication].keyWindow;
     ZELoginViewController * loginVC = [[ZELoginViewController alloc]init];

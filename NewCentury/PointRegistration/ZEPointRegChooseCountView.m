@@ -40,7 +40,7 @@
     titleLab.textAlignment = NSTextAlignmentCenter;
     [self addSubview:titleLab];
     
-    _picker = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 44.0f, SCREEN_WIDTH - 40, 200)];
+    _picker = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 44.0f, SCREEN_WIDTH - 40, 220)];
     _picker.backgroundColor = [UIColor whiteColor];
     _picker.delegate = self;
     _picker.dataSource = self;

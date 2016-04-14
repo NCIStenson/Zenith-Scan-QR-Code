@@ -27,6 +27,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBarHidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
     _pointView = [[ZEPointRegistrationView alloc]initWithFrame:self.view.frame withEnterType:_enterType];
     _pointView.delegate = self;
     _pointView.historyModel = _hisModel;
@@ -58,12 +59,12 @@
     [_pointView showProgress];
     [ZEUserServer getServerDataByCodeStr:_codeStr Success:^(id data) {
         [_pointView hiddenProgress];
-        if ([ZEUtil isNotNull:data]) {
+        if (![ZEUtil isNotNull:[data objectForKey:@"data"]]) {
             [self showAlertView:@"查询不到该二维码任务信息，请确定二维码正确后，重新扫描查询" goBack:YES];
         }else{
             NSDictionary * dataDic = [data objectForKey:@"data"];
             [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_TASK]:dataDic}];
-            [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_TYPE]:@"1"}];
+            [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_TYPE]:[dataDic objectForKey:@"dispatchType"]}];
             [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]:@"1"}];
             [_pointView reloadContentView:ENTER_POINTREG_TYPE_SCAN];
         }
@@ -120,11 +121,23 @@
             [self showAlertView:[NSString stringWithFormat:@"请选择%@",[ZEUtil getPointRegInformation:POINT_REG_TASK]] goBack:NO];
             return;
         }
+        
+        NSString* date;
+        NSDateFormatter* formatter = [[NSDateFormatter alloc]init];
+        [formatter setDateFormat:@"YYYY-MM-dd"];
+        date = [formatter stringFromDate:[NSDate date]];
+        
+        if([ZEUtil compareDate:date
+                      withDate:[choosedDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TIME]]] == 1){
+            [self showAlertView:[NSString stringWithFormat:@"不能提前提交任务"] goBack:NO];
+            return;
+        }
 
         if(showRoles && ![ZEUtil isNotNull:[choosedDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]]){
             [self showAlertView:[NSString stringWithFormat:@"请选择%@",[ZEUtil getPointRegInformation:POINT_REG_JOB_ROLES]] goBack:NO];
             return;
         }
+        
         [self submitMessageToServer:choosedDic withView:pointRegView];
     }
 }
@@ -174,7 +187,6 @@
     [dataDic setValue:[ZESetLocalData getUnitcode] forKey:@"userUnitcode"];
     [dataDic setValue:[ZESetLocalData getOrgcode] forKey:@"userOrgCodeName"];
     [dataDic setValue:[ZESetLocalData getUnitName] forKey:@"userUintName"];
-    
     [_pointView showProgress];
     [ZEUserServer submitPointRegMessage:dataDic Success:^(id data) {
         [_pointView hiddenProgress];

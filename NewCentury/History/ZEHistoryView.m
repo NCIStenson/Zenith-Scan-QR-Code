@@ -339,7 +339,7 @@
     [cellContent addSubview:taskNameLabel];
     
     UILabel * staffNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(65.0f, 27.0f, 200.0f, 20.0f)];
-    staffNameLabel.text = hisMod.NDSX_NAME;
+    staffNameLabel.text = [hisMod.integration objectForKey:@"TTP_NAME"];
     staffNameLabel.font = [UIFont systemFontOfSize:13.0f];
     [cellContent addSubview:staffNameLabel];
     

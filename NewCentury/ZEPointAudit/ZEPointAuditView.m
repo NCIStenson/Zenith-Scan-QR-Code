@@ -291,14 +291,13 @@
     }
     [cellContent addSubview:maskImageView];
 
-        
     UILabel * taskNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(65.0f, 5.0f, 200.0f, 20.0f)];
     taskNameLabel.font = [UIFont systemFontOfSize:15.0f];
     taskNameLabel.text = pointAM.TT_TASK;
     [cellContent addSubview:taskNameLabel];
     
     UILabel * staffNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(65.0f, 27.0f, 200.0f, 20.0f)];
-    staffNameLabel.text = pointAM.TT_CONTENT;
+    staffNameLabel.text = pointAM.TTP_NAME;
     staffNameLabel.font = [UIFont systemFontOfSize:13.0f];
     [cellContent addSubview:staffNameLabel];
     

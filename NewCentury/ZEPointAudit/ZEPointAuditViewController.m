@@ -107,12 +107,10 @@
 -(void)confirmWeatherAudit:(ZEPointAuditView *)hisView withModel:(ZEPointAuditModel *)pointAM
 {
     _pointAuditM = pointAM;
-    if ([pointAM.TT_FLAG isEqualToString:@"未审核"]) {
-        ZEHistoryDetailVC * detailVC = [[ZEHistoryDetailVC alloc]init];
-        detailVC.model = pointAM;
-        detailVC.enterType = ENTER_FIXED_POINTREG_TYPE_AUDIT;
-        [self presentViewController:detailVC animated:YES completion:nil];
-    }
+    ZEHistoryDetailVC * detailVC = [[ZEHistoryDetailVC alloc]init];
+    detailVC.model = pointAM;
+    detailVC.enterType = ENTER_FIXED_POINTREG_TYPE_AUDIT;
+    [self presentViewController:detailVC animated:YES completion:nil];
     
 //    if (IS_IOS8) {
 //        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"您确定审核该任务？" preferredStyle:UIAlertControllerStyleAlert];

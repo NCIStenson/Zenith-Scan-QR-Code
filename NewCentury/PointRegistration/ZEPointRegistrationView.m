@@ -54,7 +54,6 @@
     BOOL _showJobRules; // 分摊类型为 按系数分配时  需用户选择角色
     BOOL _showJobCount; // 按次数分配时 输入次数
     ENTER_POINTREG_TYPE _enterType;
-    UITextField * _countField;
     UIView *navBar;
 }
 
@@ -174,7 +173,22 @@
 -(void)reloadContentView:(ENTER_POINTREG_TYPE)entertype
 {
     _enterType = entertype;
-    _showJobRules = YES;
+//    _showJobRules = YES;
+    NSDictionary * choosedOptionDic = [[ZEPointRegCache instance] getUserChoosedOptionDic];
+
+    if (_enterType == ENTER_POINTREG_TYPE_SCAN && [ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TYPE]]]) {
+        NSString * shareType = [choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TYPE]];
+        if ([shareType integerValue] == 1|| [shareType integerValue] == 4) {
+            _showJobRules = YES;
+            _showJobCount = NO;
+        }else if ([shareType integerValue] == 3){
+            _showJobRules = NO;
+            _showJobCount = YES;
+        }else{
+            _showJobCount = NO;
+            _showJobRules = NO;
+        }
+    }
 
     [_contentTableView reloadData];
 }
@@ -305,10 +319,10 @@
         case POINT_REG_TYPE:
         {
             if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TYPE]]]) {
-                cell.detailTextLabel.text = [ZEUtil getPointRegShareType:[[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TYPE]] integerValue]];
+                NSString * shareType = [choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TYPE]];
+                cell.detailTextLabel.text = [ZEUtil getPointRegShareType:[shareType integerValue]];
             }else{
                 [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_TYPE]:@"1"}];
-                
                 cell.detailTextLabel.text = [ZEUtil getPointRegShareType:[[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TYPE]] integerValue]];
             }
         }
@@ -337,8 +351,10 @@
             if (_showJobRules) {
                 if ([ZEUtil isNotNull:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]]) {
                     ZEPointRegModel * model = [ZEPointRegModel getDetailWithDic:[choosedOptionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]];
+                    
                     cell.detailTextLabel.text = model.TWR_NAME;
                 }
+                
             }else if (_showJobCount){
                 cell.detailTextLabel.text = @"1次";
                 
@@ -359,11 +375,6 @@
 -(void)setScanCodeListDetailText:(NSInteger)row cell:(UITableViewCell *)cell
 {
     NSDictionary * choosedOptionDic = [[ZEPointRegCache instance] getUserChoosedOptionDic];
-//    ZEPointRegModel * model = nil;
-//    if ([ZEUtil isNotNull:choosedOptionDic]) {
-//         model = [ZEPointRegModel getDetailWithDic:choosedOptionDic];
-//    }
-
     cell.detailTextLabel.text = @"请选择";
     switch (row) {
         case POINT_REG_TASK:
@@ -510,6 +521,8 @@
                 NSString * dispatch_type = [resubmitDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TYPE]];
                 if ([dispatch_type integerValue] == 1 ||[dispatch_type integerValue] == 4  ) {
                     cell.detailTextLabel.text = @"请选择";
+                    _showJobRules = YES;
+                    _showJobCount = NO;
                     
                     ZEPointRegModel * pointReg =  [ZEPointRegModel getDetailWithDic:resubmitDic];
                     if ([pointReg.workrole isKindOfClass:[NSDictionary class]]) {
@@ -527,11 +540,16 @@
                     }
                     cell.textLabel.text = [ZEUtil getPointRegInformation:POINT_REG_JOB_ROLES];
                 }else if ([dispatch_type integerValue] == 3){
+                    _showJobCount = YES;
+                    _showJobRules = NO;
                     cell.textLabel.text = [ZEUtil getPointRegInformation:POINT_REG_JOB_COUNT];
                     cell.detailTextLabel.text = @"1次";
                     if ([ZEUtil isNotNull:[resubmitDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]]]) {
                         cell.detailTextLabel.text = [NSString stringWithFormat:@"%@次",[resubmitDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]]];
                     }
+                }else{
+                    _showJobRules = NO;
+                    _showJobCount = NO;
                 }
             }
         }
@@ -549,14 +567,6 @@
 {
     _currentSelectRow = indexPath.row;
 
-    if (_currentSelectRow != POINT_REG_JOB_ROLES) {
-        if (![_countField isExclusiveTouch]) {
-            [UIView animateWithDuration:0.29 animations:^{
-                self.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-            }];
-            [_countField resignFirstResponder];
-        }
-    }
     if ([self.delegate respondsToSelector:@selector(view:didSelectRowAtIndexpath:withShowRules:)]) {
         [self.delegate view:self didSelectRowAtIndexpath:indexPath withShowRules:_showJobRules];
     }
@@ -572,7 +582,6 @@
     }
 }
 -(void)goSubmit{
-    [_countField resignFirstResponder];
     if ([self.delegate respondsToSelector:@selector(goSubmit:withShowRoles:withShowCount:)]) {
         [self.delegate goSubmit:self withShowRoles:_showJobRules withShowCount:_showJobCount];
     }
@@ -595,6 +604,19 @@
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@(%@)",model.TR_NAME,model.TR_HOUR];
             UITableViewCell * taskHoursCell = [_contentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
             taskHoursCell.detailTextLabel.text = model.TR_HOUR;
+            [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_TYPE]:model.DISPATCH_TYPE}];
+            if ([model.DISPATCH_TYPE integerValue] == 3) {
+                _showJobCount = YES;
+                _showJobRules = NO;
+            }else if ([model.DISPATCH_TYPE  integerValue] == 1 || [model.DISPATCH_TYPE integerValue] == 4){
+                _showJobCount = NO;
+                _showJobRules = YES;
+            }else{
+                _showJobCount = NO;
+                _showJobRules = NO;
+            }
+            [_contentTableView reloadData];
+            
         }else if (_currentSelectRow == POINT_REG_DIFF_DEGREE){
             if (_enterType == ENTER_POINTREG_TYPE_HISTORY) {
                 [[ZEPointRegCache instance] changeResubmitCache:@{[ZEUtil getPointRegField:POINT_REG_DIFF_DEGREE]:object}];
@@ -655,28 +677,26 @@
  */
 -(void)showDifferentListByShareTypeWithData:(NSDictionary *)object
 {
-    if (_currentSelectRow == 3 && [[NSString stringWithFormat:@"%@",object] isEqualToString:[ZEUtil getPointRegShareType:POINT_REG_SHARE_TYPE_COE]]) {
-        [[ZEPointRegCache instance] clearCount];
-        _showJobRules = YES;
-        _showJobCount = NO;
-        [_contentTableView reloadData];
-    }else if (_currentSelectRow == 3 && [[NSString stringWithFormat:@"%@",object] isEqualToString:[ZEUtil getPointRegShareType:POINT_REG_SHARE_TYPE_COUNT ]] ){
-        [[ZEPointRegCache instance] clearRoles];
-        [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]:@"1"}];
-        _showJobRules = NO;
-        _showJobCount = YES;
-        [_contentTableView reloadData];
-    }else if (_currentSelectRow == 3 && [[NSString stringWithFormat:@"%@",object] isEqualToString:[ZEUtil getPointRegShareType:POINT_REG_SHARE_TYPE_WP]]){
-        [[ZEPointRegCache instance] clearCount];
-        [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]:@"1"}];
-        _showJobRules = YES;
-        _showJobCount = NO;
-        [_contentTableView reloadData];
-    }else if (_currentSelectRow == 3 && [[NSString stringWithFormat:@"%@",object] isEqualToString:[ZEUtil getPointRegShareType:POINT_REG_SHARE_TYPE_PEO]]){
-        [[ZEPointRegCache instance] clearCount];
-        [[ZEPointRegCache instance] clearRoles];
-        _showJobRules = NO;
-        _showJobCount = NO;
+    if (_currentSelectRow == 3) {
+        if ([[NSString stringWithFormat:@"%@",object] isEqualToString:[ZEUtil getPointRegShareType:POINT_REG_SHARE_TYPE_COE]]) {
+            [[ZEPointRegCache instance] clearCount];
+            _showJobRules = YES;
+            _showJobCount = NO;
+        }else if ([[NSString stringWithFormat:@"%@",object] isEqualToString:[ZEUtil getPointRegShareType:POINT_REG_SHARE_TYPE_COUNT ]] ){
+            [[ZEPointRegCache instance] clearRoles];
+            [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]:@"1"}];
+            _showJobRules = NO;
+            _showJobCount = YES;
+        }else if ([[NSString stringWithFormat:@"%@",object] isEqualToString:[ZEUtil getPointRegShareType:POINT_REG_SHARE_TYPE_WP]]){
+            [[ZEPointRegCache instance] clearCount];
+            _showJobRules = YES;
+            _showJobCount = NO;
+        }else if ([[NSString stringWithFormat:@"%@",object] isEqualToString:[ZEUtil getPointRegShareType:POINT_REG_SHARE_TYPE_PEO]]){
+            [[ZEPointRegCache instance] clearCount];
+            [[ZEPointRegCache instance] clearRoles];
+            _showJobRules = NO;
+            _showJobCount = NO;
+        }
         [_contentTableView reloadData];
     }
 }
@@ -692,7 +712,6 @@
     cell.detailTextLabel.text = dateStr;
     if (_enterType == ENTER_POINTREG_TYPE_HISTORY) {
         [[ZEPointRegCache instance] changeResubmitCache:@{@"date":dateStr}];
-
     }else{
         [[ZEPointRegCache instance] setUserChoosedOptionDic:@{@"date":dateStr}];
     }
@@ -739,46 +758,38 @@
     [_alertView dismissWithCompletion:nil];
 }
 
-#pragma mark - UITextFieldDelegate
+//#pragma mark - UITextFieldDelegate
+//
+//- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField;
+//{
+//    [UIView animateWithDuration:0.29 animations:^{
+//        if(IPHONE5){
+//            self.frame = CGRectMake(0, -120, SCREEN_WIDTH, SCREEN_HEIGHT);
+//        }else if (IPHONE4S_LESS){
+//            self.frame = CGRectMake(0, -216, SCREEN_WIDTH, SCREEN_HEIGHT);
+//        }
+//    }];
+//    
+//    return YES;
+//}
+//-(void)textFieldDidEndEditing:(UITextField *)textField
+//{
+//    if (_enterType == ENTER_POINTREG_TYPE_HISTORY) {
+//        [[ZEPointRegCache instance] changeResubmitCache:@{[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]:textField.text}];
+//    }else{
+//        [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]:textField.text}];
+//    }
+//}
+//
+//-(BOOL)textFieldShouldReturn:(UITextField *)textField
+//{
+//    [textField resignFirstResponder];
+//    [UIView animateWithDuration:0.29 animations:^{
+//        self.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+//    }];
+//    return YES;
+//}
 
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField;
-{
-    [UIView animateWithDuration:0.29 animations:^{
-        if(IPHONE5){
-            self.frame = CGRectMake(0, -120, SCREEN_WIDTH, SCREEN_HEIGHT);
-        }else if (IPHONE4S_LESS){
-            self.frame = CGRectMake(0, -216, SCREEN_WIDTH, SCREEN_HEIGHT);
-        }
-    }];
-    
-    return YES;
-}
--(void)textFieldDidEndEditing:(UITextField *)textField
-{
-    if (_enterType == ENTER_POINTREG_TYPE_HISTORY) {
-        [[ZEPointRegCache instance] changeResubmitCache:@{[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]:textField.text}];
-    }else{
-        [[ZEPointRegCache instance] setUserChoosedOptionDic:@{[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]:textField.text}];
-    }
-}
-
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    [UIView animateWithDuration:0.29 animations:^{
-        self.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    }];
-    return YES;
-}
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    if (![_countField isExclusiveTouch]) {
-        [UIView animateWithDuration:0.29 animations:^{
-            self.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        }];
-        [_countField resignFirstResponder];
-    }
-}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

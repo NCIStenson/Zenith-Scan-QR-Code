@@ -17,6 +17,8 @@
 @property (nonatomic,copy) NSString * TRC_NAME;
 @property (nonatomic,copy) NSString * TR_HOUR;
 @property (nonatomic,copy) NSString * TR_NAME;
+@property (nonatomic,copy) NSString * scan_TR_NAME;
+@property (nonatomic,copy) NSString * scan_TR_HOUR;
 @property (nonatomic,copy) NSString * TR_REMARK;
 @property (nonatomic,copy) NSString * TR_UNIT;
 @property (nonatomic,copy) NSString * TR_VALID;

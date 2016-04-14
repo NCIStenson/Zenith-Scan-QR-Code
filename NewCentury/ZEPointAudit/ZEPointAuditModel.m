@@ -24,6 +24,7 @@ static ZEPointAuditModel * PAModel = nil;
     PAModel.REALKEY       = [dic objectForKey:@"REALKEY"];
     PAModel.SEQKEY        = [dic objectForKey:@"seqkey"];
     PAModel.SOURCES       = [dic objectForKey:@"SOURCES"];
+    PAModel.TTP_NAME      = [[dic objectForKey:@"integration"] objectForKey:@"TTP_NAME"];
     PAModel.integration   = [dic objectForKey:@"integration"];
 
     PAModel.REAL_HOUR     = [dic objectForKey:@"REAL_HOUR"];

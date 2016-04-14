@@ -89,7 +89,7 @@
         make.size.mas_equalTo(CGSizeMake(kNavTitleLabelWidth, kNavTitleLabelHeight));
     }];
     
-    if(_enterType == ENTER_FIXED_POINTREG_TYPE_AUDIT){
+    if(_enterType == ENTER_FIXED_POINTREG_TYPE_AUDIT && [_historyModel.TT_FLAG isEqualToString:@"未审核"]){
         UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [rightBtn setTitle:@"审核" forState:UIControlStateNormal];
         rightBtn.backgroundColor = [UIColor clearColor];

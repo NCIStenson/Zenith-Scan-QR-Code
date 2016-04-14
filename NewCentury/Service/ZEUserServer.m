@@ -176,7 +176,7 @@
                          fail:(ServerResponseFailBlock)failBlock
 {
     [[ZEServerEngine sharedInstance]requestWithParams:@{@"type":kGetRationItem,
-                                                        @"data":codeStr}
+                                                        @"data":[NSString stringWithFormat:@"%@#%@",codeStr,[ZESetLocalData getOrgcode]]}
                                            httpMethod:HTTPMETHOD_POST
                                               success:^(id data) {
                                                   successBlock(data);

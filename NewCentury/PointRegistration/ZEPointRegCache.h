@@ -46,6 +46,11 @@
  */
 - (void)setUserChoosedOptionDic:(NSDictionary *)choosedDic;
 - (NSDictionary * )getUserChoosedOptionDic;
+/**
+ *  用户扫描得到的登记信息
+ */
+- (void)setScanCodeChoosedOptionDic:(NSDictionary *)choosedDic;
+- (NSDictionary * )getScanCodeChoosedOptionDic;
 
 /**
  *  @author Zenith Electronic, 16-02-23 14:02:17
@@ -79,6 +84,6 @@
 /**
  *  清空缓存
  */
-//- (void)clear;
+- (void)clear;
 
 @end
