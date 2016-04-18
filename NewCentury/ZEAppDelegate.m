@@ -34,19 +34,19 @@
     [self checkUpdate];
     
     ZEScanQRViewController * scanQRVC = [[ZEScanQRViewController alloc]init];
-    scanQRVC.tabBarItem.image = [UIImage imageNamed:@"icon_home.png"];
-    scanQRVC.title = @"首页";
+    scanQRVC.tabBarItem.image = [UIImage imageNamed:@"sy_shouye"];
+    scanQRVC.title = @"二维码登记";
     UINavigationController * scanQRNav = [[UINavigationController alloc]initWithRootViewController:scanQRVC];
     
     ZEPointRegistrationVC * pointVC = [[ZEPointRegistrationVC alloc]init];
-    pointVC.tabBarItem.image = [UIImage imageNamed:@"icon_share_all.png"];
-    pointVC.title = @"登记工分";
+    pointVC.tabBarItem.image = [UIImage imageNamed:@"sy_dengji"];
+    pointVC.title = @"工分登记";
     pointVC.enterType = ENTER_POINTREG_TYPE_DEFAULT;
     UINavigationController * pointNav = [[UINavigationController alloc]initWithRootViewController:pointVC];
     
     ZEHistoryViewController * historyVC = [[ZEHistoryViewController alloc]init];
     historyVC.tabBarItem.image = [UIImage imageNamed:@"icon_history.png"];
-    historyVC.title = @"历史记录";
+    historyVC.title = @"历史查询";
     UINavigationController * historyNav = [[UINavigationController alloc]initWithRootViewController:historyVC];
     
     ZEPointAuditViewController * pointAuditVC = [[ZEPointAuditViewController alloc]init];
@@ -60,7 +60,7 @@
     }
     UITabBarController * tabBarVC = [[UITabBarController alloc]init];
     tabBarVC.viewControllers = viewControllerArr;
-    
+
     NSDictionary * userDataDic = [ZESetLocalData getUserData];
     if (userDataDic.allKeys > 0) {
         self.window.rootViewController = tabBarVC;
@@ -95,7 +95,7 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.baidu.com"]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/cn/app/id1103160566?mt=8"]];
     }
 }
 

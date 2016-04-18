@@ -129,7 +129,7 @@
         
         if([ZEUtil compareDate:date
                       withDate:[choosedDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TIME]]] == 1){
-            [self showAlertView:[NSString stringWithFormat:@"不能提前提交任务"] goBack:NO];
+            [self showAlertView:[NSString stringWithFormat:@"发生日期不能大于今天"] goBack:NO];
             return;
         }
 

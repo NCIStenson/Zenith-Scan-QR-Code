@@ -76,6 +76,7 @@
                                                  _currentPage += 1;
                                              }
                                          }else{
+                                             [_historyView reloadFirstView:dataArr];
                                              [_historyView headerEndRefreshing];
                                              [_historyView loadNoMoreData];
                                          }
@@ -103,6 +104,8 @@
                                             NSArray * dataArr = [data objectForKey:@"data"];                                            
                                             if ([ZEUtil isNotNull:dataArr]) {
                                                 if(dataArr.count == 0){
+                                                    [_historyView headerEndRefreshing];
+                                                    [_historyView reloadFirstView:dataArr];
                                                     [ZEUtil showAlertView:@"未查询到历史数据" viewController:self];
                                                     return;
                                                 }
