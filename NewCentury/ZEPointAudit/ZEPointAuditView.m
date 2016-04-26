@@ -146,7 +146,6 @@
             if (_dateArr.count > 0) {
                 if([pointAM.TT_ENDDATE isEqualToString:[_dateArr lastObject]]){
                     [detailArr addObject:pointAM];
-                    
                     if (i == array.count - 1) {
                         [self.listDataArr addObject:detailArr];
                     }
@@ -158,11 +157,13 @@
                     if (i == array.count - 1) {
                         [self.listDataArr addObject:detailArr];
                     }
-                    
                 }
             }else{
                 [_dateArr addObject:pointAM.TT_ENDDATE];
                 [detailArr addObject:pointAM];
+                if (i == array.count - 1) {
+                    [self.listDataArr addObject:detailArr];
+                }
             }
         }
         
