@@ -14,6 +14,11 @@
 
 -(void)logout;
 
+/**
+ * 返回主界面
+ */
+-(void)goBack;
+
 @end
 
 @interface ZbarOverlayView : UIView{

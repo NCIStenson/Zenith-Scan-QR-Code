@@ -6,8 +6,7 @@
 //  Copyright © 2016年 Stenson. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
+#import "ZESettingRootVC.h"
 @interface ZEScanQRViewController : UIViewController
 
 @end

@@ -118,9 +118,9 @@
         make.size.mas_equalTo(CGSizeMake(kNavTitleLabelWidth, kNavTitleLabelHeight));
     }];
     
-    if (_enterType != ENTER_POINTREG_TYPE_DEFAULT) {
+//    if (_enterType != ENTER_POINTREG_TYPE_DEFAULT) {
         [self showLeftBackButton];
-    }
+//    }
     
 }
 

@@ -12,6 +12,8 @@
 #define IS_IOS7 [[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0
 #define IS_IOS8 [[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0
 
+#define NAV_HEIGHT 64   
+
 #define SCREEN_HEIGHT   [[UIScreen mainScreen] bounds].size.height
 #define SCREEN_WIDTH     [[UIScreen mainScreen] bounds].size.width
 #define FRAME_WIDTH     [[UIScreen mainScreen] applicationFrame].size.width

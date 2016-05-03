@@ -107,6 +107,16 @@
         make.top.offset(kNavTitleLabelMarginTop);
         make.size.mas_equalTo(CGSizeMake(kNavTitleLabelWidth, kNavTitleLabelHeight));
     }];
+    
+    UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    closeBtn.frame = CGRectMake(kCloseBtnMarginLeft, kCloseBtnMarginTop, kCloseBtnWidth, kCloseBtnHeight);
+    closeBtn.backgroundColor = [UIColor clearColor];
+    closeBtn.contentMode = UIViewContentModeScaleAspectFit;
+    [closeBtn setImage:[UIImage imageNamed:@"icon_back" color:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [closeBtn addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+    
+    [navBar addSubview:closeBtn];
+
 }
 
 -(void)initView
@@ -399,6 +409,13 @@
 }
 
 #pragma mark - ZEHistoryViewDelegate
+-(void)goBack
+{
+    if ([self.delegate respondsToSelector:@selector(goBack)]) {
+        [self.delegate goBack];
+    }
+}
+
 -(void)goSearch
 {
     ZEAlertSearchView * customAlertView = [[ZEAlertSearchView alloc]initWithFrame:CGRectZero];

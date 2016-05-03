@@ -24,7 +24,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationController.navigationBarHidden = YES;
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor blackColor];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -135,6 +135,16 @@
     UIWindow * window = [UIApplication sharedApplication].keyWindow;
     ZELoginViewController * loginVC = [[ZELoginViewController alloc]init];
     window.rootViewController = loginVC;
+}
+
+-(void)goBack
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+-(void)dealloc
+{
+    NSLog(@"ZEScanQRViewController  dead");
 }
 
 - (void)didReceiveMemoryWarning {

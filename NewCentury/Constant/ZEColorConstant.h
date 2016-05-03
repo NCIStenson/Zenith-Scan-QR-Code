@@ -12,5 +12,8 @@
 #define MAIN_COLOR [UIColor colorWithRed:28/255.0 green:157/255.0 blue:209/255.0 alpha:1]
 
 #define MAIN_LINE_COLOR [UIColor colorWithRed:239/255.0 green:239/255.0 blue:239/255.0 alpha:1]
+#define MAIN_ARM_COLOR [UIColor colorWithRed:(arc4random()%255)/255.0 green:(arc4random()%255)/255.0 blue:(arc4random()%255)/255.0 alpha:1]
+
+#define MAIN_NAV_COLOR [UIColor colorWithRed:0/255.0 green:84/255.0 blue:74/255.0 alpha:1]
 
 #endif /* ZEColorConstant_h */

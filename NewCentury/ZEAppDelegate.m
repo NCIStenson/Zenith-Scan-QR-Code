@@ -15,6 +15,8 @@
 #import "ZEPointRegistrationVC.h"
 #import "ZEPointAuditViewController.h"
 
+#import "ZEMainViewController.h"
+
 #import "ZEUserServer.h"
 
 @interface ZEAppDelegate ()<UIAlertViewDelegate>
@@ -33,41 +35,15 @@
     /***** 检测更新  *****/
     [self checkUpdate];
     
-    ZEScanQRViewController * scanQRVC = [[ZEScanQRViewController alloc]init];
-    scanQRVC.tabBarItem.image = [UIImage imageNamed:@"sy_shouye"];
-    scanQRVC.title = @"二维码登记";
-    UINavigationController * scanQRNav = [[UINavigationController alloc]initWithRootViewController:scanQRVC];
+    ZEMainViewController * mainVC = [[ZEMainViewController alloc]init];
+    UINavigationController * navVC = [[UINavigationController alloc]initWithRootViewController:mainVC];
     
-    ZEPointRegistrationVC * pointVC = [[ZEPointRegistrationVC alloc]init];
-    pointVC.tabBarItem.image = [UIImage imageNamed:@"sy_dengji"];
-    pointVC.title = @"工分登记";
-    pointVC.enterType = ENTER_POINTREG_TYPE_DEFAULT;
-    UINavigationController * pointNav = [[UINavigationController alloc]initWithRootViewController:pointVC];
-    
-    ZEHistoryViewController * historyVC = [[ZEHistoryViewController alloc]init];
-    historyVC.tabBarItem.image = [UIImage imageNamed:@"icon_history.png"];
-    historyVC.title = @"历史查询";
-    UINavigationController * historyNav = [[UINavigationController alloc]initWithRootViewController:historyVC];
-    
-    ZEPointAuditViewController * pointAuditVC = [[ZEPointAuditViewController alloc]init];
-    pointAuditVC.tabBarItem.image = [UIImage imageNamed:@"tab_xiaoxi_normal"];
-    pointAuditVC.title = @"工分审核";
-    UINavigationController * pointAuditNav = [[UINavigationController alloc]initWithRootViewController:pointAuditVC];
-    
-    NSArray * viewControllerArr = @[scanQRNav,pointNav,historyNav];
-    if([ZESetLocalData getRoleFlag]){
-        viewControllerArr = @[scanQRNav,pointNav,historyNav,pointAuditNav];
-    }
-    UITabBarController * tabBarVC = [[UITabBarController alloc]init];
-    tabBarVC.viewControllers = viewControllerArr;
-
     NSDictionary * userDataDic = [ZESetLocalData getUserData];
     if (userDataDic.allKeys > 0) {
-        self.window.rootViewController = tabBarVC;
+        self.window.rootViewController = navVC;
         return YES;
     }
     ZELoginViewController * loginVC = [[ZELoginViewController alloc]init];
-    self.window.rootViewController = tabBarVC;
     self.window.rootViewController = loginVC;
 
     return YES;

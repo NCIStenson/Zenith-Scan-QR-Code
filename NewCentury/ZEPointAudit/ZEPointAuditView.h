@@ -38,6 +38,11 @@
  */
 -(void)deleteNoAuditHistory:(NSString * )seqkey;
 
+/**
+ *  返回
+ */
+-(void)goBack;
+
 @end
 
 @interface ZEPointAuditView : UIView<UITableViewDataSource,UITableViewDelegate>

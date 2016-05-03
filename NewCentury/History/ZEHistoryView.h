@@ -36,6 +36,11 @@
  */
 -(void)deleteHistory:(NSString * )seqkey;
 
+/**
+ *  返回
+ */
+-(void)goBack;
+
 @end
 
 @interface ZEHistoryView : UIView

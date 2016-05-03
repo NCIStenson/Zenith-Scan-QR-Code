@@ -13,7 +13,8 @@
 @interface ZEUtil : NSObject
 // 检查对象是否为空
 + (BOOL)isNotNull:(id)object;
-
+// 获取手机信息
++ (NSDictionary *)getSystemInfo;
 // 检查字符串是否为空
 + (BOOL)isStrNotEmpty:(NSString *)str;
 // 比较时间早晚

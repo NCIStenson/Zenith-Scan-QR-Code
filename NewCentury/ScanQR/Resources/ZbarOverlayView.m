@@ -71,17 +71,17 @@ static NSTimeInterval kLineAnimateDuration = 0.02;
     navBar.backgroundColor = MAIN_COLOR;
     navBar.clipsToBounds = YES;
     
-    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightBtn setTitle:@"切换账号" forState:UIControlStateNormal];
-    rightBtn.backgroundColor = [UIColor clearColor];
-    rightBtn.contentMode = UIViewContentModeScaleAspectFit;
-    [rightBtn addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
-    [navBar addSubview:rightBtn];
-    [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.offset(kRightButtonMarginRight);
-        make.top.offset(kRightButtonMarginTop);
-        make.size.mas_equalTo(CGSizeMake(kRightButtonWidth, kRightButtonHeight));
-    }];
+//    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [rightBtn setTitle:@"切换账号" forState:UIControlStateNormal];
+//    rightBtn.backgroundColor = [UIColor clearColor];
+//    rightBtn.contentMode = UIViewContentModeScaleAspectFit;
+//    [rightBtn addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
+//    [navBar addSubview:rightBtn];
+//    [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.offset(kRightButtonMarginRight);
+//        make.top.offset(kRightButtonMarginTop);
+//        make.size.mas_equalTo(CGSizeMake(kRightButtonWidth, kRightButtonHeight));
+//    }];
     
     UILabel *navTitleLabel = [UILabel new];
     navTitleLabel.backgroundColor = [UIColor clearColor];
@@ -95,6 +95,23 @@ static NSTimeInterval kLineAnimateDuration = 0.02;
         make.top.offset(kNavTitleLabelMarginTop);
         make.size.mas_equalTo(CGSizeMake(kNavTitleLabelWidth, kNavTitleLabelHeight));
     }];
+    
+    UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    closeBtn.frame = CGRectMake(kCloseBtnMarginLeft, kCloseBtnMarginTop, kCloseBtnWidth, kCloseBtnHeight);
+    closeBtn.backgroundColor = [UIColor clearColor];
+    closeBtn.contentMode = UIViewContentModeScaleAspectFit;
+    [closeBtn setImage:[UIImage imageNamed:@"icon_back" color:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [closeBtn addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+    
+    [navBar addSubview:closeBtn];
+
+}
+
+-(void)goBack
+{
+    if ([self.delegate respondsToSelector:@selector(goBack)]) {
+        [self.delegate goBack];
+    }
 }
 
 -(void)logout

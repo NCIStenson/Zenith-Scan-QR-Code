@@ -43,6 +43,8 @@
     self = [super initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH - 40, viewHeight)];
     if (self) {
         _optionsArray = options;
+        NSLog(@">>>  %@",_optionsArray);
+
         _listLevel = level;
         _pointReg = pointReg;
         _viewFrame = CGRectMake(0, 0, SCREEN_WIDTH - 40, viewHeight);

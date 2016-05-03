@@ -105,6 +105,8 @@
 
 -(void)goBack
 {
+    [self.navigationController popViewControllerAnimated:YES];
+
     [self dismissViewControllerAnimated:YES completion:^{
         [[ZEPointRegCache instance] clearUserOptions];
     }];
