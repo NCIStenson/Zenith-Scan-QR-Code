@@ -59,7 +59,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _viewFrame = frame;
-        self.backgroundColor = MAIN_COLOR;
+        self.backgroundColor = MAIN_NAV_COLOR;
         [self initInputView];
         [self initLoginBtn];
     }

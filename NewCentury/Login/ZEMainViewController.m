@@ -37,15 +37,23 @@
     [self.view addSubview:mainView];
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:YES];
-}
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-//    self.tabBarController.tabBar.tintColor = ;
-//    self.tabBarController.tabBar.hidden = NO;
+    self.tabBarController.tabBar.tintColor = MAIN_NAV_COLOR;
+    self.tabBarController.tabBar.hidden = NO;
+}
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:YES];
+    self.tabBarController.tabBar.hidden = NO;
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
+    self.tabBarController.tabBar.hidden = YES;
 }
 
 #pragma mark - ZEMainViewDelegate

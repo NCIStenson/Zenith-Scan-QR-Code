@@ -32,7 +32,7 @@
 #define kContentViewMarginTop   64.0f
 #define kContentViewMarginLeft  0.0f
 #define kContentViewWidth       SCREEN_WIDTH
-#define kContentViewHeight      (SCREEN_HEIGHT - kNavBarHeight - 44.0f)
+#define kContentViewHeight      (SCREEN_HEIGHT - kNavBarHeight)
 
 
 #import "ZEHistoryView.h"
@@ -80,7 +80,7 @@
         make.top.offset(kNavBarMarginTop);
         make.size.mas_equalTo(CGSizeMake(kNavBarWidth, kNavBarHeight));
     }];
-    navBar.backgroundColor = MAIN_COLOR;
+    navBar.backgroundColor = MAIN_NAV_COLOR;
     navBar.clipsToBounds = YES;
     
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];

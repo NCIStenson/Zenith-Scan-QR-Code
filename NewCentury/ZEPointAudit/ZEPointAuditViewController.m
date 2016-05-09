@@ -64,7 +64,6 @@
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getPointAuditWithPage:[NSString stringWithFormat:@"%ld",(long)_currentPage] success:^(id data) {
-        NSLog(@">>>  %@",data);
         NSArray * dataArr = [data objectForKey:@"data"];
         if ([ZEUtil isNotNull:dataArr]) {
             if (_currentPage == 0) {

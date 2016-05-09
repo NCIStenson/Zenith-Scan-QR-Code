@@ -88,7 +88,7 @@
 - (void)initNavBar
 {
     UIView *navBar = [[UIView alloc] initWithFrame:CGRectMake(kNavBarMarginLeft, kNavBarMarginTop, kNavBarWidth, kNavBarHeight)];
-    navBar.backgroundColor = MAIN_COLOR;
+    navBar.backgroundColor = MAIN_NAV_COLOR;
     navBar.clipsToBounds = YES;
     
     _leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];

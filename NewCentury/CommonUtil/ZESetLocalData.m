@@ -113,6 +113,13 @@ static NSString * kUserInformation = @"keyUserInformation";
     NSDictionary * dic = [self getUserData];
     return [dic objectForKey:@"unitname"];
 }
-
+/**
+ *  获取登陆工号
+ */
++(NSString*)getUnum
+{
+    NSDictionary * dic = [self getUserData];
+    return [dic objectForKey:@"unum"];
+}
 
 @end

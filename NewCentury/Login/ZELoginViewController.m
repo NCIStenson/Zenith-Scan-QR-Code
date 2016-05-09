@@ -18,7 +18,7 @@
 #import "ZEPointAuditViewController.h"
 
 #import "ZEMainViewController.h"
-
+#import "ZESettingVC.h"
 @interface ZELoginViewController ()<ZELoginViewDelegate>
 
 @end
@@ -125,10 +125,22 @@
 
 -(void)goHome
 {
+    
     ZEMainViewController * mainVC = [[ZEMainViewController alloc]init];
+    mainVC.tabBarItem.title = @"首页";
+    mainVC.tabBarItem.image = [UIImage imageNamed:@"icon_home"];
     UINavigationController * navVC = [[UINavigationController alloc]initWithRootViewController:mainVC];
+    
+    ZESettingVC * settingVC = [[ZESettingVC alloc]init];
+    UINavigationController * settingNavVC = [[UINavigationController alloc]initWithRootViewController:settingVC];
+    settingVC.tabBarItem.title = @"设置";
+    settingVC.tabBarItem.image = [UIImage imageNamed:@"tab_setting_normal"];
+    UITabBarController * tabBarVC = [[UITabBarController alloc]init];
+    
+    tabBarVC.viewControllers = @[navVC,settingNavVC];
+
     UIWindow * window = [UIApplication sharedApplication].keyWindow;
-    window.rootViewController = navVC;
+    window.rootViewController = tabBarVC;
 }
 
 

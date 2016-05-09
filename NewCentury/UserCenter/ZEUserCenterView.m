@@ -29,7 +29,7 @@
 {
     UIImageView * userImageView = [[UIImageView alloc]init];
     [self addSubview:userImageView];
-    [userImageView sd_setImageWithURL:[NSURL URLWithString:@"http://117.149.2.229:8090/nbsj/file/photo/33830235.jpg"]];
+    [userImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://117.149.2.229:8090/nbsj/file/photo/%@.jpg",[ZESetLocalData getUnum]]] placeholderImage:[UIImage imageNamed:@"timeline_image_loading"]];
     userImageView.contentMode = UIViewContentModeScaleAspectFit;
     [userImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leftMargin.mas_equalTo (kUserImageViewMarginLeft);

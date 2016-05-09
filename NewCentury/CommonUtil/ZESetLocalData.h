@@ -44,5 +44,9 @@
  *  用户是否具有审核权限
  */
 +(BOOL)getRoleFlag;
+/**
+ *  获取登陆工号
+ */
++(NSString*)getUnum;
 
 @end

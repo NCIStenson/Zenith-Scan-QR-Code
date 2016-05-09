@@ -18,7 +18,7 @@
 #import "ZEMainViewController.h"
 
 #import "ZEUserServer.h"
-
+#import "ZESettingVC.h"
 @interface ZEAppDelegate ()<UIAlertViewDelegate>
 
 @end
@@ -36,11 +36,21 @@
     [self checkUpdate];
     
     ZEMainViewController * mainVC = [[ZEMainViewController alloc]init];
+    mainVC.tabBarItem.title = @"首页";
+    mainVC.tabBarItem.image = [UIImage imageNamed:@"icon_home"];
     UINavigationController * navVC = [[UINavigationController alloc]initWithRootViewController:mainVC];
+    
+    ZESettingVC * settingVC = [[ZESettingVC alloc]init];
+    UINavigationController * settingNavVC = [[UINavigationController alloc]initWithRootViewController:settingVC];
+    settingVC.tabBarItem.title = @"设置";
+    settingVC.tabBarItem.image = [UIImage imageNamed:@"tab_setting_normal"];
+    UITabBarController * tabBarVC = [[UITabBarController alloc]init];
+    
+    tabBarVC.viewControllers = @[navVC,settingNavVC];
     
     NSDictionary * userDataDic = [ZESetLocalData getUserData];
     if (userDataDic.allKeys > 0) {
-        self.window.rootViewController = navVC;
+        self.window.rootViewController = tabBarVC;
         return YES;
     }
     ZELoginViewController * loginVC = [[ZELoginViewController alloc]init];

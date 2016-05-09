@@ -97,7 +97,7 @@
     [_optionTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.offset(kOptionViewMarginLeft);
         make.top.offset(kOptionViewMarginTop);
-        make.size.mas_equalTo(CGSizeMake(kOptionViewWidth,kMaxHeight));
+        make.size.mas_equalTo(CGSizeMake(kOptionViewWidth,kMaxHeight - 44.0f));
 
 //        if (_viewFrame.size.height == kMaxHeight) {
 //            make.size.mas_equalTo(CGSizeMake(kOptionViewWidth,_viewFrame.size.height - 44.0f));
