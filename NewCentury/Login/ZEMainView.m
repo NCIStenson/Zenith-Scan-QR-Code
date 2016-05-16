@@ -71,18 +71,18 @@
         
         switch (i) {
             case 0:
-                [enterBtn setImage:[UIImage imageNamed:@"home_toolkit"] forState:UIControlStateNormal];
+                [enterBtn setImage:[UIImage imageNamed:@"icon_scan"] forState:UIControlStateNormal];
                 tipsLabel.text  = @"二维码扫描";
                 [enterBtn addTarget:self action:@selector(goScan) forControlEvents:UIControlEventTouchUpInside];
                 break;
             case 1:
-                [enterBtn setImage:[UIImage imageNamed:@"home_expertsassess"] forState:UIControlStateNormal];
+                [enterBtn setImage:[UIImage imageNamed:@"icon_point"] forState:UIControlStateNormal];
                 tipsLabel.text  = @"工分登记";
                 [enterBtn addTarget:self action:@selector(goPointReg) forControlEvents:UIControlEventTouchUpInside];
 
                 break;
             case 2:
-                [enterBtn setImage:[UIImage imageNamed:@"home_personalskills"] forState:UIControlStateNormal];
+                [enterBtn setImage:[UIImage imageNamed:@"icon_history_big"] forState:UIControlStateNormal];
                 tipsLabel.text  = @"历史查询";
                 [enterBtn addTarget:self action:@selector(goHistory) forControlEvents:UIControlEventTouchUpInside];
 
@@ -96,7 +96,7 @@
                 tipsLabel.frame = CGRectMake(enterBtn.frame.origin.x,enterBtn.frame.origin.y + ( IPHONE4S_LESS ? 85 : 120), SCREEN_WIDTH/3,30);
                 tipsLabel.text  = @"工分审核";
                 [enterBtn addTarget:self action:@selector(goPointAudit) forControlEvents:UIControlEventTouchUpInside];
-                [enterBtn setImage:[UIImage imageNamed:@"tab_dianzan"] forState:UIControlStateNormal];
+                [enterBtn setImage:[UIImage imageNamed:@"icon_audit"] forState:UIControlStateNormal];
             }
                 break;
             default:

@@ -75,7 +75,6 @@
     for (int i = 0; i < _kindTaskArr.count; i ++) {
         [_maskArr addObject:@"0"];
     }
-
 }
 
 -(void)initView

@@ -18,8 +18,12 @@
 @property (nonatomic,copy) NSString * NDSX_NAME;            //   难度系数（中文）
 @property (nonatomic,copy) NSString * SJSX_NAME;            //   时间系数（中文）
 @property (nonatomic,copy) NSString * TT_FLAG;              //   是否审核
-@property (nonatomic,copy) NSString * SJXS;                 //   时间系数（数值）
-@property (nonatomic,copy) NSString * NDXS;                 //   难度系数（数值）
+@property (nonatomic,copy) NSString * SJXS;                 //   时间系数（主键）
+@property (nonatomic,copy) NSString * SJXSScore;            //   时间系数（数值）
+@property (nonatomic,copy) NSString * NDXS;                 //   难度系数（主键）
+@property (nonatomic,copy) NSString * NDXSScore;            //   时间系数（数值）
+
+@property (nonatomic,copy) NSString * NDXS_SCORE;           //   系数分值
 
 @property (nonatomic,copy) NSString * seqkey;               //   sql主键
 

@@ -64,6 +64,7 @@
     NSString* localVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: (NSString*)kCFBundleVersionKey];
 
     [ZEUserServer getVersionUpdateSuccess:^(id data) {
+        NSLog(@">>  %@",data);
         if ([ZEUtil isNotNull:data]) {
             if([data objectForKey:@"data"]){
                 NSDictionary * dic = [data objectForKey:@"data"];

@@ -153,6 +153,7 @@
 }
 -(void)reloadView:(NSArray *)array
 {
+    NSLog(@"hitoryView >>> %@",array[0]);
     dispatch_queue_t queue = dispatch_queue_create("my.concurrent.queue", DISPATCH_QUEUE_CONCURRENT);
     
     dispatch_async(queue, ^{

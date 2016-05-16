@@ -33,7 +33,9 @@
 
 -(void)goBack
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+//        [[NSNotificationCenter defaultCenter] postNotificationName:kNotiRefreshAuditView object:nil];
+    }];
 }
 
 -(void)confirmAudit:(NSString *)auditKey
@@ -44,6 +46,7 @@
                                if ([ZEUtil isNotNull:data]) {
                                    if ([[data objectForKey:@"data"] integerValue] == 1) {
                                        [self goBack];
+                                       [[NSNotificationCenter defaultCenter] postNotificationName:kNotiRefreshAuditView object:nil];
                                    }
                                }
                                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];

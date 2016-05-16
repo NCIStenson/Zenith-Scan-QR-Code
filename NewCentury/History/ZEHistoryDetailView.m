@@ -135,9 +135,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if ([_historyModel.DISPATCH_TYPE integerValue] == 2) {
-        return 7;
+        return 8;
     }
-    return 8;
+    return 9;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -201,7 +201,9 @@
             cell.detailTextLabel.text = _historyModel.SJSX_NAME;
         }
             break;
-            
+        case POINT_REG_ALLSCORE:
+            cell.detailTextLabel.text = _historyModel.REAL_HOUR;
+            break;
         case POINT_REG_JOB_ROLES:
            {
                if([_historyModel.DISPATCH_TYPE integerValue] == 1 ||[_historyModel.DISPATCH_TYPE integerValue] == 4 ){

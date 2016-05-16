@@ -27,7 +27,9 @@
 @property (nonatomic,copy) NSString * workrole;
 
 @property (nonatomic,copy) NSString * NDXS_LEVEL;// 难度系数
+@property (nonatomic,copy) NSString * NDXS_SCORE;// 难度分数
 @property (nonatomic,copy) NSString * TWR_NAME;//   工作角色
+@property (nonatomic,copy) NSString * TWR_QUOTIETY;//   工作角色
 
 +(ZEPointRegModel *)getDetailWithDic:(NSDictionary *)dic;
 

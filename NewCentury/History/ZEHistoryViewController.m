@@ -15,6 +15,7 @@
 #import "ZEPointRegistrationVC.h"
 
 #import "ZEPointRegCache.h"
+#import "ZEPointRegModel.h"
 
 @interface ZEHistoryViewController ()<ZEHistoryViewDelegate>
 {
@@ -41,10 +42,13 @@
     _currentPage = 0;
     [_historyView canLoadMoreData];
     [self sendRequest];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewData:) name:kNotiRefreshHistoryView object:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewData:) name:kNotiRefreshHistoryView object:nil];
 }
+
+
+
+
 -(void)dealloc
 {
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kNotiRefreshHistoryView object:nil];
@@ -187,6 +191,14 @@
         [historyDic setObject:hisMod.seqkey forKey:@"sqlkey"];
         [historyDic setObject:hisMod.DISPATCH_TYPE forKey:@"shareType"];
         [historyDic setObject:hisMod.SJXS forKey:@"sjxs"];
+        [historyDic setObject:hisMod.REAL_HOUR forKey:@"allScore"];
+        
+
+        if ([hisMod.DISPATCH_TYPE integerValue] == 4) {
+            [historyDic setObject:hisMod.TTP_QUOTIETY forKey:@"workRoleScore"];
+        }
+        [historyDic setObject:hisMod.SJXSScore  forKey:@"sjxsScore"];
+        [historyDic setObject:hisMod.NDXSScore  forKey:@"ndxsScore"];
 
         if ([ZEUtil isNotNull:hisMod.TIMES]) {
             [historyDic setObject:hisMod.TIMES forKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]];
@@ -200,11 +212,9 @@
         }
         
         if ([ZEUtil isNotNull:hisMod.ROLENAME] && [ZEUtil isNotNull:hisMod.TTP_QUOTIETY]) {
-//            [historyDic setObject:@{@"SEQKEY":hisMod.seqkey,@"TWR_QUOTIETY":hisMod.TTP_QUOTIETY,@"TWR_NAME":hisMod.ROLENAME} forKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
             [historyDic setObject:hisMod.ROLENAME forKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
 
         }else{
-//            [historyDic setObject:@{@"SEQKEY":hisMod.seqkey,@"TWR_QUOTIETY":@"",@"TWR_NAME":@""} forKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
             [historyDic setObject:@"" forKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
         }
 

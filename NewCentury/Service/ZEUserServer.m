@@ -40,8 +40,16 @@
 + (void)getVersionUpdateSuccess:(ServerResponseSuccessBlock)successBlock
                            fail:(ServerResponseFailBlock)failBlock
 {
+    NSLog(@">>>  %@",[ZEUtil getSystemInfo]);
+    
+    NSData * data = [NSJSONSerialization dataWithJSONObject:[ZEUtil getSystemInfo]
+                                                    options:NSJSONWritingPrettyPrinted
+                                                      error:nil];
+    
+    NSString * jsonStr = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    
     [[ZEServerEngine sharedInstance]requestWithParams:@{@"type":kCheckUpdate,
-                                                        @"data":@""}
+                                                        @"data":jsonStr}
                                            httpMethod:HTTPMETHOD_POST
                                               success:^(id data) {
                                                   successBlock(data);

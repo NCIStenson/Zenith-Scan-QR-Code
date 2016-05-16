@@ -316,6 +316,12 @@
     maskImageView.tag = kMaskImageTag;
     [cellContent addSubview:maskImageView];
     
+    UILabel * realHourLabel = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 80.0f, 0.0f, 50.0f, 50.0f)];
+    realHourLabel.font = [UIFont systemFontOfSize:12.0f];
+    realHourLabel.textColor = [UIColor lightGrayColor];
+    realHourLabel.textAlignment = NSTextAlignmentRight;
+    realHourLabel.text = [NSString stringWithFormat:@"+%@",pointAM.REAL_HOUR];
+    [cellContent addSubview:realHourLabel];
     
     UILabel * taskNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(65.0f, 5.0f, 200.0f, 20.0f)];
     taskNameLabel.font = [UIFont systemFontOfSize:15.0f];

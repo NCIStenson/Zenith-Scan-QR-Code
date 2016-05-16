@@ -177,6 +177,7 @@ static ZEPointRegCache * pointRegCahe = nil;
 {
     if ([ZEUtil isNotNull:[_optionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]]]) {
         [_optionDic removeObjectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]];
+        [_resubmitDataDic removeObjectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]];
     }
 }
 
@@ -187,6 +188,7 @@ static ZEPointRegCache * pointRegCahe = nil;
 {
     if ([ZEUtil isNotNull:[_optionDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]]]) {
         [_optionDic removeObjectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
+        [_resubmitDataDic removeObjectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
     }
 }
 /**

@@ -140,11 +140,24 @@
             return;
         }
         
+        NSLog(@"%@",choosedDic);
+        
         [self submitMessageToServer:choosedDic withView:pointRegView];
     }
 }
 -(void)resubmitPointReg:(NSDictionary *)dic
 {
+    NSString* date;
+    NSDateFormatter* formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"YYYY-MM-dd"];
+    date = [formatter stringFromDate:[NSDate date]];
+    
+    if([ZEUtil compareDate:date
+                  withDate:[dic objectForKey:[ZEUtil getPointRegField:POINT_REG_TIME]]] == 1){
+        [self showAlertView:[NSString stringWithFormat:@"发生日期不能大于今天"] goBack:NO];
+        return;
+    }
+    
     if([[dic objectForKey:@"shareType"] integerValue] == 1 || [[dic objectForKey:@"shareType"] integerValue] == 4){
         NSObject * roleDic = [dic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_ROLES]];
         if ([roleDic isKindOfClass:[NSDictionary class]]) {
@@ -158,6 +171,7 @@
         }
     }
     
+    NSLog(@"resubmit Dic ----------  %@",dic);
     [_pointView showProgress];
     [ZEUserServer updateTask:dic success:^(id data) {
         [_pointView hiddenProgress];
@@ -172,7 +186,6 @@
 
                             [_pointView hiddenProgress];
                         }];
-
 }
 
 -(void)submitMessageToServer:(NSDictionary *)dic withView:(ZEPointRegistrationView *)pointRegView
@@ -343,7 +356,6 @@
 {
     NSArray * workRolesArr = nil;
     workRolesArr = [[ZEPointRegCache instance] getWorkRulesCaches];
-    
     if (workRolesArr.count > 0) {
         [pointRegView showListView:workRolesArr withLevel:TASK_LIST_LEVEL_JSON withPointReg:POINT_REG_JOB_ROLES];
     }else{
