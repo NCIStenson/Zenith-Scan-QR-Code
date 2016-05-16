@@ -139,9 +139,7 @@
             [self showAlertView:[NSString stringWithFormat:@"请选择%@",[ZEUtil getPointRegInformation:POINT_REG_JOB_ROLES]] goBack:NO];
             return;
         }
-        
-        NSLog(@"%@",choosedDic);
-        
+                
         [self submitMessageToServer:choosedDic withView:pointRegView];
     }
 }
@@ -171,7 +169,6 @@
         }
     }
     
-    NSLog(@"resubmit Dic ----------  %@",dic);
     [_pointView showProgress];
     [ZEUserServer updateTask:dic success:^(id data) {
         [_pointView hiddenProgress];

@@ -41,7 +41,6 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"viewWillAppear");
     [super viewWillAppear:YES];
 }
 #pragma mark - initView
@@ -66,7 +65,6 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ZEUserServer getPointAuditWithPage:[NSString stringWithFormat:@"%ld",(long)_currentPage] success:^(id data) {
         NSArray * dataArr = [data objectForKey:@"data"];
-        NSLog(@"%@",dataArr);
         if ([ZEUtil isNotNull:dataArr]) {
             if (_currentPage == 0) {
                 [_pointAuditView reloadFirstView:dataArr];

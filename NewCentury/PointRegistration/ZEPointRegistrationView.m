@@ -382,7 +382,6 @@
 -(void)setScanCodeListDetailText:(NSInteger)row cell:(UITableViewCell *)cell
 {
     NSDictionary * choosedOptionDic = [[ZEPointRegCache instance] getUserChoosedOptionDic];
-    NSLog(@">>>  %@",choosedOptionDic);
     cell.detailTextLabel.text = @"请选择";
     switch (row) {
         case POINT_REG_TASK:
@@ -567,7 +566,6 @@
                     _showJobRules = NO;
                     cell.textLabel.text = [ZEUtil getPointRegInformation:POINT_REG_JOB_COUNT];
                     cell.detailTextLabel.text = @"1次";
-                    NSLog(@"resubmitDIC >>>  %@",resubmitDic);
                     if ([ZEUtil isNotNull:[resubmitDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]]]) {
                         cell.detailTextLabel.text = [NSString stringWithFormat:@"%@次",[resubmitDic objectForKey:[ZEUtil getPointRegField:POINT_REG_JOB_COUNT]]];
                     }
@@ -699,7 +697,6 @@
 
 -(void)calculationAllScore
 {
-    NSLog(@"-------------计算总分----------------");
     if(_enterType == ENTER_POINTREG_TYPE_HISTORY){
         [self calculationResubmitAllScore];
     }else{
@@ -712,7 +709,6 @@
 -(void)calculationDefaultAllScore
 {
     NSDictionary * choosedDic = [[ZEPointRegCache instance] getUserChoosedOptionDic];
-    NSLog(@" choosedDic --------   %@  ",choosedDic);
     _allScore = 0;
     if ([ZEUtil isNotNull:[choosedDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TASK]]]) {
         ZEPointRegModel * pointReg =  [ZEPointRegModel getDetailWithDic:[choosedDic objectForKey:[ZEUtil getPointRegField:POINT_REG_TASK]]];
@@ -890,8 +886,7 @@
         _showJobCount = NO;
         _showJobRules = NO;
     }
-    [_contentTableView reloadData];
-    
+    [self calculationAllScore];    
     [_alertView dismissWithCompletion:nil];
 }
 
