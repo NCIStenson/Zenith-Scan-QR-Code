@@ -10,7 +10,7 @@
 #import "ZEUserCenterVC.h"
 #import "ZELoginViewController.h"
 #import "ZEPointRegCache.h"
-@interface ZESettingVC ()
+@interface ZESettingVC ()<UIAlertViewDelegate>
 
 @end
 
@@ -55,7 +55,6 @@
     userCenterBtn.layer.borderColor = [MAIN_LINE_COLOR CGColor];
     userCenterBtn.layer.borderWidth = 1;
     
-    
     UIButton * logoutBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     logoutBtn.frame = CGRectMake(0, NAV_HEIGHT + 55, SCREEN_WIDTH, 44);
     //    [userCenterBtn setBackgroundColor:MAIN_ARM_COLOR];
@@ -66,8 +65,6 @@
     [self.view addSubview:logoutBtn];
     logoutBtn.layer.borderColor = [MAIN_LINE_COLOR CGColor];
     logoutBtn.layer.borderWidth = 1;
-    
-    
 }
 
 -(void)goUserCenter
@@ -78,6 +75,42 @@
 
 -(void)logout{
     
+    if (IS_IOS8) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"确定退出登录？"
+                                                                                 message:nil
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定"
+                                                           style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                                                               [self goLoginVC];
+                                                           }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                           style:UIAlertActionStyleDefault handler:nil];
+
+        [alertController addAction:okAction];
+        [alertController addAction:cancelAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+        
+    }else{
+        UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"密码不能为空"
+                                                            message:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:@"取消", nil];
+        [alertView show];
+    }
+    
+    
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [self goLoginVC];
+    }
+}
+
+-(void)goLoginVC
+{
     [ZESetLocalData deleteLoaclUserData];
     [[ZEPointRegCache instance] clear];
     

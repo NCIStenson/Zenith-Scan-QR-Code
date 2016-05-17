@@ -132,7 +132,7 @@
     [infoDic setObject:language forKey:@"language"];
     [infoDic setObject:[ZEUtil correspondVersion] forKey:@"brand"];
     [infoDic setObject:@"Apple" forKey:@"model"];
-    [infoDic setObject:@"" forKey:@"IMEI"];
+    [infoDic setObject:@"" forKey:@"iMEI"];
     [infoDic setObject:[ZEUtil getIPAddress] forKey:@"ip"];
     [infoDic setObject:@"" forKey:@"telnumber"];
     [infoDic setObject:[ZEUtil macaddress] forKey:@"mac"];
@@ -143,6 +143,7 @@
     [infoDic setObject:deviceModel forKey:@"deviceModel"];
     [infoDic setObject:appVersion forKey:@"versonCode"];
     [infoDic setObject:appBuildVersion forKey:@"versionName"];
+    [infoDic setObject:@"1" forKey:@"apptype"];
     
     return infoDic;
 }

@@ -37,7 +37,7 @@
         make.size.mas_equalTo(CGSizeMake(kUserImageViewMarginWidth, kUserImageViewMarginHeight));
     }];
     
-    for (int i = 0; i < 3; i ++) {
+    for (int i = 0; i < 4; i ++) {
         UILabel * messageLabel = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH - 200)/2, kUserImageViewMarginHeight + 50 * i, 200, 50)];
         messageLabel.numberOfLines = 0;
         messageLabel.textAlignment = NSTextAlignmentCenter;
@@ -53,9 +53,12 @@
                 messageLabel.text = [NSString stringWithFormat:@"姓名：%@",[ZESetLocalData getUsername]];
                 break;
             case 1:
-                messageLabel.text = [NSString stringWithFormat:@"班组：%@",[ZESetLocalData getUserOrgCodeName]];
+                messageLabel.text = [NSString stringWithFormat:@"工号：%@",[ZESetLocalData getUnum]];
                 break;
             case 2:
+                messageLabel.text = [NSString stringWithFormat:@"班组：%@",[ZESetLocalData getUserOrgCodeName]];
+                break;
+            case 3:
                 messageLabel.text = [NSString stringWithFormat:@"部门：%@",[ZESetLocalData getUnitName]];
                 break;
                 

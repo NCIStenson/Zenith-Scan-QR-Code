@@ -61,14 +61,12 @@
 
 -(void)checkUpdate
 {
-    NSString* localVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: (NSString*)kCFBundleVersionKey];
-
+    NSString* localVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     [ZEUserServer getVersionUpdateSuccess:^(id data) {
-        NSLog(@">>  %@",data);
         if ([ZEUtil isNotNull:data]) {
             if([data objectForKey:@"data"]){
                 NSDictionary * dic = [data objectForKey:@"data"];
-                if ([localVersion floatValue] < [[dic objectForKey:@"versionCode"] floatValue]) {
+                if ([localVersion floatValue] < [[dic objectForKey:@"versionName"] floatValue]) {
                     UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"经检测当前版本不是最新版本，点击确定跳转更新。" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
                     [alertView show];
                 }

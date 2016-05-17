@@ -39,9 +39,7 @@
 
 + (void)getVersionUpdateSuccess:(ServerResponseSuccessBlock)successBlock
                            fail:(ServerResponseFailBlock)failBlock
-{
-    NSLog(@">>>  %@",[ZEUtil getSystemInfo]);
-    
+{    
     NSData * data = [NSJSONSerialization dataWithJSONObject:[ZEUtil getSystemInfo]
                                                     options:NSJSONWritingPrettyPrinted
                                                       error:nil];
