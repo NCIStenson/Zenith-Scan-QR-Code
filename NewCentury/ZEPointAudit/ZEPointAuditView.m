@@ -325,7 +325,7 @@
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ZEPointAuditModel * pointAM = nil;
-    if ([ZEUtil isNotNull:self.listDataArr]) {
+    if ([ZEUtil isNotNull:self.listDataArr] && self.listDataArr.count > 0) {
         NSArray * sectionDataArr = self.listDataArr[indexPath.section];
         if (sectionDataArr.count > indexPath.row) {
             pointAM = sectionDataArr[indexPath.row];

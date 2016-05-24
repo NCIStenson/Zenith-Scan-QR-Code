@@ -360,7 +360,7 @@
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ZEHistoryModel * hisMod = nil;
-    if ([ZEUtil isNotNull:self.listDataArr]) {
+    if ([ZEUtil isNotNull:self.listDataArr] && self.listDataArr.count > 0) {
         NSArray * sectionDataArr = self.listDataArr[indexPath.section];
         if (sectionDataArr.count > indexPath.row) {
             hisMod = sectionDataArr[indexPath.row];

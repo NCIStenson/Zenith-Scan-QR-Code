@@ -599,6 +599,7 @@
 -(void)goBack
 {
     [[ZEPointRegCache instance] clearResubmitCaches];
+    [[ZEPointRegCache instance] clearUserOptions];
     if ([self.delegate respondsToSelector:@selector(goBack)]) {
         [self.delegate goBack];
     }
