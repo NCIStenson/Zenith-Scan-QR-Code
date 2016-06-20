@@ -95,6 +95,7 @@
 //    }
     return width;
 }
+
 + (NSDictionary *)getSystemInfo
 {
     NSMutableDictionary *infoDic = [[NSMutableDictionary alloc] init];
